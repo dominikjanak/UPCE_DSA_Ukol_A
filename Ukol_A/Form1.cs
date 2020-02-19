@@ -57,6 +57,8 @@ namespace Ukol_A
             stops.Add(new Point(60, 219));
             stops.Add(new Point(372, 60));
 
+            DrawGraph.CalculateScales(580, 60, 428, 35);
+
             DrawGraph.DrawEdge(crossroads[8], crossroads[9], EdgeType.Free);
             DrawGraph.DrawEdge(crossroads[8], landings[0], EdgeType.Free);
             DrawGraph.DrawEdge(crossroads[8], crossroads[1], EdgeType.Free);
@@ -130,6 +132,8 @@ namespace Ukol_A
 
         private void Form1_Resize(object sender, EventArgs e)
         {
+            DrawGraph.PrepareCanvas(graphCanvas);
+            DrawGraph.ClearCanvas();
             InstantlyDrawGraph();
         }
     }
