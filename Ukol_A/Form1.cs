@@ -4,25 +4,41 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
+using Ukol_A.DataStructures;
 using Ukol_A.DataStructures.Enums;
 using Ukol_A.Drawing;
+using Ukol_A.Exceptions;
+using Ukol_A.Extensions;
+using Ukol_A.Graph;
 
 namespace Ukol_A
 {
     public partial class Form1 : Form
     {
-        private Rectangle _rectangle;
+        private DrawGraph _drawer;
+        private RectangleF _rectangle;
 
         public Form1()
         {
             InitializeComponent();
-            DrawGraph.InitCanvas(graphCanvas);
+            _drawer = new DrawGraph(graphCanvas);
             _rectangle = new Rectangle(0, 0, 0, 0);
+
+            ForestGraph<string, string> gr = new ForestGraph<string, string>();
+
+            /*try
+            {
+                gr.Draw<string, string>(graphCanvas);
+            }
+            catch (EmptyGraphException ex)
+            {
+                MessageBox.Show(ex.Message, "Při vykreslování nastala chyba", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }*/
         }
 
         private void InstantlyDrawGraph()
         {
-            DrawGraph.ClearCanvas();
+            _drawer.ClearCanvas();
 
             List<Point> crossroads = new List<Point>();
             crossroads.Add(new Point(321, 240));
@@ -52,70 +68,70 @@ namespace Ukol_A
             stops.Add(new Point(60, 219));
             stops.Add(new Point(372, 60));
 
-            DrawGraph.SetGraphSize(580, 60, 428, 35);
+            _drawer.SetGraphSize(new GraphSize(60, 580, 35, 428));
 
-            DrawGraph.DrawEdge(crossroads[8], crossroads[9], EdgeType.Free);
-            DrawGraph.DrawEdge(crossroads[8], landings[0], EdgeType.Free);
-            DrawGraph.DrawEdge(crossroads[8], crossroads[1], EdgeType.Free);
-            DrawGraph.DrawEdge(crossroads[1], crossroads[7], EdgeType.Free);
-            DrawGraph.DrawEdge(crossroads[1], crossroads[7], EdgeType.Free);
-            DrawGraph.DrawEdge(crossroads[3], crossroads[2], EdgeType.Free);
-            DrawGraph.DrawEdge(crossroads[2], crossroads[0], EdgeType.Free);
-            DrawGraph.DrawEdge(crossroads[7], crossroads[5], EdgeType.Free);
-            DrawGraph.DrawEdge(crossroads[9], crossroads[5], EdgeType.Free);
-            DrawGraph.DrawEdge(crossroads[5], crossroads[10], EdgeType.Free);
-            DrawGraph.DrawEdge(crossroads[10], crossroads[14], EdgeType.Free);
-            DrawGraph.DrawEdge(crossroads[5], crossroads[11], EdgeType.Free);
-            DrawGraph.DrawEdge(crossroads[2], crossroads[6], EdgeType.Free);
-            DrawGraph.DrawEdge(crossroads[6], crossroads[12], EdgeType.Free);
-            DrawGraph.DrawEdge(crossroads[0], crossroads[6], EdgeType.Free);
-            DrawGraph.DrawEdge(crossroads[0], crossroads[5], EdgeType.Free);
-            DrawGraph.DrawEdge(crossroads[10], crossroads[11], EdgeType.Free);
-            DrawGraph.DrawEdge(crossroads[4], crossroads[3], EdgeType.Blocked);
-            DrawGraph.DrawEdge(crossroads[4], landings[1], EdgeType.Blocked);
-            DrawGraph.DrawEdge(stops[2], crossroads[4], EdgeType.Blocked);
-            DrawGraph.DrawEdge(stops[2], landings[1], EdgeType.Blocked);
-            DrawGraph.DrawEdge(stops[2], crossroads[7], EdgeType.Blocked);
-            DrawGraph.DrawEdge(stops[2], crossroads[1], EdgeType.Blocked);
-            DrawGraph.DrawEdge(landings[0], crossroads[7], EdgeType.Free);
-            DrawGraph.DrawEdge(landings[1], crossroads[7], EdgeType.Free);
-            DrawGraph.DrawEdge(landings[1], crossroads[3], EdgeType.Free);
-            DrawGraph.DrawEdge(stops[0], crossroads[3], EdgeType.Free);
-            DrawGraph.DrawEdge(stops[0], crossroads[2], EdgeType.Free);
-            DrawGraph.DrawEdge(landings[1], crossroads[2], EdgeType.Free);
-            DrawGraph.DrawEdge(landings[0], crossroads[5], EdgeType.Free);
-            DrawGraph.DrawEdge(landings[2], crossroads[0], EdgeType.Free);
-            DrawGraph.DrawEdge(stops[1], crossroads[6], EdgeType.Free);
-            DrawGraph.DrawEdge(stops[3], crossroads[5], EdgeType.Free);
-            DrawGraph.DrawEdge(stops[3], crossroads[10], EdgeType.Free);
-            DrawGraph.DrawEdge(stops[1], crossroads[11], EdgeType.Free);
-            DrawGraph.DrawEdge(landings[2], crossroads[13], EdgeType.Free);
-            DrawGraph.DrawEdge(stops[1], crossroads[14], EdgeType.Free);
-            DrawGraph.DrawEdge(stops[1], crossroads[12], EdgeType.Free);
-            DrawGraph.DrawEdge(stops[1], crossroads[13], EdgeType.Blocked);
-            DrawGraph.DrawEdge(crossroads[0], crossroads[7], EdgeType.Free);
+            _drawer.DrawEdge(crossroads[8], crossroads[9], EdgeType.Free);
+            _drawer.DrawEdge(crossroads[8], landings[0], EdgeType.Free);
+            _drawer.DrawEdge(crossroads[8], crossroads[1], EdgeType.Free);
+            _drawer.DrawEdge(crossroads[1], crossroads[7], EdgeType.Free);
+            _drawer.DrawEdge(crossroads[1], crossroads[7], EdgeType.Free);
+            _drawer.DrawEdge(crossroads[3], crossroads[2], EdgeType.Free);
+            _drawer.DrawEdge(crossroads[2], crossroads[0], EdgeType.Free);
+            _drawer.DrawEdge(crossroads[7], crossroads[5], EdgeType.Free);
+            _drawer.DrawEdge(crossroads[9], crossroads[5], EdgeType.Free);
+            _drawer.DrawEdge(crossroads[5], crossroads[10], EdgeType.Free);
+            _drawer.DrawEdge(crossroads[10], crossroads[14], EdgeType.Free);
+            _drawer.DrawEdge(crossroads[5], crossroads[11], EdgeType.Free);
+            _drawer.DrawEdge(crossroads[2], crossroads[6], EdgeType.Free);
+            _drawer.DrawEdge(crossroads[6], crossroads[12], EdgeType.Free);
+            _drawer.DrawEdge(crossroads[0], crossroads[6], EdgeType.Free);
+            _drawer.DrawEdge(crossroads[0], crossroads[5], EdgeType.Free);
+            _drawer.DrawEdge(crossroads[10], crossroads[11], EdgeType.Free);
+            _drawer.DrawEdge(crossroads[4], crossroads[3], EdgeType.Blocked);
+            _drawer.DrawEdge(crossroads[4], landings[1], EdgeType.Blocked);
+            _drawer.DrawEdge(stops[2], crossroads[4], EdgeType.Blocked);
+            _drawer.DrawEdge(stops[2], landings[1], EdgeType.Blocked);
+            _drawer.DrawEdge(stops[2], crossroads[7], EdgeType.Blocked);
+            _drawer.DrawEdge(stops[2], crossroads[1], EdgeType.Blocked);
+            _drawer.DrawEdge(landings[0], crossroads[7], EdgeType.Free);
+            _drawer.DrawEdge(landings[1], crossroads[7], EdgeType.Free);
+            _drawer.DrawEdge(landings[1], crossroads[3], EdgeType.Free);
+            _drawer.DrawEdge(stops[0], crossroads[3], EdgeType.Free);
+            _drawer.DrawEdge(stops[0], crossroads[2], EdgeType.Free);
+            _drawer.DrawEdge(landings[1], crossroads[2], EdgeType.Free);
+            _drawer.DrawEdge(landings[0], crossroads[5], EdgeType.Free);
+            _drawer.DrawEdge(landings[2], crossroads[0], EdgeType.Free);
+            _drawer.DrawEdge(stops[1], crossroads[6], EdgeType.Free);
+            _drawer.DrawEdge(stops[3], crossroads[5], EdgeType.Free);
+            _drawer.DrawEdge(stops[3], crossroads[10], EdgeType.Free);
+            _drawer.DrawEdge(stops[1], crossroads[11], EdgeType.Free);
+            _drawer.DrawEdge(landings[2], crossroads[13], EdgeType.Free);
+            _drawer.DrawEdge(stops[1], crossroads[14], EdgeType.Free);
+            _drawer.DrawEdge(stops[1], crossroads[12], EdgeType.Free);
+            _drawer.DrawEdge(stops[1], crossroads[13], EdgeType.Blocked);
+            _drawer.DrawEdge(crossroads[0], crossroads[7], EdgeType.Free);
 
-            DrawGraph.DrawEdge(crossroads[6], landings[2], EdgeType.Free);
-            DrawGraph.DrawEdge(crossroads[11], landings[2], EdgeType.Free);
-            DrawGraph.DrawEdge(crossroads[11], crossroads[14], EdgeType.Free);
+            _drawer.DrawEdge(crossroads[6], landings[2], EdgeType.Free);
+            _drawer.DrawEdge(crossroads[11], landings[2], EdgeType.Free);
+            _drawer.DrawEdge(crossroads[11], crossroads[14], EdgeType.Free);
 
 
             int crossroadsCount = crossroads.Count;
             for (int i = 1; i <= crossroadsCount; i++)
             {
-                DrawGraph.DrawVertex(crossroads[i - 1], VertexType.Crossroads, "K" + i);
+                _drawer.DrawVertex(crossroads[i - 1], VertexType.Crossroads, "K" + i);
             }
 
             int landingsCount = landings.Count;
             for (int i = 1; i <= landingsCount; i++)
             {
-                DrawGraph.DrawVertex(landings[i - 1], VertexType.Landing, "O" + i);
+                _drawer.DrawVertex(landings[i - 1], VertexType.Landing, "O" + i);
             }
 
             int stopsCount = stops.Count;
             for (int i = 1; i <= stopsCount; i++)
             {
-                DrawGraph.DrawVertex(stops[i - 1], VertexType.Stop, "Z" + i);
+                _drawer.DrawVertex(stops[i - 1], VertexType.Stop, "Z" + i);
             }
         }
 
@@ -124,19 +140,19 @@ namespace Ukol_A
             SaveFileDialog saveImage = new SaveFileDialog()
             {
                 FileName = "Graph_" + DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"),
-                Filter = "Bitmap Image (.bmp)|*.bmp|GIF Image (.gif)|*.gif|JPEG Image (.jpeg)|*.jpeg|PNG Image (.png)|*.png|TIFF Image (.tiff)|*.tiff",
+                Filter = "Bitmap Image (.bmp)|*.bmp|GIF Image (.gif)|*.gif|JPEG Image (.jpeg)|*.jpeg|PNG Image (.png)",
                 DefaultExt = "png",
                 AddExtension = true,
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
-        };
+            };
             
             if(saveImage.ShowDialog() == DialogResult.OK)
             {
                 string path = saveImage.FileName;
-                string extension = Path.GetExtension(path);
+                string extension = Path.GetExtension(path).ToLower();
                 ImageFormat format = ImageFormat.Png;
 
-                switch (extension.ToLower())
+                switch (extension)
                 {
                     case ".jpg":
                         format = ImageFormat.Jpeg;
@@ -146,9 +162,6 @@ namespace Ukol_A
                         break;
                     case ".gif":
                         format = ImageFormat.Gif;
-                        break;
-                    case ".tiff":
-                        format = ImageFormat.Tiff;
                         break;
                     case ".bmp":
                         format = ImageFormat.Bmp;
@@ -169,12 +182,12 @@ namespace Ukol_A
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            DrawGraph.InitCanvas(graphCanvas);
+            _drawer.InitCanvas(graphCanvas);
             InstantlyDrawGraph();
 
             if (!_rectangle.Location.IsEmpty && !_rectangle.Size.IsEmpty)
             {
-                DrawGraph.DrawRectangle(_rectangle);
+                _drawer.DrawRectangle(_rectangle);
             }
         }
 
@@ -201,17 +214,24 @@ namespace Ukol_A
             }
             else
             {
-                _rectangle.Location = Point.Empty;
+                _rectangle.Location = PointF.Empty;
             }
 
-            _rectangle.Size = Size.Empty;
+            _rectangle.Size = SizeF.Empty;
         }
 
         private void graphCanvas_MouseUp(object sender, MouseEventArgs e)
         {            
             if (e.Button == MouseButtons.Left) 
             {
-                _rectangle.Size = new Size(e.Location.X - _rectangle.Location.X, e.Location.Y - _rectangle.Location.Y);
+                PointF start = _rectangle.Location;
+                SizeF size = new SizeF(e.Location.X - _rectangle.Location.X, e.Location.Y - _rectangle.Location.Y);
+
+                _drawer.Denormalize(ref start);
+                _drawer.Denormalize(ref size);
+
+                _rectangle.Location = start;
+                _rectangle.Size = size;
             }
             Invalidate();
         }
