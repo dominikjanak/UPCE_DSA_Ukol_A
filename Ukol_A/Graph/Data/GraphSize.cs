@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
-
-namespace Ukol_A.DataStructures
+﻿namespace Ukol_A
 {
     public struct GraphSize
     {
@@ -20,6 +13,11 @@ namespace Ukol_A.DataStructures
             XMax = xMax;
             YMin = yMin;
             YMax = yMax;
+        }
+
+        public override string ToString()
+        {
+            return "X: <" + XMin + "," +XMax+ ">\nY: <" + YMin + "," + YMax + ">";
         }
     }
 }

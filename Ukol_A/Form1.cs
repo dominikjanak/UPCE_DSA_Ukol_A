@@ -4,12 +4,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
-using Ukol_A.DataStructures;
-using Ukol_A.DataStructures.Enums;
 using Ukol_A.Drawing;
-using Ukol_A.Exceptions;
-using Ukol_A.Extensions;
-using Ukol_A.Graph;
 
 namespace Ukol_A
 {

@@ -4,23 +4,56 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Ukol_A.DataStructures.Enums;
 
-namespace Ukol_A.Graph
+namespace Ukol_A
 {
-    class Vertex<TVertexKey, TEdgeKey> : IVertex<TVertexKey, TEdgeKey>
+    class Vertex<TVertexData, TEdgeData> : IVertex<TVertexData, TEdgeData>
     {
+        private string _vertexKey;
+        private PointF _vertexLocation;
+        private TVertexData _vertexData;
+        List<IEdge<TEdgeData, TVertexData>> _edges;
+
+        public Vertex(string vertexKey, PointF vertexLocation, TVertexData vertexData)
+        {
+            _vertexKey = vertexKey;
+            _vertexLocation = vertexLocation;
+            _vertexData = vertexData;
+            _edges = new List<IEdge<TEdgeData, TVertexData>>();
+        }
+        public string GetKey()
+        {
+            return _vertexKey;
+        }
+
+        public List<IEdge<TEdgeData, TVertexData>> GetEdges()
+        {
+            return _edges;
+        }
+
         public PointF GetLocation()
         {
-            return new PointF();
+            return _vertexLocation;
         }
-        public VertexType GetType()
+
+        public TVertexData Data
         {
-            return VertexType.Crossroads;
+            get => _vertexData;
+            set => _vertexData = value;
         }
+
         public string GetLabel()
         {
-            return "";
+            return _vertexKey;
+        }
+        public string GetCoodrinations()
+        {
+            return "[" + _vertexLocation.X + ";" + _vertexLocation.Y + "]";
+        }
+
+        public override string ToString()
+        {
+            return _vertexKey + " " + GetCoodrinations();
         }
     }
 }

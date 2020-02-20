@@ -1,29 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ukol_A.DataStructures.Enums;
-
-namespace Ukol_A.Graph
+﻿namespace Ukol_A
 {
-    class Edge<TEdgeKey, TVertexKey> : IEdge<TEdgeKey, TVertexKey>
+    class Edge<TEdgeData, TVertexData> : IEdge<TEdgeData, TVertexData>
     {
-        private IVertex<TVertexKey, TEdgeKey> source;
-        private IVertex<TVertexKey, TEdgeKey> destination;
+        private string _edgeKey;
+        private TEdgeData _edgeData;
 
-        public IVertex<TVertexKey, TEdgeKey> GetStartVertex()
+        private IVertex<TVertexData, TEdgeData> _source;
+        private IVertex<TVertexData, TEdgeData> _destination;
+
+        public Edge(string edgeKey, TEdgeData edgeData)
         {
-            return null;
-        }
-        public IVertex<TVertexKey, TEdgeKey> GetTargetVertex()
-        {
-            return null;
+            _edgeKey = edgeKey;
+            _edgeData = edgeData;
         }
 
-        public EdgeType GetType()
+        public string GetKey()
         {
-            return EdgeType.Free;
+            return _edgeKey;
+        }
+
+        public TEdgeData Data
+        { 
+            get => _edgeData;
+            set => _edgeData = value;
+        }
+
+        public IVertex<TVertexData, TEdgeData> GetStartVertex()
+        {
+            return _source;
+        }
+        public IVertex<TVertexData, TEdgeData> GetTargetVertex()
+        {
+            return _destination;
+        }
+
+        public string GetLabel()
+        {
+            return _edgeKey;
+        }
+
+        public override string ToString()
+        {
+            return GetLabel() + " v: " + _source.ToString() + " -> " + _destination.ToString();
         }
     }
 }

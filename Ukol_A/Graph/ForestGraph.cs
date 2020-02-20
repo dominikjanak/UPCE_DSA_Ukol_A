@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using Ukol_A.DataStructures;
 
-namespace Ukol_A.Graph
+namespace Ukol_A
 {
     class ForestGraph<TVertexKey, TEdgeKey> : IForestGraph<TVertexKey, TEdgeKey>
     {

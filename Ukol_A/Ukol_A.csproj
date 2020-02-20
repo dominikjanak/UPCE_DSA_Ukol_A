@@ -47,13 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataStructures\Enums\EdgeType.cs" />
-    <Compile Include="DataStructures\Enums\VertexType.cs" />
-    <Compile Include="DataStructures\Enums\LabelPosition.cs" />
-    <Compile Include="DataStructures\GraphSize.cs" />
+    <Compile Include="Graph\Data\Enums\EdgeType.cs" />
+    <Compile Include="Graph\Data\Enums\VertexType.cs" />
+    <Compile Include="Graph\Data\Enums\LabelPosition.cs" />
+    <Compile Include="Graph\Data\GraphSize.cs" />
     <Compile Include="Drawing\Colors.cs" />
     <Compile Include="Drawing\DrawGraph.cs" />
-    <Compile Include="Exceptions\EmptyGraphException.cs" />
     <Compile Include="Extensions\DrawGraphExtension.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -61,11 +60,15 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Graph\Data\EdgeData.cs" />
+    <Compile Include="Graph\Data\IEdgeData.cs" />
+    <Compile Include="Graph\Data\IVertexData.cs" />
+    <Compile Include="Graph\Data\VertexData.cs" />
     <Compile Include="Graph\Edge.cs" />
     <Compile Include="Graph\ForestGraph.cs" />
-    <Compile Include="Graph\Interface\IForestGraph.cs" />
-    <Compile Include="Graph\Interface\IVertex.cs" />
-    <Compile Include="Graph\Interface\IEdge.cs" />
+    <Compile Include="Graph\Interfaces\IForestGraph.cs" />
+    <Compile Include="Graph\Interfaces\IVertex.cs" />
+    <Compile Include="Graph\Interfaces\IEdge.cs" />
     <Compile Include="Graph\Vertex.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

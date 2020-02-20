@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms;
-using Ukol_A.DataStructures;
 
-namespace Ukol_A.Graph
+namespace Ukol_A
 {
-    public interface IForestGraph<TVertexKey, TEdgeKey>
+    public interface IForestGraph<TVertexData, TEdgeData>
     {
         /*bool IsEmpty();
         int CountVertex();
@@ -21,8 +20,8 @@ namespace Ukol_A.Graph
         IEdge FindEdge(TEdgeKey edgeKey);
 
         */
-        List<IVertex<TVertexKey, TEdgeKey>> GetAllVertexes();
-        List<IEdge<TEdgeKey, TVertexKey>> GetAllEdges();
+        List<IVertex<TVertexData, TEdgeData>> GetAllVertexes();
+        List<IEdge<TEdgeData, TVertexData>> GetAllEdges();
         GraphSize GetGraphSize();
         /*
 
