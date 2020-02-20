@@ -36,7 +36,7 @@ namespace Ukol_A.Drawing
         {
             get
             {
-                return Color.FromArgb(118, 184, 82);
+                return Color.FromArgb(48, 122, 15);
             }
         }
 
@@ -44,7 +44,7 @@ namespace Ukol_A.Drawing
         {
             get
             {
-                return Color.FromArgb(238, 79, 79);
+                return Color.FromArgb(198, 79, 79);
             }
         }
 
@@ -64,11 +64,19 @@ namespace Ukol_A.Drawing
             }
         }
 
+        public static Color DarkGray
+        {
+            get
+            {
+                return Color.FromArgb(70, 70, 70);
+            }
+        }
+
         public static Color Blue
         {
             get
             {
-                return Color.FromArgb(0, 165, 220);
+                return Color.FromArgb(10, 96, 122);
             }
         }
     }
