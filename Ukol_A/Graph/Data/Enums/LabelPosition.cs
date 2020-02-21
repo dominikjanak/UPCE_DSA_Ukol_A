@@ -2,13 +2,10 @@
 {
     public enum LabelPosition
     {
+        Center,
         Top,
         Bottom,
         Left,
-        Right,
-        LeftTop,
-        LeftBottom,
-        RightTop,
-        RightBottom
+        Right
     }
 }

@@ -29,7 +29,7 @@ namespace Ukol_A.Extensions
                 var edgeVertexA = edge.GetStartVertex();
                 var edgeVertexB = edge.GetTargetVertex();
 
-                drawer.DrawEdge(edgeVertexA.GetLocation(), edgeVertexB.GetLocation(), edge.Data.GetEdgeType());
+                drawer.DrawEdge(edgeVertexA.GetLocation(), edgeVertexB.GetLocation(), edge.Data.GetEdgeType(), "25");
             }
 
             for (int i = 0; i < vertexesCount; i++)

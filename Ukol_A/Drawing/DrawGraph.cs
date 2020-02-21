@@ -7,11 +7,9 @@ namespace Ukol_A.Drawing
     class DrawGraph
     {
         private Graphics _canvas;            // Drawing area
-        private Font _drawingFontRegular;    // Font for titles
-        private Font _drawingFontBold;       // Font for titles
 
-        private SizeF _canvasSize;            // Canvas size
-        private PointF _graphOffset;          // Reduce space form [0,0]
+        private SizeF _canvasSize;           // Canvas size
+        private PointF _graphOffset;         // Reduce space form [0,0]
         private PointF _scaleRatio;          // Graph resize parameters
 
         public DrawGraph(Control panel = null)
@@ -22,35 +20,42 @@ namespace Ukol_A.Drawing
             }
         }
 
-        // Prepare canvas for drawing
+        // Prepare canvas for drawing (Also after resize)
         public void InitCanvas(Control drawingPanel)
         {
             _canvasSize = new SizeF(drawingPanel.Width, drawingPanel.Height);
             _canvas = drawingPanel.CreateGraphics();
-            _canvas.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-
-            _drawingFontBold = new Font("Arial", 12, FontStyle.Bold, GraphicsUnit.Pixel);
-            _drawingFontRegular = new Font("Arial", 10, FontStyle.Regular, GraphicsUnit.Pixel);
+            _canvas.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
         }
 
-        // Calculate graph scaling parameters
+        // Calculate graph scaling parameters (for form resizing)
         public void SetGraphSize(GraphSize size)
         {
-            _graphOffset.X = size.XMin - 31; // 25 px offset from border
-            _graphOffset.Y = size.YMin - 30; // 25 px offset from border
+            _graphOffset.X = size.XMin - 31; // offset from border
+            _graphOffset.Y = size.YMin - 30; // offset from border
 
-            _scaleRatio.X = (float)_canvasSize.Width / (size.XMax - size.XMin + 66); // 50 px padding
-            _scaleRatio.Y = (float)_canvasSize.Height / (size.YMax - size.YMin + 71);// 60 px padding
+            _scaleRatio.X = (float)_canvasSize.Width / (size.XMax - size.XMin + 66);  // padding
+            _scaleRatio.Y = (float)_canvasSize.Height / (size.YMax - size.YMin + 71); // padding
         }
 
         // Clear canvas with white colour
         public void ClearCanvas()
         {
             _canvas.Clear(Color.White);
+
+        }
+
+        public void DrawPath(PointF start, PointF end)
+        {
+            Normalize(ref start);
+            Normalize(ref end);
+
+            Pen pen = new Pen(Color.FromArgb(128, Colors.Yellow), 8);
+            _canvas.DrawLine(pen, start.X, start.Y, end.X, end.Y);
         }
 
         // Draw edge
-        public void DrawEdge(PointF start, PointF end, EdgeType edgeType)
+        public void DrawEdge(PointF start, PointF end, EdgeType edgeType, string label)
         {
             Pen pen = new Pen(Color.Transparent, 2);
 
@@ -69,6 +74,30 @@ namespace Ukol_A.Drawing
             Normalize(ref end);
 
             _canvas.DrawLine(pen, start.X, start.Y, end.X, end.Y);
+
+            if (label != String.Empty) 
+            { 
+                PointF labelPosition = new PointF()
+                {
+                    X = Math.Abs((start.X + end.X) / 2),
+                    Y = Math.Abs((start.Y + end.Y) / 2)
+                };
+
+                Font font = new Font("Arial", 10, FontStyle.Regular, GraphicsUnit.Pixel);
+                SolidBrush brush = new SolidBrush(pen.Color);
+                labelPosition = CalculateLabelPosition(labelPosition, 0, label, font, LabelPosition.Center);
+
+                DrawEdgeLabelBackground(labelPosition, label, font);
+
+                DrawLabel(label, labelPosition, brush, font);
+            }
+        }
+
+        private void DrawEdgeLabelBackground(PointF location, string label, Font font)
+        {
+            SolidBrush brush = new SolidBrush(Colors.White);
+            SizeF size = LabelSize(label, font);
+            _canvas.FillRectangle(brush, location.X, location.Y, size.Width, size.Height);
         }
 
         // Draw vertex
@@ -98,14 +127,17 @@ namespace Ukol_A.Drawing
             Normalize(ref vertexLocation); // Normalize coordinates
             DrawFilledCircle(vertexLocation, radius, brush);
 
+            Font font = new Font("Arial", 10, FontStyle.Regular, GraphicsUnit.Pixel);
+            Font boldFont = new Font("Arial", 12, FontStyle.Bold, GraphicsUnit.Pixel);
+
             // Draw vertex label
-            PointF labelPosition = CalculateLabelPosition(vertexLocation, radius, label, LabelPosition.Top, true);
-            DrawLabel(label, labelPosition, brush, true);
+            PointF labelPosition = CalculateLabelPosition(vertexLocation, radius, label, boldFont, LabelPosition.Top);
+            DrawLabel(label, labelPosition, brush, boldFont);
 
             // Draw vertex coordinations 
-            PointF coordinationsPosition = CalculateLabelPosition(vertexLocation, radius, coordinationsLabel, LabelPosition.Bottom);
+            PointF coordinationsPosition = CalculateLabelPosition(vertexLocation, radius, coordinationsLabel, font, LabelPosition.Bottom);
             brush.Color = Colors.Black;
-            DrawLabel(coordinationsLabel, coordinationsPosition, brush);
+            DrawLabel(coordinationsLabel, coordinationsPosition, brush, font);
         }
 
         public void DrawRectangle(RectangleF rectangle)
@@ -174,24 +206,19 @@ namespace Ukol_A.Drawing
             size.Height *= _scaleRatio.Y;
         }
 
-        // Calculate coordinates for label 
-        private PointF CalculateLabelPosition(PointF vertexLocation, int vertexRadius, string vertexLabel, LabelPosition labelPosition = LabelPosition.Top, bool boldFont = false)
+        private SizeF LabelSize(string label, Font font)
         {
-            PointF labelLocation = new PointF(vertexLocation.X, vertexLocation.Y);
-            SizeF labelSize;
-            
             using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(new Bitmap(1, 1)))
             {
-                if (boldFont)
-                {
-                    labelSize = graphics.MeasureString(vertexLabel, _drawingFontBold);
-                }
-                else
-                {
-                    labelSize = graphics.MeasureString(vertexLabel, _drawingFontRegular);
-                }
+                return graphics.MeasureString(label, font);
             }
+        }
 
+        // Calculate coordinates for label 
+        private PointF CalculateLabelPosition(PointF vertexLocation, int vertexRadius, string label, Font font, LabelPosition labelPosition = LabelPosition.Top)
+        {
+            PointF labelLocation = new PointF(vertexLocation.X, vertexLocation.Y);
+            SizeF labelSize = LabelSize(label, font); 
             FindLabelPlace(ref labelLocation, vertexRadius, labelPosition, labelSize);
 
             return labelLocation;
@@ -218,36 +245,17 @@ namespace Ukol_A.Drawing
                     location.X += vertexRadius + 2;
                     location.Y -= labelSize.Height / 2;
                     break;
-                case LabelPosition.RightTop:
-                    location.X += vertexRadius / 2 + 3;
-                    location.Y -= labelSize.Height + 3;
-                    break;
-                case LabelPosition.RightBottom:
-                    location.X += vertexRadius / 2 + 1;
-                    location.Y += 4;
-                    break;
-                case LabelPosition.LeftTop:
-                    location.X -= vertexRadius + labelSize.Width;
-                    location.Y -= labelSize.Height + 2;
-                    break;
-                case LabelPosition.LeftBottom:
-                    location.X -= vertexRadius + labelSize.Width;
-                    location.Y += 2;
+                case LabelPosition.Center:
+                    location.X -= labelSize.Width / 2;
+                    location.Y -= labelSize.Height / 2;
                     break;
             }
         }
 
         // Draw Label
-        private void DrawLabel(string drawText, PointF location, Brush brushColor, bool boldFont = false)
+        private void DrawLabel(string drawText, PointF location, Brush brushColor, Font font)
         {
-            if (boldFont)
-            {
-                _canvas.DrawString(drawText, _drawingFontBold, brushColor, location.X, location.Y);
-            }
-            else 
-            {
-                _canvas.DrawString(drawText, _drawingFontRegular, brushColor, location.X, location.Y);
-            }
+            _canvas.DrawString(drawText, font, brushColor, location.X, location.Y);
         }
 
         // Draw Filled Circle

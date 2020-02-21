@@ -60,7 +60,7 @@ namespace Ukol_A.Drawing
         {
             get
             {
-                return Color.FromArgb(180, 180, 180);
+                return Color.FromArgb(150, 150, 150);
             }
         }
 
