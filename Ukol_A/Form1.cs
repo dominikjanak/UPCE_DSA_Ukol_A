@@ -87,7 +87,7 @@ namespace Ukol_A
             _drawer.DrawEdge(stops[2], crossroads[4], EdgeType.Blocked, "25");
             _drawer.DrawEdge(stops[2], landings[1], EdgeType.Blocked, "25");
             _drawer.DrawEdge(stops[2], crossroads[7], EdgeType.Blocked, "25");
-            _drawer.DrawEdge(stops[2], crossroads[1], EdgeType.Free, "25");
+            _drawer.DrawEdge(stops[2], crossroads[1], EdgeType.Blocked, "25");
             _drawer.DrawEdge(landings[0], crossroads[7], EdgeType.Free, "25");
             _drawer.DrawEdge(landings[1], crossroads[7], EdgeType.Free, "25");
             _drawer.DrawEdge(landings[1], crossroads[3], EdgeType.Free, "25");
@@ -139,7 +139,7 @@ namespace Ukol_A
             SaveFileDialog saveImage = new SaveFileDialog()
             {
                 FileName = "Graph_" + DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"),
-                Filter = "Bitmap Image (.bmp)|*.bmp|GIF Image (.gif)|*.gif|JPEG Image (.jpeg)|*.jpeg|PNG Image (.png)",
+                Filter = "Bitmap Image (.bmp)|*.bmp|GIF Image (.gif)|*.gif|JPEG Image (.jpeg)|*.jpeg|PNG Image (.png)|*.png",
                 DefaultExt = "png",
                 AddExtension = true,
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
