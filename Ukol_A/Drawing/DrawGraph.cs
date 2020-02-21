@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -118,6 +118,9 @@ namespace Ukol_A.Drawing
             PointF start = rectangle.Location;
             SizeF size = rectangle.Size;
 
+            Normalize(ref start);
+            Normalize(ref size);
+
             if (size.Width < 0)
             {
                 size.Width = Math.Abs(size.Width);
@@ -128,9 +131,6 @@ namespace Ukol_A.Drawing
                 size.Height = Math.Abs(size.Height);
                 start.Y -= size.Height;
             }
-
-            Normalize(ref start);
-            Normalize(ref size);
 
             _canvas.FillRectangle(transBrush, start.X, start.Y, size.Width, size.Height);
             _canvas.DrawRectangle(pen, start.X, start.Y, size.Width, size.Height);

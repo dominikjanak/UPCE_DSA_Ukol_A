@@ -11,7 +11,7 @@ namespace Ukol_A
     public partial class Form1 : Form
     {
         private DrawGraph _drawer;
-        private RectangleF _rectangle;
+        private RectangleF _rectangle; // Contain relative data (before graph calculations it must be denormalized)
 
         public Form1()
         {
