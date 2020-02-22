@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace Ukol_A.Drawing
@@ -12,20 +13,29 @@ namespace Ukol_A.Drawing
         private PointF _graphOffset;         // Reduce space form [0,0]
         private PointF _scaleRatio;          // Graph resize parameters
 
-        public DrawGraph(Control panel = null)
+        public DrawGraph(Image image)
         {
-            if (panel != null)
-            {
-                InitCanvas(panel);
-            }
+            if (image == null) throw new ArgumentNullException(nameof(image));
+            InitCanvas(image);
         }
 
-        // Prepare canvas for drawing (Also after resize)
-        public void InitCanvas(Control drawingPanel)
+        public DrawGraph()
+        {
+        }
+
+        public void InitCanvas(Size drawingPanel, Graphics g)
         {
             _canvasSize = new SizeF(drawingPanel.Width, drawingPanel.Height);
-            _canvas = drawingPanel.CreateGraphics();
-            _canvas.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            _canvas = g;
+            _canvas.SmoothingMode = SmoothingMode.HighQuality;
+
+        }
+
+        public void InitCanvas(Image image)
+        {
+            _canvasSize = new SizeF(image.Width, image.Height);
+            _canvas = Graphics.FromImage(image);
+            _canvas.SmoothingMode = SmoothingMode.HighQuality;
         }
 
         // Calculate graph scaling parameters (for form resizing)
@@ -227,7 +237,7 @@ namespace Ukol_A.Drawing
         // Calculate coordinates for label around vertex
         private void FindLabelPlace(ref PointF location, int vertexRadius, LabelPosition labelPosition, SizeF labelSize)
         {
-            switch(labelPosition)
+            switch (labelPosition)
             {
                 case LabelPosition.Top:
                     location.X -= labelSize.Width / 2;

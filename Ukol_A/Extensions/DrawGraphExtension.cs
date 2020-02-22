@@ -1,11 +1,12 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing;
+using System.Windows.Forms;
 using Ukol_A.Drawing;
 
 namespace Ukol_A.Extensions
 {
     public static class DrawGraphExtension
     {
-        public static void Draw(this IForestGraph<IVertexData, IEdgeData> graph, Control panel)
+        public static void Draw(this IForestGraph<IVertexData, IEdgeData> graph, Size panelSize, Graphics g)
         {
             var vertexes = graph.GetAllVertexes();
             var edges = graph.GetAllEdges();
@@ -13,7 +14,8 @@ namespace Ukol_A.Extensions
             int vertexesCount = vertexes.Count;
             int edgesCount = edges.Count;
 
-            DrawGraph drawer = new DrawGraph(panel);
+            DrawGraph drawer = new DrawGraph();
+            drawer.InitCanvas(panelSize, g);
             drawer.ClearCanvas();
 
             if (vertexesCount <= 0)

@@ -1,6 +1,6 @@
 ﻿namespace Ukol_A
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.graphCanvas = new System.Windows.Forms.Panel();
+            this.graphCanvas = new DoubleBufferedPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.saveImageButton = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -69,8 +69,10 @@
             this.graphCanvas.Name = "graphCanvas";
             this.graphCanvas.Size = new System.Drawing.Size(744, 416);
             this.graphCanvas.TabIndex = 0;
+            this.graphCanvas.Paint += new System.Windows.Forms.PaintEventHandler(this.graphCanvas_Paint);
             this.graphCanvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.graphCanvas_MouseDown);
             this.graphCanvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.graphCanvas_MouseUp);
+            this.graphCanvas.Resize += new System.EventHandler(this.graphCanvas_Resize);
             // 
             // tableLayoutPanel2
             // 
@@ -159,10 +161,9 @@
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(600, 361);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
-            this.Text = "UPCE DSA - Semestrální práce";
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
+            this.Text = "UPCE DSA – Semestrální práce";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
@@ -182,7 +183,7 @@
         private System.Windows.Forms.ToolStripMenuItem saveImageMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeMenuItem;
         private System.Windows.Forms.ToolStripMenuItem grafToolStripMenuItem;
-        private System.Windows.Forms.Panel graphCanvas;
+        private DoubleBufferedPanel graphCanvas;
     }
 }
 
