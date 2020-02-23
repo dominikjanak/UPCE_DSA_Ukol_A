@@ -13,12 +13,14 @@ namespace Ukol_A
     {
         private DrawGraph _drawer;
         private RectangleF _rectangle; // Contains relative data (before graph calculations it must be denormalized)
+        private bool _rectangleDrawing;
 
         public MainForm()
         {
             InitializeComponent();
             _drawer = new DrawGraph();
             _rectangle = new Rectangle(0, 0, 0, 0);
+            _rectangleDrawing = false;
 
             ForestGraph<string, string> gr = new ForestGraph<string, string>();
         }
@@ -131,7 +133,7 @@ namespace Ukol_A
             SaveFileDialog saveImage = new SaveFileDialog()
             {
                 FileName = "Graph_" + DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"),
-                Filter = "Bitmap Image (.bmp)|*.bmp|GIF Image (.gif)|*.gif|JPEG Image (.jpeg)|*.jpeg|PNG Image (.png)|*.png",
+                Filter = "PNG Image|*.png|JPEG Image|*.jpeg|GIF Image|*.gif|Bitmap Image|*.bmp",
                 DefaultExt = "png",
                 AddExtension = true,
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
@@ -161,7 +163,8 @@ namespace Ukol_A
 
             if (!_rectangle.Location.IsEmpty && !_rectangle.Size.IsEmpty)
             {
-                _drawer.DrawRectangle(_rectangle);
+                RectangleF rectangle = new RectangleF(_rectangle.Location, _rectangle.Size);
+                _drawer.DrawRectangle(rectangle);
             }
         }
 
@@ -189,7 +192,12 @@ namespace Ukol_A
         {
             if (e.Button == MouseButtons.Left)
             {
-                _rectangle.Location = e.Location;
+                _rectangleDrawing = true;
+
+                PointF location = e.Location;
+                _drawer.Denormalize(ref location);
+                
+                _rectangle.Location = location;
             }
             else
             {
@@ -203,20 +211,22 @@ namespace Ukol_A
         {            
             if (e.Button == MouseButtons.Left) 
             {
-                PointF start = _rectangle.Location;
-                SizeF size = new SizeF(e.Location.X - _rectangle.Location.X, e.Location.Y - _rectangle.Location.Y);
-
-                _drawer.Denormalize(ref start);
-                _drawer.Denormalize(ref size);
-
-                _rectangle.Location = start;
-                _rectangle.Size = size;
+                _rectangleDrawing = false;
             }
-
-            graphCanvas.Invalidate();
 
         }
 
+        private void graphCanvas_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (_rectangleDrawing)
+            {
+                PointF location = e.Location;
+                _drawer.Denormalize(ref location);
 
+                SizeF size = new SizeF(location.X - _rectangle.Location.X, location.Y - _rectangle.Location.Y);
+                _rectangle.Size = size;
+                graphCanvas.Invalidate();
+            }
+        }
     }
 }
