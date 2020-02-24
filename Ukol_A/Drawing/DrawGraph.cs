@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace Ukol_A.Drawing
 {
-    class DrawGraph
+    public class DrawGraph
     {
         private Graphics _canvas;            // Drawing area
 
@@ -39,7 +39,7 @@ namespace Ukol_A.Drawing
         }
 
         // Calculate graph scaling parameters (for form resizing)
-        public void SetGraphSize(GraphSize size)
+        public void SetGraphSize(GraphSize<float> size)
         {
             _graphOffset.X = size.XMin - 31; // offset from border
             _graphOffset.Y = size.YMin - 30; // offset from border
@@ -85,8 +85,8 @@ namespace Ukol_A.Drawing
 
             _canvas.DrawLine(pen, start.X, start.Y, end.X, end.Y);
 
-            if (label != String.Empty) 
-            { 
+            if (label != String.Empty)
+            {
                 PointF labelPosition = new PointF()
                 {
                     X = Math.Abs((start.X + end.X) / 2),
@@ -118,11 +118,11 @@ namespace Ukol_A.Drawing
 
             switch (vertexType)
             {
-                case VertexType.Crossroads:
+                case VertexType.Junction:
                     radius = 5;
                     brush = new SolidBrush(Colors.Brown);
                     break;
-                case VertexType.Landing:
+                case VertexType.RestArea:
                     radius = 7;
                     brush = new SolidBrush(Colors.Blue);
                     break;
@@ -141,8 +141,11 @@ namespace Ukol_A.Drawing
             Font boldFont = new Font("Arial", 12, FontStyle.Bold, GraphicsUnit.Pixel);
 
             // Draw vertex label
-            PointF labelPosition = CalculateLabelPosition(vertexLocation, radius, label, boldFont, LabelPosition.Top);
-            DrawLabel(label, labelPosition, brush, boldFont);
+            if (label != null)
+            {
+                PointF labelPosition = CalculateLabelPosition(vertexLocation, radius, label, boldFont, LabelPosition.Top);
+                DrawLabel(label, labelPosition, brush, boldFont);
+            }
 
             // Draw vertex coordinations 
             PointF coordinationsPosition = CalculateLabelPosition(vertexLocation, radius, coordinationsLabel, font, LabelPosition.Bottom);
@@ -155,7 +158,7 @@ namespace Ukol_A.Drawing
             Pen pen = new Pen(Colors.Red, (float)1.3);
             SolidBrush transBrush = new SolidBrush(Color.FromArgb(25, Colors.Red));
 
-            pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+            pen.DashStyle = DashStyle.Dash;
 
             PointF start = rectangle.Location;
             SizeF size = rectangle.Size;
@@ -165,12 +168,12 @@ namespace Ukol_A.Drawing
 
             if (size.Width < 0)
             {
-                size.Width = Math.Abs(size.Width);
+                size.Width = -size.Width;
                 start.X -= size.Width;
             }
             if (size.Height < 0)
             {
-                size.Height = Math.Abs(size.Height);
+                size.Height = -size.Height;
                 start.Y -= size.Height;
             }
 
@@ -192,8 +195,8 @@ namespace Ukol_A.Drawing
             size.Width /= _scaleRatio.X;
             size.Height /= _scaleRatio.Y;
 
-            size.Width += _graphOffset.X;
-            size.Height += _graphOffset.Y;
+            //size.Width += _graphOffset.X;
+            //size.Height += _graphOffset.Y;
         }
 
         // Recalculate coordinates
@@ -209,8 +212,8 @@ namespace Ukol_A.Drawing
         // Recalculate coordinates
         public void Normalize(ref SizeF size)
         {
-            size.Width -= _graphOffset.X;
-            size.Height -= _graphOffset.Y;
+            //size.Width -= _graphOffset.X;
+            //size.Height -= _graphOffset.Y;
 
             size.Width *= _scaleRatio.X;
             size.Height *= _scaleRatio.Y;
@@ -228,7 +231,7 @@ namespace Ukol_A.Drawing
         private PointF CalculateLabelPosition(PointF vertexLocation, int vertexRadius, string label, Font font, LabelPosition labelPosition = LabelPosition.Top)
         {
             PointF labelLocation = new PointF(vertexLocation.X, vertexLocation.Y);
-            SizeF labelSize = LabelSize(label, font); 
+            SizeF labelSize = LabelSize(label, font);
             FindLabelPlace(ref labelLocation, vertexRadius, labelPosition, labelSize);
 
             return labelLocation;

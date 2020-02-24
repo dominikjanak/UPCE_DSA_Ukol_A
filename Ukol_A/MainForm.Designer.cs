@@ -33,11 +33,15 @@
             this.graphCanvas = new Ukol_A.DoubleBufferedPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.saveImageButton = new System.Windows.Forms.Button();
+            this.SampleDataButton = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.programToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveImageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.grafToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.inicializujToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SmallDataInitButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.BigDataInitButton = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -80,6 +84,7 @@
             this.tableLayoutPanel2.ColumnCount = 1;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Controls.Add(this.saveImageButton, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.SampleDataButton, 0, 2);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(753, 2);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(3, 2, 0, 0);
@@ -112,11 +117,25 @@
             this.saveImageButton.UseVisualStyleBackColor = true;
             this.saveImageButton.Click += new System.EventHandler(this.saveImageButton_Click);
             // 
+            // SampleDataButton
+            // 
+            this.SampleDataButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.SampleDataButton.Location = new System.Drawing.Point(3, 70);
+            this.SampleDataButton.Margin = new System.Windows.Forms.Padding(3, 0, 0, 3);
+            this.SampleDataButton.Name = "SampleDataButton";
+            this.SampleDataButton.Size = new System.Drawing.Size(104, 32);
+            this.SampleDataButton.TabIndex = 2;
+            this.SampleDataButton.Text = "Vzorová data";
+            this.SampleDataButton.UseVisualStyleBackColor = true;
+            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.programToolStripMenuItem,
-            this.grafToolStripMenuItem});
+            this.grafToolStripMenuItem,
+            this.inicializujToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(884, 24);
@@ -137,7 +156,7 @@
             this.saveImageMenuItem.Name = "saveImageMenuItem";
             this.saveImageMenuItem.Size = new System.Drawing.Size(148, 22);
             this.saveImageMenuItem.Text = "Uložit obrázek";
-            this.saveImageMenuItem.Click += new System.EventHandler(this.saveImageMenuItem_Click);
+            this.saveImageMenuItem.Click += new System.EventHandler(this.saveImageButton_Click);
             // 
             // closeMenuItem
             // 
@@ -151,6 +170,29 @@
             this.grafToolStripMenuItem.Name = "grafToolStripMenuItem";
             this.grafToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
             this.grafToolStripMenuItem.Text = "Graf";
+            // 
+            // inicializujToolStripMenuItem
+            // 
+            this.inicializujToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.SmallDataInitButton,
+            this.BigDataInitButton});
+            this.inicializujToolStripMenuItem.Name = "inicializujToolStripMenuItem";
+            this.inicializujToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
+            this.inicializujToolStripMenuItem.Text = "Inicializuj";
+            // 
+            // SmallDataInitButton
+            // 
+            this.SmallDataInitButton.Name = "SmallDataInitButton";
+            this.SmallDataInitButton.Size = new System.Drawing.Size(180, 22);
+            this.SmallDataInitButton.Text = "Malá data";
+            this.SmallDataInitButton.Click += new System.EventHandler(this.SmallDataInit_Click);
+            // 
+            // BigDataInitButton
+            // 
+            this.BigDataInitButton.Name = "BigDataInitButton";
+            this.BigDataInitButton.Size = new System.Drawing.Size(180, 22);
+            this.BigDataInitButton.Text = "Velká data";
+            this.BigDataInitButton.Click += new System.EventHandler(this.BigDataInit_Click);
             // 
             // MainForm
             // 
@@ -185,6 +227,10 @@
         private System.Windows.Forms.ToolStripMenuItem closeMenuItem;
         private System.Windows.Forms.ToolStripMenuItem grafToolStripMenuItem;
         private DoubleBufferedPanel graphCanvas;
+        private System.Windows.Forms.Button SampleDataButton;
+        private System.Windows.Forms.ToolStripMenuItem inicializujToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem SmallDataInitButton;
+        private System.Windows.Forms.ToolStripMenuItem BigDataInitButton;
     }
 }
 
