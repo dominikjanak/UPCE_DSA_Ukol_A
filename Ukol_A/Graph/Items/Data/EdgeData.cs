@@ -2,12 +2,18 @@
 {
     public class EdgeData : IEdgeData
     {
-        private EdgeType _edgeType;
+        private EdgeType _type;
         private float _distance;
+
+        public EdgeData(float distance, EdgeType type)
+        {
+            _distance = distance;
+            _type = type;
+        }
 
         public EdgeType GetEdgeType()
         {
-            return _edgeType;
+            return _type;
         }
         public float GetDistance()
         {

@@ -54,10 +54,12 @@
     <Compile Include="Drawing\DoubleBufferedPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Graph\Data\Enums\EdgeType.cs" />
-    <Compile Include="Graph\Data\Enums\VertexType.cs" />
-    <Compile Include="Graph\Data\Enums\LabelPosition.cs" />
-    <Compile Include="Graph\Data\GraphSize.cs" />
+    <Compile Include="Drawing\GraphSize.cs" />
+    <Compile Include="Graph\Factory\IGraphItemFactory.cs" />
+    <Compile Include="Graph\Factory\GraphItemFactory.cs" />
+    <Compile Include="Graph\Structure\Enums\EdgeType.cs" />
+    <Compile Include="Graph\Structure\Enums\VertexType.cs" />
+    <Compile Include="Graph\Structure\Enums\LabelPosition.cs" />
     <Compile Include="Drawing\Colors.cs" />
     <Compile Include="Drawing\DrawGraph.cs" />
     <Compile Include="Extensions\DrawGraphExtension.cs" />
@@ -67,16 +69,16 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Graph\Data\EdgeData.cs" />
-    <Compile Include="Graph\Data\IEdgeData.cs" />
-    <Compile Include="Graph\Data\IVertexData.cs" />
-    <Compile Include="Graph\Data\VertexData.cs" />
-    <Compile Include="Graph\Edge.cs" />
+    <Compile Include="Graph\Items\Data\EdgeData.cs" />
+    <Compile Include="Graph\Items\Data\IEdgeData.cs" />
+    <Compile Include="Graph\Items\Data\IVertexData.cs" />
+    <Compile Include="Graph\Items\Data\VertexData.cs" />
+    <Compile Include="Graph\Items\Edge.cs" />
     <Compile Include="Graph\ForestGraph.cs" />
-    <Compile Include="Graph\Interfaces\IForestGraph.cs" />
-    <Compile Include="Graph\Interfaces\IVertex.cs" />
-    <Compile Include="Graph\Interfaces\IEdge.cs" />
-    <Compile Include="Graph\Vertex.cs" />
+    <Compile Include="Graph\IForestGraph.cs" />
+    <Compile Include="Graph\Items\IVertex.cs" />
+    <Compile Include="Graph\Items\IEdge.cs" />
+    <Compile Include="Graph\Items\Vertex.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainForm.resx">
