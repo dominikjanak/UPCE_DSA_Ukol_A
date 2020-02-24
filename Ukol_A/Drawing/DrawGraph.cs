@@ -8,7 +8,6 @@ namespace Ukol_A.Drawing
     public class DrawGraph
     {
         private Graphics _canvas;            // Drawing area
-
         private SizeF _canvasSize;           // Canvas size
         private PointF _graphOffset;         // Reduce space form [0,0]
         private PointF _scaleRatio;          // Graph resize parameters
@@ -52,7 +51,6 @@ namespace Ukol_A.Drawing
         public void ClearCanvas()
         {
             _canvas.Clear(Color.White);
-
         }
 
         public void DrawPath(PointF start, PointF end)

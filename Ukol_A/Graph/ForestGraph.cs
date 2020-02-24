@@ -1,79 +1,77 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
 namespace Ukol_A
 {
     class ForestGraph<TVertexKey, TVertexData, TEdgeKey, TEdgeData> : IForestGraph<TVertexKey, TVertexData, TEdgeKey, TEdgeData>
+        where TVertexKey : IComparable
+        where TEdgeKey : IComparable
     {
-        private bool _emptyGraph;
-        private int _vertexesCount;
-        private int _edgesCount;
-        private IGraphItemFactory<TVertexKey, TVertexData, TEdgeKey, TEdgeData> _factory;
+        private Dictionary<TVertexKey, Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData>> _vertexes;
+        private Dictionary<TEdgeKey, Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>> _edges; // Je možné držet i hrany pro optimálnější výkon
 
-        private Dictionary<TVertexKey, IVertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData>> _vertexes;
-        private Dictionary<TEdgeKey, IEdge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>> _edges;
-        //private Dictionary<(IVertex<TVertexKey, TVertexData> s,IVertex<TVertexKey, TVertexData> t), IEdge<TVertexKey, TVertexData, TEdgeKey, TEdgeData>> _edges;
-        //        Dictionary<(IVertex, IVertex), IEdge> // bez generiky
-
-        public ForestGraph(IGraphItemFactory<TVertexKey, TVertexData, TEdgeKey, TEdgeData> factory)
+        public ForestGraph()
         {
-            _factory = factory;
             Clear();
         }
 
         public bool Clear()
         {
-            try
-            {
-                _emptyGraph = true;
-                _vertexesCount = 0;
-                _edgesCount = 0;
+            _vertexes = new Dictionary<TVertexKey, Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData>>();
+            _edges = new Dictionary<TEdgeKey, Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>>();
 
-                _vertexes = new Dictionary<TVertexKey, IVertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData>>();
-                _edges = new Dictionary<TEdgeKey, IEdge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>>();
-
-                return true;
-            }
-            catch { }
-
-            return false;
+            return true;
         }
 
         public bool IsEmpty()
         {
-            return _emptyGraph;
+            return (_vertexes.Count == 0);
         }
 
         public int CountVertex()
         {
-            return _vertexesCount;
+            return _vertexes.Count;
         }
 
         public int CountEdges()
         {
-            return _edgesCount;
+            return _edges.Count;
         }
 
         public bool AddVertex(TVertexKey key, TVertexData data)
         {
-            if (!_vertexes.ContainsKey(key)) 
+            var vertex = new Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData>(key, data);
+            return AddVertex(vertex);
+        }
+
+        public bool AddVertex(Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> vertex)
+        {
+            if (!_vertexes.ContainsKey(vertex.GetKey()))
             {
-                var vertex = _factory.CreateVertex(key, data);
-                _vertexes.Add(key, vertex);
-                _vertexesCount++;
+                _vertexes.Add(vertex.GetKey(), vertex);
                 return true;
             }
             return false;
         }
 
-        public IVertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> RemoveVertex(TVertexKey key)
+        public Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> RemoveVertex(Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> vertex)
+        {
+            return RemoveVertex(vertex.GetKey());
+        }
+
+        public Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> RemoveVertex(TVertexKey key)
         {
             if (_vertexes.ContainsKey(key))
             {
                 var vertex = _vertexes[key];
-                _vertexes.Remove(key);
-                _vertexesCount--;
+
+                foreach (var edge in vertex.GetIncidentEdges())
+                {
+                    RemoveEdge(edge.GetKey());
+                }
+
                 return vertex;
             }
             return null;
@@ -84,25 +82,119 @@ namespace Ukol_A
             return _vertexes.ContainsKey(startKey);
         }
 
-        public IVertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> FindVertex(TVertexKey key)
+        public Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> FindVertex(TVertexKey key)
         {
             return _vertexes[key];
         }
 
+        public bool AddEdge(TEdgeKey key, TVertexKey start, TVertexKey target, TEdgeData data)
+        {
+            var vertexStart = FindVertex(start);
+            var vertexTarget = FindVertex(target);
 
+            var edge = new Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>(key, data, vertexStart, vertexTarget);
+            return AddEdge(edge);
+        }
 
+        public bool AddEdge(Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> edge)
+        {
+            if (ExistsEdge(edge.GetKey()))
+            {
+                return false;
+            }
+
+            var vertexStart = edge.GetStartVertex();
+            var vertexTarget = edge.GetTargetVertex();
+
+            if (vertexStart != null && vertexTarget != null)
+            {
+                if (FindEdge(vertexStart, vertexTarget) == null)
+                {
+                    _edges.Add(edge.GetKey(), edge);
+                    vertexStart.GetIncidentEdges().Add(edge);
+                    vertexTarget.GetIncidentEdges().Add(edge);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> RemoveEdge(TEdgeKey key)
+        {
+            var edge = FindEdge(key);
+            return RemoveEdge(edge);
+        }
+
+        public Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> RemoveEdge(TVertexKey start, TVertexKey target)
+        {
+            var edge = FindEdge(start, target);
+            return RemoveEdge(edge);
+        }
+
+        public Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> RemoveEdge(Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> edge)
+        {
+            if (!_edges.ContainsKey(edge.GetKey()))
+            {
+                return null;
+            }
+
+            var startVertex = FindVertex(edge.GetStartVertex().GetKey());
+            var targetVertex = FindVertex(edge.GetTargetVertex().GetKey());
+
+            if (startVertex != null && targetVertex != null)
+            {
+                startVertex.GetIncidentEdges().Remove(edge);
+                targetVertex.GetIncidentEdges().Remove(edge);
+                _edges.Remove(edge.GetKey());
+            }
+
+            return null;
+        }
+
+        public bool ExistsEdge(TEdgeKey key)
+        {
+            return _edges.ContainsKey(key);
+        }
+
+        public Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> FindEdge(TVertexKey start, TVertexKey target)
+        {
+            var vertexStart = FindVertex(start);
+            var vertexTarget = FindVertex(target);
+
+            return FindEdge(vertexStart, vertexTarget);
+        }
+        public Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> FindEdge(Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> start, 
+            Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> target)
+        {
+            if (start != null)
+            {
+                foreach (var edge in start.GetIncidentEdges())
+                {
+                    if (edge.GetOpositeVertex(start) == target)
+                    {
+                        return edge;
+                    }
+                }
+            }
+            return null;
+        }
+
+        public Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> FindEdge(TEdgeKey edgeKey)
+        {
+            return _edges[edgeKey];
+        }
 
 
 
 
 
         // ---------------------------------------------------------------------------------
-        public List<IVertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData>> GetAllVertexes()
+        public List<Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData>> GetAllVertexes()
         {
             return _vertexes.Select(vertex => vertex.Value).ToList();
         }
 
-        public List<IEdge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>> GetAllEdges()
+        public List<Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>> GetAllEdges()
         {
             return _edges.Select(vertex => vertex.Value).ToList();
         }

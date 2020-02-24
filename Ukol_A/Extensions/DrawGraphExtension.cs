@@ -41,7 +41,7 @@ namespace Ukol_A
             }
         }
 
-        private static GraphSize<float> CalculateGraphSize(List<IVertex<string, VertexData, string, EdgeData>> vertexes)
+        private static GraphSize<float> CalculateGraphSize(List<Vertex<string, VertexData, string, EdgeData>> vertexes)
         {
             float xLoc = vertexes[0].Data.GetLocation().X;
             float yLoc = vertexes[0].Data.GetLocation().Y;

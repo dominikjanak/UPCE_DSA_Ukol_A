@@ -1,18 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Ukol_A
 {
-    class Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> : IVertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData>
+    public class Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData>
+        where TVertexKey : IComparable
+        where TEdgeKey : IComparable
     {
         private TVertexKey _key;
         private TVertexData _data;
-        List<(IVertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData>, IEdge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>)> _incidentVertexes;
+        List<Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>> _incidentEdges;
 
         public Vertex(TVertexKey vertexKey, TVertexData vertexData)
         {
             _key = vertexKey;
             _data = vertexData;
-            _incidentVertexes = new List<(IVertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData>, IEdge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>)>();
+            _incidentEdges = new List<Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>>();
         }
 
         public TVertexKey GetKey()
@@ -20,9 +23,9 @@ namespace Ukol_A
             return _key;
         }
 
-        public List<(IVertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData>, IEdge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>)> GetIncidentVertexes()
+        public List<Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>> GetIncidentEdges()
         {
-            return _incidentVertexes;
+            return _incidentEdges;
         }
 
         public TVertexData Data

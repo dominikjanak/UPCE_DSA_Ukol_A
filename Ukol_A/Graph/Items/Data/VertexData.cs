@@ -2,7 +2,7 @@
 
 namespace Ukol_A
 {
-    public class VertexData : IVertexData
+    public class VertexData
     {
         private PointF _location;
         private VertexType _type;

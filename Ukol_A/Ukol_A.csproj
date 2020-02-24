@@ -51,16 +51,42 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Drawing\DoubleBufferedPanel.cs">
+    <Compile Include="DataManipulator\EdgeSerialize.cs" />
+    <Compile Include="DataManipulator\GraphData.cs" />
+    <Compile Include="DataManipulator\VertexSerialize.cs" />
+    <Compile Include="Dialog\SelectEdgeDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\SelectEdgeDialog.Designer.cs">
+      <DependentUpon>SelectEdgeDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialog\SelectVertexDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\SelectVertexDialog.Designer.cs">
+      <DependentUpon>SelectVertexDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialog\EdgeDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\EdgeDialog.Designer.cs">
+      <DependentUpon>EdgeDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialog\VertexDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\VertexDialog.Designer.cs">
+      <DependentUpon>VertexDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Drawing\Component\DoubleBufferedPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Drawing\GraphSize.cs" />
-    <Compile Include="Graph\Factory\IGraphItemFactory.cs" />
-    <Compile Include="Graph\Factory\GraphItemFactory.cs" />
+    <Compile Include="Drawing\Data\GraphSize.cs" />
+    <Compile Include="DataManipulator\DataManipulator.cs" />
     <Compile Include="Graph\Structure\Enums\EdgeType.cs" />
     <Compile Include="Graph\Structure\Enums\VertexType.cs" />
-    <Compile Include="Graph\Structure\Enums\LabelPosition.cs" />
-    <Compile Include="Drawing\Colors.cs" />
+    <Compile Include="Drawing\Data\LabelPosition.cs" />
+    <Compile Include="Drawing\Data\Colors.cs" />
     <Compile Include="Drawing\DrawGraph.cs" />
     <Compile Include="Extensions\DrawGraphExtension.cs" />
     <Compile Include="MainForm.cs">
@@ -70,17 +96,25 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Graph\Items\Data\EdgeData.cs" />
-    <Compile Include="Graph\Items\Data\IEdgeData.cs" />
-    <Compile Include="Graph\Items\Data\IVertexData.cs" />
     <Compile Include="Graph\Items\Data\VertexData.cs" />
     <Compile Include="Graph\Items\Edge.cs" />
     <Compile Include="Graph\ForestGraph.cs" />
     <Compile Include="Graph\IForestGraph.cs" />
-    <Compile Include="Graph\Items\IVertex.cs" />
-    <Compile Include="Graph\Items\IEdge.cs" />
     <Compile Include="Graph\Items\Vertex.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Dialog\SelectEdgeDialog.resx">
+      <DependentUpon>SelectEdgeDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialog\SelectVertexDialog.resx">
+      <DependentUpon>SelectVertexDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialog\EdgeDialog.resx">
+      <DependentUpon>EdgeDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialog\VertexDialog.resx">
+      <DependentUpon>VertexDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

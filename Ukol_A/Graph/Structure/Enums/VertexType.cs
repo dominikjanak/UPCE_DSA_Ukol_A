@@ -2,8 +2,8 @@
 {
     public enum VertexType
     {
-        Junction,   // Křižovatka 
-        RestArea,   // Odpočívadlo
-        Stop        // Zastávka
+        Junction,
+        RestArea,
+        Stop
     }
 }

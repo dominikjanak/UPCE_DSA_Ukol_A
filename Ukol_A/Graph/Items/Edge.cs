@@ -1,16 +1,20 @@
-﻿namespace Ukol_A
+﻿using System;
+
+namespace Ukol_A
 {
-    class Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> : IEdge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>
+    public class Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>
+        where TVertexKey : IComparable
+        where TEdgeKey : IComparable
     {
         private TEdgeKey _key;
         private TEdgeData _data;
 
-        private IVertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> _startVertex;
-        private IVertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> _endVertex;
+        private Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> _startVertex;
+        private Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> _endVertex;
 
         public Edge(TEdgeKey edgeKey, TEdgeData edgeData, 
-            IVertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> source, 
-            IVertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> destination)
+            Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> source, 
+            Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> destination)
         {
             _key = edgeKey;
             _data = edgeData;
@@ -29,16 +33,16 @@
             set => _data = value;
         }
 
-        public IVertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> GetStartVertex()
+        public Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> GetStartVertex()
         {
             return _startVertex;
         }
 
-        public IVertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> GetTargetVertex()
+        public Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> GetTargetVertex()
         {
             return _endVertex;
         }
-        public IVertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> GetOpositeVertex(IVertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> vertex)
+        public Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> GetOpositeVertex(Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> vertex)
         {
             if(vertex == _startVertex)
             {

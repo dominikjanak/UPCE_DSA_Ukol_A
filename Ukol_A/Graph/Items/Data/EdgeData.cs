@@ -1,6 +1,6 @@
 ﻿namespace Ukol_A
 {
-    public class EdgeData : IEdgeData
+    public class EdgeData
     {
         private EdgeType _type;
         private float _distance;
