@@ -10,8 +10,9 @@ namespace GUI
 {
     static class DataManipulator
     {
-        public static void SaveDataDialog(ForestGraph<string, VertexData, string, EdgeData> graph, bool openAfter = false)
+        public static bool SaveDataDialog(ForestGraph<string, VertexData, string, EdgeData> graph, bool openAfter = false)
         {
+            bool state = false;
             SaveFileDialog saveDialog = new SaveFileDialog()
             {
                 FileName = "GraphData_" + DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"),
@@ -22,15 +23,16 @@ namespace GUI
 
             if (saveDialog.ShowDialog() == DialogResult.OK)
             {
-                SaveData(graph, saveDialog.FileName);
+                state = SaveData(graph, saveDialog.FileName);
                 if (File.Exists(saveDialog.FileName) && openAfter) 
                 { 
                     Process.Start(saveDialog.FileName);
                 }
             }
+            return state;
         }
 
-        public static void SaveData(ForestGraph<string, VertexData, string, EdgeData> graph, string path)
+        public static bool SaveData(ForestGraph<string, VertexData, string, EdgeData> graph, string path)
         {
             try
             {
@@ -55,12 +57,14 @@ namespace GUI
                 TextWriter writer = new StreamWriter(path);
                 serializer.Serialize(writer, data);
                 writer.Close();
+                return true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("V průběhu exportování se vyskytla chyba:\n\n" + ex.Message, "Chyba exportu",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            return false;
         }
 
         public static void LoadData(ForestGraph<string, VertexData, string, EdgeData> graph)

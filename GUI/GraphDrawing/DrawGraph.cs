@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
@@ -26,6 +26,7 @@ namespace GUI.Drawing
             _canvasSize = new SizeF(drawingPanel.Width, drawingPanel.Height);
             _canvas = g;
             _canvas.SmoothingMode = SmoothingMode.HighQuality;
+            ClearCanvas();
 
         }
 
@@ -34,6 +35,7 @@ namespace GUI.Drawing
             _canvasSize = new SizeF(image.Width, image.Height);
             _canvas = Graphics.FromImage(image);
             _canvas.SmoothingMode = SmoothingMode.HighQuality;
+            ClearCanvas();
         }
 
         // Calculate graph scaling parameters (for form resizing)
@@ -50,6 +52,18 @@ namespace GUI.Drawing
         public void ClearCanvas()
         {
             _canvas.Clear(Color.White);
+            DrawWatermark();
+        }
+
+        private void DrawWatermark()
+        {
+            string watermark = "Forest Graph ‐ © 2020 ‐ Dominik Janák";
+            Font boldFont = new Font("Arial", 12, FontStyle.Bold, GraphicsUnit.Pixel); 
+            SolidBrush brush = new SolidBrush(Color.FromArgb(128, Colors.Black));
+
+            PointF labelPosition = CalculateLabelPosition(new PointF(_canvasSize.Width, _canvasSize.Height), 0, watermark, boldFont, LabelPosition.Left);
+            labelPosition.Y -= 13;
+            DrawLabel(watermark, labelPosition, brush, boldFont);
         }
 
         public void DrawPath(PointF start, PointF end)

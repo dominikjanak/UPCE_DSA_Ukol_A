@@ -17,6 +17,7 @@ namespace GUI
         private ForestGraph<string, VertexData, string, EdgeData> _forestGraph;
         private String _autoloadPath;
         private Point _newWindowPosition;
+        private bool _saved;
 
         public MainForm()
         {
@@ -25,6 +26,7 @@ namespace GUI
             _rectangle = new Rectangle(0, 0, 0, 0);
             _rectangleDrawing = false;
             _forestGraph = new ForestGraph<string, VertexData, string, EdgeData>();
+            _saved = true;
 #if DEBUG
             _autoloadPath = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
 #else
@@ -61,7 +63,10 @@ namespace GUI
 
         private void AutoloadSaveButton_Click(object sender, EventArgs e)
         {
-            DataManipulator.SaveData(_forestGraph, _autoloadPath);
+            if(DataManipulator.SaveData(_forestGraph, _autoloadPath))
+            {
+                _saved = false;
+            }
         }
 
         private void AutoloadLoadButton_Click(object sender, EventArgs e)
@@ -71,6 +76,16 @@ namespace GUI
                 DataManipulator.LoadData(_forestGraph, _autoloadPath);
                 graphCanvas.Invalidate();
             }
+        }
+
+        private void FindRouteButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CloseButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
         private void AddVertexButton_Click(object sender, EventArgs e)
@@ -90,6 +105,7 @@ namespace GUI
                     try
                     {
                         _forestGraph.AddVertex(newVertex.Key, data);
+                        _saved = false;
                     } 
                     catch (Exception ex)
                     {
@@ -119,6 +135,7 @@ namespace GUI
                     try
                     {
                         _forestGraph.RemoveVertex(selectVertex.Key);
+                        _saved = false;
                     }
                     catch (Exception ex)
                     {
@@ -150,6 +167,7 @@ namespace GUI
                     try
                     {
                         _forestGraph.AddEdge(newEdge.Key, newEdge.StartVertex, newEdge.TargetVertex, data);
+                        _saved = false;
                     }
                     catch (Exception ex)
                     {
@@ -179,6 +197,7 @@ namespace GUI
                     try
                     {
                         _forestGraph.RemoveEdge(selectEdge.StartVertex, selectEdge.TargetVertex);
+                        _saved = false;
                     }
                     catch (Exception ex)
                     {
@@ -224,7 +243,7 @@ namespace GUI
 
                 Bitmap bitmap = new Bitmap(width, height);
                 var drawer = new DrawGraph(bitmap);
-                //InitMySmallGraph(drawer);
+                _forestGraph.Draw(drawer);
 
                 bitmap.Save(path);
                 Process.Start(path);
@@ -243,7 +262,10 @@ namespace GUI
 
         private void SaveDataButton_Click(object sender, EventArgs e)
         {
-            DataManipulator.SaveDataDialog(_forestGraph, true);
+            if(DataManipulator.SaveDataDialog(_forestGraph, true))
+            {
+                _saved = true;
+            }
         }
 
         private void LoadDataButton_Click(object sender, EventArgs e)
@@ -351,7 +373,10 @@ namespace GUI
             {
                 if (keyData == (Keys.Control | Keys.S))
                 {
-                    DataManipulator.SaveData(_forestGraph, _autoloadPath);
+                    if(DataManipulator.SaveData(_forestGraph, _autoloadPath))
+                    {
+                        _saved = false;
+                    }
                 }
             }
             return base.ProcessCmdKey(ref msg, keyData);
@@ -366,6 +391,19 @@ namespace GUI
         private void MainForm_Move(object sender, EventArgs e)
         {
             _newWindowPosition = GetTopBorderPosition(RemoveEdgeButton);
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(_saved == true)
+            {
+                return;
+            }
+
+            if (DialogResult.Yes == MessageBox.Show("Máte neuložené zmìny, chcete je pøed koncem uložit?", "Neuložené zmìny", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+            {
+                DataManipulator.SaveDataDialog(_forestGraph);
+            }
         }
     }
 }
