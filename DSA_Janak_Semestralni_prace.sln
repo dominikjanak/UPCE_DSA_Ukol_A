@@ -5,10 +5,7 @@ VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ukol_A", "Ukol_A\Ukol_A.csproj", "{090AFE84-7836-4BD1-A1F9-71C9818E94EF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{55090790-8751-4769-BCEC-BF3ADE662CEC}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphService", "GraphService\GraphService.csproj", "{5F7B58C6-8CAD-4C45-85A3-EB1C1DE560C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +17,10 @@ Global
 		{090AFE84-7836-4BD1-A1F9-71C9818E94EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{090AFE84-7836-4BD1-A1F9-71C9818E94EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{090AFE84-7836-4BD1-A1F9-71C9818E94EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F7B58C6-8CAD-4C45-85A3-EB1C1DE560C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F7B58C6-8CAD-4C45-85A3-EB1C1DE560C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F7B58C6-8CAD-4C45-85A3-EB1C1DE560C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F7B58C6-8CAD-4C45-85A3-EB1C1DE560C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

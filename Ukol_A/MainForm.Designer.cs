@@ -30,18 +30,21 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.graphCanvas = new Ukol_A.DoubleBufferedPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.RemoveEdgeButton = new System.Windows.Forms.Button();
+            this.RemoveVertexButton = new System.Windows.Forms.Button();
+            this.AddEdgeButton = new System.Windows.Forms.Button();
+            this.AddVertexButton = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.programToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveImageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.closeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveDataButton = new System.Windows.Forms.ToolStripMenuItem();
             this.LoadDataButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.graphCanvas = new Ukol_A.DoubleBufferedPanel();
-            this.AddVertexButton = new System.Windows.Forms.Button();
-            this.AddEdgeButton = new System.Windows.Forms.Button();
-            this.RemoveVertexButton = new System.Windows.Forms.Button();
-            this.RemoveEdgeButton = new System.Windows.Forms.Button();
+            this.AutoloadButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.AutoloadSaveButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.AutoloadLoadButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.closeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -63,6 +66,22 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(760, 522);
             this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // graphCanvas
+            // 
+            this.graphCanvas.BackColor = System.Drawing.Color.White;
+            this.graphCanvas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.graphCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.graphCanvas.Location = new System.Drawing.Point(3, 2);
+            this.graphCanvas.Margin = new System.Windows.Forms.Padding(3, 2, 0, 3);
+            this.graphCanvas.Name = "graphCanvas";
+            this.graphCanvas.Size = new System.Drawing.Size(607, 517);
+            this.graphCanvas.TabIndex = 0;
+            this.graphCanvas.Paint += new System.Windows.Forms.PaintEventHandler(this.graphCanvas_Paint);
+            this.graphCanvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.graphCanvas_MouseDown);
+            this.graphCanvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.graphCanvas_MouseMove);
+            this.graphCanvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.graphCanvas_MouseUp);
+            this.graphCanvas.Resize += new System.EventHandler(this.graphCanvas_Resize);
             // 
             // tableLayoutPanel2
             // 
@@ -90,6 +109,66 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(147, 520);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
+            // RemoveEdgeButton
+            // 
+            this.RemoveEdgeButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.RemoveEdgeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.RemoveEdgeButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.RemoveEdgeButton.ForeColor = System.Drawing.SystemColors.Desktop;
+            this.RemoveEdgeButton.Location = new System.Drawing.Point(0, 105);
+            this.RemoveEdgeButton.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
+            this.RemoveEdgeButton.Name = "RemoveEdgeButton";
+            this.RemoveEdgeButton.Size = new System.Drawing.Size(147, 32);
+            this.RemoveEdgeButton.TabIndex = 4;
+            this.RemoveEdgeButton.Text = "Odstranit hranu";
+            this.RemoveEdgeButton.UseVisualStyleBackColor = false;
+            this.RemoveEdgeButton.Click += new System.EventHandler(this.RemoveEdgeButton_Click);
+            // 
+            // RemoveVertexButton
+            // 
+            this.RemoveVertexButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.RemoveVertexButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.RemoveVertexButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.RemoveVertexButton.ForeColor = System.Drawing.SystemColors.Desktop;
+            this.RemoveVertexButton.Location = new System.Drawing.Point(0, 70);
+            this.RemoveVertexButton.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
+            this.RemoveVertexButton.Name = "RemoveVertexButton";
+            this.RemoveVertexButton.Size = new System.Drawing.Size(147, 32);
+            this.RemoveVertexButton.TabIndex = 3;
+            this.RemoveVertexButton.Text = "Odstranit vrchol";
+            this.RemoveVertexButton.UseVisualStyleBackColor = false;
+            this.RemoveVertexButton.Click += new System.EventHandler(this.RemoveVertexButton_Click);
+            // 
+            // AddEdgeButton
+            // 
+            this.AddEdgeButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.AddEdgeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.AddEdgeButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.AddEdgeButton.ForeColor = System.Drawing.SystemColors.Desktop;
+            this.AddEdgeButton.Location = new System.Drawing.Point(0, 35);
+            this.AddEdgeButton.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
+            this.AddEdgeButton.Name = "AddEdgeButton";
+            this.AddEdgeButton.Size = new System.Drawing.Size(147, 32);
+            this.AddEdgeButton.TabIndex = 2;
+            this.AddEdgeButton.Text = "Přidat hranu";
+            this.AddEdgeButton.UseVisualStyleBackColor = false;
+            this.AddEdgeButton.Click += new System.EventHandler(this.AddEdgeButton_Click);
+            // 
+            // AddVertexButton
+            // 
+            this.AddVertexButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.AddVertexButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.AddVertexButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.AddVertexButton.ForeColor = System.Drawing.SystemColors.Desktop;
+            this.AddVertexButton.Location = new System.Drawing.Point(0, 0);
+            this.AddVertexButton.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
+            this.AddVertexButton.Name = "AddVertexButton";
+            this.AddVertexButton.Size = new System.Drawing.Size(147, 32);
+            this.AddVertexButton.TabIndex = 1;
+            this.AddVertexButton.Text = "Přidat vrchol";
+            this.AddVertexButton.UseVisualStyleBackColor = false;
+            this.AddVertexButton.Click += new System.EventHandler(this.AddVertexButton_Click);
+            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -106,6 +185,7 @@
             this.saveImageMenuItem,
             this.SaveDataButton,
             this.LoadDataButton,
+            this.AutoloadButton,
             this.closeMenuItem});
             this.programToolStripMenuItem.Name = "programToolStripMenuItem";
             this.programToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
@@ -114,106 +194,53 @@
             // saveImageMenuItem
             // 
             this.saveImageMenuItem.Name = "saveImageMenuItem";
-            this.saveImageMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.saveImageMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveImageMenuItem.Text = "Uložit obrázek";
             this.saveImageMenuItem.Click += new System.EventHandler(this.saveImageButton_Click);
-            // 
-            // closeMenuItem
-            // 
-            this.closeMenuItem.Name = "closeMenuItem";
-            this.closeMenuItem.Size = new System.Drawing.Size(148, 22);
-            this.closeMenuItem.Text = "Ukončit";
-            this.closeMenuItem.Click += new System.EventHandler(this.closeMenuItem_Click);
             // 
             // SaveDataButton
             // 
             this.SaveDataButton.Name = "SaveDataButton";
-            this.SaveDataButton.Size = new System.Drawing.Size(148, 22);
-            this.SaveDataButton.Text = "Uložit data";
+            this.SaveDataButton.Size = new System.Drawing.Size(180, 22);
+            this.SaveDataButton.Text = "Uložit jako...";
             this.SaveDataButton.Click += new System.EventHandler(this.SaveDataButton_Click);
             // 
             // LoadDataButton
             // 
             this.LoadDataButton.Name = "LoadDataButton";
-            this.LoadDataButton.Size = new System.Drawing.Size(148, 22);
-            this.LoadDataButton.Text = "Načíst data";
+            this.LoadDataButton.Size = new System.Drawing.Size(180, 22);
+            this.LoadDataButton.Text = "Načíst...";
             this.LoadDataButton.Click += new System.EventHandler(this.LoadDataButton_Click);
             // 
-            // graphCanvas
+            // AutoloadButton
             // 
-            this.graphCanvas.BackColor = System.Drawing.Color.White;
-            this.graphCanvas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.graphCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.graphCanvas.Location = new System.Drawing.Point(3, 2);
-            this.graphCanvas.Margin = new System.Windows.Forms.Padding(3, 2, 0, 3);
-            this.graphCanvas.Name = "graphCanvas";
-            this.graphCanvas.Size = new System.Drawing.Size(607, 517);
-            this.graphCanvas.TabIndex = 0;
-            this.graphCanvas.Paint += new System.Windows.Forms.PaintEventHandler(this.graphCanvas_Paint);
-            this.graphCanvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.graphCanvas_MouseDown);
-            this.graphCanvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.graphCanvas_MouseMove);
-            this.graphCanvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.graphCanvas_MouseUp);
-            this.graphCanvas.Resize += new System.EventHandler(this.graphCanvas_Resize);
+            this.AutoloadButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.AutoloadSaveButton,
+            this.AutoloadLoadButton});
+            this.AutoloadButton.Name = "AutoloadButton";
+            this.AutoloadButton.Size = new System.Drawing.Size(180, 22);
+            this.AutoloadButton.Text = "Autoload";
             // 
-            // AddVertexButton
+            // AutoloadSaveButton
             // 
-            this.AddVertexButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-            this.AddVertexButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.AddVertexButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.AddVertexButton.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.AddVertexButton.Location = new System.Drawing.Point(0, 0);
-            this.AddVertexButton.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
-            this.AddVertexButton.Name = "AddVertexButton";
-            this.AddVertexButton.Size = new System.Drawing.Size(147, 32);
-            this.AddVertexButton.TabIndex = 0;
-            this.AddVertexButton.Text = "Přidat vrchol";
-            this.AddVertexButton.UseVisualStyleBackColor = false;
-            this.AddVertexButton.Click += new System.EventHandler(this.AddVertexButton_Click);
+            this.AutoloadSaveButton.Name = "AutoloadSaveButton";
+            this.AutoloadSaveButton.Size = new System.Drawing.Size(107, 22);
+            this.AutoloadSaveButton.Text = "Uložit";
+            this.AutoloadSaveButton.Click += new System.EventHandler(this.AutoloadSaveButton_Click);
             // 
-            // AddEdgeButton
+            // AutoloadLoadButton
             // 
-            this.AddEdgeButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-            this.AddEdgeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.AddEdgeButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.AddEdgeButton.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.AddEdgeButton.Location = new System.Drawing.Point(0, 35);
-            this.AddEdgeButton.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
-            this.AddEdgeButton.Name = "AddEdgeButton";
-            this.AddEdgeButton.Size = new System.Drawing.Size(147, 32);
-            this.AddEdgeButton.TabIndex = 1;
-            this.AddEdgeButton.Text = "Přidat hranu";
-            this.AddEdgeButton.UseVisualStyleBackColor = false;
-            this.AddEdgeButton.Click += new System.EventHandler(this.AddEdgeButton_Click);
+            this.AutoloadLoadButton.Name = "AutoloadLoadButton";
+            this.AutoloadLoadButton.Size = new System.Drawing.Size(107, 22);
+            this.AutoloadLoadButton.Text = "Načíst";
+            this.AutoloadLoadButton.Click += new System.EventHandler(this.AutoloadLoadButton_Click);
             // 
-            // RemoveVertexButton
+            // closeMenuItem
             // 
-            this.RemoveVertexButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-            this.RemoveVertexButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.RemoveVertexButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.RemoveVertexButton.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.RemoveVertexButton.Location = new System.Drawing.Point(0, 70);
-            this.RemoveVertexButton.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
-            this.RemoveVertexButton.Name = "RemoveVertexButton";
-            this.RemoveVertexButton.Size = new System.Drawing.Size(147, 32);
-            this.RemoveVertexButton.TabIndex = 2;
-            this.RemoveVertexButton.Text = "Odstranit vrchol";
-            this.RemoveVertexButton.UseVisualStyleBackColor = false;
-            this.RemoveVertexButton.Click += new System.EventHandler(this.RemoveVertexButton_Click);
-            // 
-            // RemoveEdgeButton
-            // 
-            this.RemoveEdgeButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-            this.RemoveEdgeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.RemoveEdgeButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.RemoveEdgeButton.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.RemoveEdgeButton.Location = new System.Drawing.Point(0, 105);
-            this.RemoveEdgeButton.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
-            this.RemoveEdgeButton.Name = "RemoveEdgeButton";
-            this.RemoveEdgeButton.Size = new System.Drawing.Size(147, 32);
-            this.RemoveEdgeButton.TabIndex = 2;
-            this.RemoveEdgeButton.Text = "Odstranit hranu";
-            this.RemoveEdgeButton.UseVisualStyleBackColor = false;
-            this.RemoveEdgeButton.Click += new System.EventHandler(this.RemoveEdgeButton_Click);
+            this.closeMenuItem.Name = "closeMenuItem";
+            this.closeMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.closeMenuItem.Text = "Ukončit";
+            this.closeMenuItem.Click += new System.EventHandler(this.closeMenuItem_Click);
             // 
             // MainForm
             // 
@@ -228,6 +255,7 @@
             this.Name = "MainForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.Text = "UPCE DSA – Semestrální práce";
+            this.Move += new System.EventHandler(this.MainForm_Move);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
@@ -252,6 +280,9 @@
         private System.Windows.Forms.Button RemoveVertexButton;
         private System.Windows.Forms.Button AddEdgeButton;
         private System.Windows.Forms.Button AddVertexButton;
+        private System.Windows.Forms.ToolStripMenuItem AutoloadButton;
+        private System.Windows.Forms.ToolStripMenuItem AutoloadSaveButton;
+        private System.Windows.Forms.ToolStripMenuItem AutoloadLoadButton;
     }
 }
 

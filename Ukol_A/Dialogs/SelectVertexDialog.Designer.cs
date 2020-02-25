@@ -161,6 +161,7 @@
             this.KeyTextbox.Size = new System.Drawing.Size(175, 22);
             this.KeyTextbox.TabIndex = 1;
             this.KeyTextbox.TextChanged += new System.EventHandler(this.KeyTextbox_TextChanged);
+            this.KeyTextbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormSubmit_KeyUp);
             // 
             // label1
             // 
@@ -183,7 +184,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SelectVertexDialog";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Odstranit vrchol";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SelectVertexDialog_FormClosing);
             this.tableLayoutPanel1.ResumeLayout(false);

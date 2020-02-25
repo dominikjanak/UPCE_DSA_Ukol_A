@@ -2,7 +2,7 @@
 
 namespace Ukol_A
 {
-    public class Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>
+    public class Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> 
         where TVertexKey : IComparable
         where TEdgeKey : IComparable
     {
@@ -12,8 +12,8 @@ namespace Ukol_A
         private Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> _startVertex;
         private Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> _endVertex;
 
-        public Edge(TEdgeKey edgeKey, TEdgeData edgeData, 
-            Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> source, 
+        public Edge(TEdgeKey edgeKey, TEdgeData edgeData,
+            Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> source,
             Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> destination)
         {
             _key = edgeKey;
@@ -28,7 +28,7 @@ namespace Ukol_A
         }
 
         public TEdgeData Data
-        { 
+        {
             get => _data;
             set => _data = value;
         }
@@ -44,7 +44,7 @@ namespace Ukol_A
         }
         public Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> GetOpositeVertex(Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> vertex)
         {
-            if(vertex == _startVertex)
+            if (vertex == _startVertex)
             {
                 return _endVertex;
             }

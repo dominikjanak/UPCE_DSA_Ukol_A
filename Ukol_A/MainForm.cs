@@ -1,8 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
 using Ukol_A.Dialog;
@@ -15,7 +13,9 @@ namespace Ukol_A
         private DrawGraph _drawer;
         private RectangleF _rectangle; // Contains relative data (before graph calculations it must be denormalized)
         private bool _rectangleDrawing;
-        ForestGraph<string, VertexData, string, EdgeData> _forestGraph;
+        private ForestGraph<string, VertexData, string, EdgeData> _forestGraph;
+        private String _autoloadPath;
+        private Point _newWindowPosition;
 
         public MainForm()
         {
@@ -24,13 +24,60 @@ namespace Ukol_A
             _rectangle = new Rectangle(0, 0, 0, 0);
             _rectangleDrawing = false;
             _forestGraph = new ForestGraph<string, VertexData, string, EdgeData>();
+#if DEBUG
+            _autoloadPath = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
+#else
+            _autoloadPath = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
+#endif
+            _autoloadPath += @"\autoload.xml";
 
-            DataManipulator.InitializeSmall(_forestGraph);
+            if(File.Exists(_autoloadPath))
+            {
+                DataManipulator.LoadData(_forestGraph, _autoloadPath);
+                graphCanvas.Invalidate();
+            }
+
+            _newWindowPosition = GetTopBorderPosition(RemoveEdgeButton);
+        }
+
+        private Point GetTopBorderPosition(Control control)
+        {
+            Point result = control.Location;
+            result.X += 2;
+            result.Y += 2*control.Size.Height+1;
+
+            Control parent = control.Parent;
+            while (!(parent is Form))
+            {
+                result.X += parent.Location.X;
+                result.Y += parent.Location.Y;
+                parent = parent.Parent;
+            }
+            result.X += FindForm().DesktopLocation.X;
+            result.Y += FindForm().DesktopLocation.Y;
+            return result;
+        }
+
+        private void AutoloadSaveButton_Click(object sender, EventArgs e)
+        {
+            DataManipulator.SaveData(_forestGraph, _autoloadPath);
+        }
+
+        private void AutoloadLoadButton_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(_autoloadPath))
+            {
+                DataManipulator.LoadData(_forestGraph, _autoloadPath);
+                graphCanvas.Invalidate();
+            }
         }
 
         private void AddVertexButton_Click(object sender, EventArgs e)
         {
-            VertexDialog newVertex = new VertexDialog();
+            VertexDialog newVertex = new VertexDialog()
+            {
+                Location = _newWindowPosition
+            };
             bool repeate = true;
 
             do
@@ -38,11 +85,17 @@ namespace Ukol_A
                 if (DialogResult.OK == newVertex.ShowDialog())
                 {
                     VertexData data = new VertexData(new PointF(newVertex.X, newVertex.Y), newVertex.Type);
-                    if (!_forestGraph.AddVertex(newVertex.Key, data))
+
+                    try
                     {
-                        MessageBox.Show("Vrchol s tímto klíèem již existuje", "Nastala chyba", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        _forestGraph.AddVertex(newVertex.Key, data);
+                    } 
+                    catch (Exception ex)
+                    {
+                        ShowErrorDialog(ex.Message);
                         continue;
                     }
+
                     graphCanvas.Invalidate();
                     repeate = false;
                 }
@@ -52,19 +105,26 @@ namespace Ukol_A
 
         private void RemoveVertexButton_Click(object sender, EventArgs e)
         {
-            SelectVertexDialog selectVertex = new SelectVertexDialog();
+            SelectVertexDialog selectVertex = new SelectVertexDialog()
+            {
+                Location = _newWindowPosition
+            };
             bool repeate = true;
 
             do
             {
                 if (DialogResult.OK == selectVertex.ShowDialog())
                 {
-                    string key = selectVertex.Key;
-                    if (_forestGraph.RemoveVertex(key) == null)
+                    try
                     {
-                        MessageBox.Show("Vrchol s tímto klíèem neexistuje, nebylo ho tak možné odstranit!", "Nastala chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        _forestGraph.RemoveVertex(selectVertex.Key);
+                    }
+                    catch (Exception ex)
+                    {
+                        ShowErrorDialog(ex.Message);
                         continue;
                     }
+
                     graphCanvas.Invalidate();
                     repeate = false;
                 }
@@ -74,7 +134,10 @@ namespace Ukol_A
 
         private void AddEdgeButton_Click(object sender, EventArgs e)
         {
-            EdgeDialog newEdge = new EdgeDialog();
+            EdgeDialog newEdge = new EdgeDialog()
+            {
+                Location = _newWindowPosition
+            };
             bool repeate = true;
 
             do
@@ -82,11 +145,17 @@ namespace Ukol_A
                 if (DialogResult.OK == newEdge.ShowDialog())
                 {
                     EdgeData data = new EdgeData(newEdge.Distance, EdgeType.Free);
-                    if (!_forestGraph.AddEdge(newEdge.Key, newEdge.StartVertex, newEdge.TargetVertex, data))
+
+                    try
                     {
-                        MessageBox.Show("Hranu se nepodaøilo vytvoøit. Je pravdìpodovné, je již existuje!", "Nastala chyba", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        _forestGraph.AddEdge(newEdge.Key, newEdge.StartVertex, newEdge.TargetVertex, data);
+                    }
+                    catch (Exception ex)
+                    {
+                        ShowErrorDialog(ex.Message);
                         continue;
                     }
+
                     graphCanvas.Invalidate();
                     repeate = false;
                 }
@@ -96,23 +165,36 @@ namespace Ukol_A
 
         private void RemoveEdgeButton_Click(object sender, EventArgs e)
         {
-            SelectEdgeDialog selectEdge = new SelectEdgeDialog();
+            SelectEdgeDialog selectEdge = new SelectEdgeDialog()
+            {
+                Location = _newWindowPosition
+            };
             bool repeate = true;
 
             do
             {
                 if (DialogResult.OK == selectEdge.ShowDialog())
                 {
-                    if (_forestGraph.RemoveEdge(selectEdge.StartVertex, selectEdge.TargetVertex) == null)
+                    try
                     {
-                        MessageBox.Show("Hrana s tìmito vrcholy neexistuje, nebylo jí tak možné odstranit!", "Nastala chyba", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        _forestGraph.RemoveEdge(selectEdge.StartVertex, selectEdge.TargetVertex);
+                    }
+                    catch (Exception ex)
+                    {
+                        ShowErrorDialog(ex.Message);
                         continue;
                     }
+
                     graphCanvas.Invalidate();
                     repeate = false;
                 }
                 repeate = false;
             } while (repeate);
+        }
+
+        private void ShowErrorDialog(string message)
+        {
+            MessageBox.Show(message, "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         public void SaveImageManager(Panel canvas)
@@ -154,7 +236,7 @@ namespace Ukol_A
 
         private void SaveDataButton_Click(object sender, EventArgs e)
         {
-            DataManipulator.SaveData(_forestGraph);
+            DataManipulator.SaveDataDialog(_forestGraph, true);
         }
 
         private void LoadDataButton_Click(object sender, EventArgs e)
@@ -168,16 +250,11 @@ namespace Ukol_A
             _drawer.InitCanvas(graphCanvas.Size, e.Graphics);
             _forestGraph.Draw(_drawer);
 
-            if (!_rectangle.Location.IsEmpty && !_rectangle.Size.IsEmpty)
+            if (!_rectangle.Location.IsEmpty && !_rectangle.Size.IsEmpty && _rectangleDrawing)
             {
                 RectangleF rectangle = new RectangleF(_rectangle.Location, _rectangle.Size);
                 _drawer.DrawRectangle(rectangle);
             }
-        }
-
-        private void graphCanvas_Resize(object sender, EventArgs e)
-        {
-            graphCanvas.Invalidate();
         }
 
         private void graphCanvas_MouseDown(object sender, MouseEventArgs e)
@@ -202,6 +279,8 @@ namespace Ukol_A
             if (e.Button == MouseButtons.Left)
             {
                 _rectangleDrawing = false;
+                UpdateEdgeType();
+                graphCanvas.Invalidate();
             }
         }
 
@@ -212,10 +291,74 @@ namespace Ukol_A
                 PointF location = e.Location;
                 _drawer.Denormalize(ref location);
 
-                SizeF size = new SizeF(location.X - _rectangle.Location.X, location.Y - _rectangle.Location.Y);
-                _rectangle.Size = size;
+                _rectangle.Width = location.X - _rectangle.Location.X;
+                _rectangle.Height = location.Y - _rectangle.Location.Y;
+
                 graphCanvas.Invalidate();
             }
+        }
+
+        private void UpdateEdgeType()
+        {
+            var edges = _forestGraph.GetAllEdges();
+
+            foreach(var edge in edges)
+            {
+                edge.data.EdgeType = EdgeType.Free;
+            }
+
+            var vertexes = _forestGraph.GetAllVertexes();            
+            
+            foreach (var vertex in vertexes)
+            {
+                var loc = vertex.data.GetLocation();
+                RectangleF rect = _rectangle;
+
+                if (rect.Width < 0)
+                {
+                    rect.Width = -rect.Width;
+                    rect.X -= rect.Width;
+                }
+                if (_rectangle.Height < 0)
+                {
+                    rect.Height = -rect.Height;
+                    rect.Y -= rect.Height;
+                }
+
+                if (loc.X >= rect.Left && loc.X <= rect.Left + rect.Width &&
+                    loc.Y >= rect.Top && loc.Y <= rect.Top + rect.Height)
+                {
+                    var incidentEdges = _forestGraph.GetVertexIncidents(vertex.key);
+
+                    foreach(var edge in incidentEdges)
+                    {
+                        edge.data.EdgeType = EdgeType.Blocked;
+                    }
+                }
+            }
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (msg.Msg == 256)
+            {
+                if (keyData == (Keys.Control | Keys.S))
+                {
+                    DataManipulator.SaveData(_forestGraph, _autoloadPath);
+                }
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private void graphCanvas_Resize(object sender, EventArgs e)
+        {
+            graphCanvas.Invalidate();
+            _newWindowPosition = GetTopBorderPosition(RemoveEdgeButton);
+        }
+
+        private void MainForm_Move(object sender, EventArgs e)
+        {
+            _newWindowPosition = GetTopBorderPosition(RemoveEdgeButton);
         }
     }
 }

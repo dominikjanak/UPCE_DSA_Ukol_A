@@ -7,10 +7,17 @@ namespace Ukol_A
 {
     public static class DrawGraphExtension
     {
-        public static void Draw(this IForestGraph<string, VertexData, string, EdgeData> graph, DrawGraph drawer)
+        public static void Draw(this ForestGraph<string, VertexData, string, EdgeData> graph, DrawGraph drawer)
         {
             var vertexes = graph.GetAllVertexes();
             var edges = graph.GetAllEdges();
+
+            Dictionary<string, VertexData> mappedVertexes = new Dictionary<string, VertexData>();
+
+            foreach(var v in vertexes)
+            {
+                mappedVertexes.Add(v.key, v.data);
+            }
 
             int vertexesCount = vertexes.Count;
             int edgesCount = edges.Count;
@@ -28,31 +35,34 @@ namespace Ukol_A
             for (int i = 0; i < edgesCount; i++)
             {
                 var edge = edges[i];
-                var edgeVertexA = edge.GetStartVertex();
-                var edgeVertexB = edge.GetTargetVertex();
+                VertexData vertexA = null;
+                VertexData vertexB = null;
 
-                drawer.DrawEdge(edgeVertexA.Data.GetLocation(), edgeVertexB.Data.GetLocation(), edge.Data.GetEdgeType(), edge.Data.GetDistance().ToString());
+                if (mappedVertexes.TryGetValue(edge.start, out vertexA) && mappedVertexes.TryGetValue(edge.target, out vertexB))
+                {
+                    drawer.DrawEdge(vertexA.GetLocation(), vertexB.GetLocation(), edge.data.EdgeType, edge.data.GetDistance().ToString());
+                }                
             }
 
             for (int i = 0; i < vertexesCount; i++)
             {
                 var vertex = vertexes[i];
-                drawer.DrawVertex(vertex.Data.GetLocation(), vertex.Data.GetVertexType(), vertex.GetKey().ToString());
+                drawer.DrawVertex(vertex.data.GetLocation(), vertex.data.GetVertexType(), vertex.key.ToString());
             }
         }
 
-        private static GraphSize<float> CalculateGraphSize(List<Vertex<string, VertexData, string, EdgeData>> vertexes)
+        private static GraphSize<float> CalculateGraphSize(List<(string key, VertexData data)> vertexes)
         {
-            float xLoc = vertexes[0].Data.GetLocation().X;
-            float yLoc = vertexes[0].Data.GetLocation().Y;
+            float xLoc = vertexes[0].data.GetLocation().X;
+            float yLoc = vertexes[0].data.GetLocation().Y;
             int vertexesCount = vertexes.Count;
 
             GraphSize<float> graphSize = new GraphSize<float>(xLoc, xLoc, yLoc, yLoc);
 
             for (int i = 1; i < vertexesCount; i++)
             {
-                float x = vertexes[i].Data.GetLocation().X;
-                float y = vertexes[i].Data.GetLocation().Y;
+                float x = vertexes[i].data.GetLocation().X;
+                float y = vertexes[i].data.GetLocation().Y;
 
                 if (graphSize.XMax < x) { graphSize.XMax = x; }
                 if (graphSize.XMin > x) { graphSize.XMin = x; }

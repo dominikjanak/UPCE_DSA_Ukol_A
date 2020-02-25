@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ukol_A
 {
-    public class Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData>
+    public class Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> 
         where TVertexKey : IComparable
         where TEdgeKey : IComparable
     {
@@ -23,7 +23,7 @@ namespace Ukol_A
             return _key;
         }
 
-        public List<Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>> GetIncidentEdges()
+        public List<Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>> IncidentEdges()
         {
             return _incidentEdges;
         }

@@ -11,7 +11,7 @@ namespace Ukol_A
 {
     static class DataManipulator
     {
-        public static void SaveData(ForestGraph<string, VertexData, string, EdgeData> graph)
+        public static void SaveDataDialog(ForestGraph<string, VertexData, string, EdgeData> graph, bool openAfter = false)
         {
             SaveFileDialog saveDialog = new SaveFileDialog()
             {
@@ -23,38 +23,45 @@ namespace Ukol_A
 
             if (saveDialog.ShowDialog() == DialogResult.OK)
             {
-                try
-                {
-                    GraphData data = new GraphData();
-
-                    foreach (var vertex in graph.GetAllVertexes())
-                    {
-                        VertexSerialize v = new VertexSerialize(vertex.GetKey(), vertex.Data.GetLocation().X,
-                            vertex.Data.GetLocation().Y, vertex.Data.GetVertexType());
-                        data.Vertexes.Add(v);
-                    }
-
-                    foreach (var edge in graph.GetAllEdges())
-                    {
-                        EdgeSerialize e = new EdgeSerialize(edge.GetKey(), edge.GetStartVertex().GetKey(),
-                            edge.GetTargetVertex().GetKey(), edge.Data.GetDistance());
-                        data.Edges.Add(e);
-                    }
-
-                    XmlSerializer serializer = new XmlSerializer(typeof(GraphData));
-                    TextWriter writer = new StreamWriter(saveDialog.FileName);
-                    serializer.Serialize(writer, data);
-                    writer.Close();
+                SaveData(graph, saveDialog.FileName);
+                if (File.Exists(saveDialog.FileName) && openAfter) 
+                { 
                     Process.Start(saveDialog.FileName);
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Chyba exportu", "V průběhu exportování se vyskytla chyba:\n\n" + ex.Message, 
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
             }
+        }
 
-            
+        public static void SaveData(ForestGraph<string, VertexData, string, EdgeData> graph, string path)
+        {
+            try
+            {
+                GraphData data = new GraphData();
+
+                var allVertexes = graph.GetAllVertexes();
+                foreach (var vertex in allVertexes)
+                {
+                    VertexSerialize v = new VertexSerialize(vertex.key, vertex.data.GetLocation().X,
+                        vertex.data.GetLocation().Y, vertex.data.GetVertexType());
+                    data.Vertexes.Add(v);
+                }
+
+                var allEdges = graph.GetAllEdges();
+                foreach (var edge in allEdges)
+                {
+                    EdgeSerialize e = new EdgeSerialize(edge.key, edge.start, edge.target, edge.data.GetDistance());
+                    data.Edges.Add(e);
+                }
+
+                XmlSerializer serializer = new XmlSerializer(typeof(GraphData));
+                TextWriter writer = new StreamWriter(path);
+                serializer.Serialize(writer, data);
+                writer.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("V průběhu exportování se vyskytla chyba:\n\n" + ex.Message, "Chyba exportu",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         public static void LoadData(ForestGraph<string, VertexData, string, EdgeData> graph)
@@ -68,45 +75,59 @@ namespace Ukol_A
 
             if (loadDialog.ShowDialog() == DialogResult.OK)
             {
-                try
-                {
-                    GraphData data;
-
-                    StreamReader sr = new StreamReader(loadDialog.FileName);
-                    XmlSerializer deserializer = new XmlSerializer(typeof(GraphData));
-                    data = (GraphData)deserializer.Deserialize(sr);
-                    sr.Close();
-
-                    if (!graph.IsEmpty())
-                    {
-                        DialogResult result = MessageBox.Show("Přepsat data", "V programu již existuji data, chcete je přapsat?", 
-                            MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                        if(result == DialogResult.Yes)
-                        {
-                            graph.Clear();
-
-                            foreach (var v in data.Vertexes)
-                            {
-                                VertexData vertexData = new VertexData(new PointF(v.X, v.Y), v.Type);
-                                graph.AddVertex(v.ID, vertexData);
-                            }
-
-                            foreach (var e in data.Edges)
-                            {
-                                EdgeData edgeData = new EdgeData(e.Size, EdgeType.Free);
-                                graph.AddEdge(e.ID, e.Start, e.Target, edgeData);
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Chyba importu", "V průběhu importování se vyskytla chyba:\n\n" + ex.Message, 
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                LoadData(graph, loadDialog.FileName);
             }
         }
 
+        public static void LoadData(ForestGraph<string, VertexData, string, EdgeData> graph, string path)
+        {
+            try
+            {
+                GraphData data;
+
+                StreamReader sr = new StreamReader(path);
+                XmlSerializer deserializer = new XmlSerializer(typeof(GraphData));
+                data = (GraphData)deserializer.Deserialize(sr);
+                sr.Close();
+
+                bool replaceData = false;
+
+                if (!graph.IsEmpty())
+                {
+                    DialogResult result = MessageBox.Show("V programu již existuji data, chcete je přapsat?", "Existující data",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                    {
+                        replaceData = true;
+                    }
+                }
+
+                if(graph.IsEmpty() || (!graph.IsEmpty() && replaceData))
+                { 
+                    graph.Clear();
+
+                    foreach (var v in data.Vertexes)
+                    {
+                        VertexData vertexData = new VertexData(new PointF(v.X, v.Y), v.Type);
+                        graph.AddVertex(v.ID, vertexData);
+                    }
+
+                    foreach (var e in data.Edges)
+                    {
+                        EdgeData edgeData = new EdgeData(e.Size, EdgeType.Free);
+                        graph.AddEdge(e.ID, e.Start, e.Target, edgeData);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("V průběhu importování se vyskytla chyba:\n\n" + ex.Message, "Chyba importu",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /*
 
         public static void InitializeBig(ForestGraph<string, VertexData, string, EdgeData> graph)
         {
@@ -164,7 +185,7 @@ namespace Ukol_A
 
         private static void InitializeEdges(ForestGraph<string, VertexData, string, EdgeData> graph, List<(string start, string target, EdgeType type, float size)> edges)
         {
-            /*int idx = 1;
+            int idx = 1;
 
             foreach (var vertex in vertexes)
             {
@@ -187,7 +208,7 @@ namespace Ukol_A
                 VertexData vertexData = new VertexData(point, vertex.type);
 
                 graph.AddVertex(key, vertexData);
-            } */
+            } 
         }
 
 
@@ -300,5 +321,6 @@ namespace Ukol_A
            {
            };            
         }
+    */
     }
 }

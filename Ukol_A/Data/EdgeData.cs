@@ -11,10 +11,12 @@
             _type = type;
         }
 
-        public EdgeType GetEdgeType()
+        public EdgeType EdgeType
         {
-            return _type;
+            get => _type;
+            set => _type = value;
         }
+
         public float GetDistance()
         {
             return _distance;
