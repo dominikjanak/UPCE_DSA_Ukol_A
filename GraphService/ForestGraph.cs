@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Ukol_A
+namespace ForestGraph
 {
     public class ForestGraph<TVertexKey, TVertexData, TEdgeKey, TEdgeData> 
         : IForestGraph<TVertexKey, TVertexData, TEdgeKey, TEdgeData>
@@ -46,9 +46,9 @@ namespace Ukol_A
 
         protected void AddVertex(Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> vertex)
         {
-            if (!_vertexes.ContainsKey(vertex.GetKey()))
+            if (!_vertexes.ContainsKey(vertex.Key))
             {
-                _vertexes.Add(vertex.GetKey(), vertex);
+                _vertexes.Add(vertex.Key, vertex);
                 return;
             }
             throw new UniqueKeyException("Zadaný klíč vrcholu již existuje!");
@@ -67,7 +67,7 @@ namespace Ukol_A
                 throw new ItemNotFoundException("Vrchol určený ke smazání nebyl v grafu nalezen!");
             }            
 
-            List<TEdgeKey> edges = vertex.IncidentEdges().Select(edge => edge.GetKey()).ToList();
+            List<TEdgeKey> edges = vertex.IncidentEdges.Select(edge => edge.Key).ToList();
 
             foreach (var edge in edges)
             {
@@ -75,7 +75,7 @@ namespace Ukol_A
             }
 
             TVertexData data = vertex.Data;
-            _vertexes.Remove(vertex.GetKey());
+            _vertexes.Remove(vertex.Key);
             return data;
         }
 
@@ -115,13 +115,13 @@ namespace Ukol_A
 
         protected void AddEdge(Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> edge)
         {
-            if (HasEdge(edge.GetKey()))
+            if (HasEdge(edge.Key))
             {
                 throw new UniqueKeyException("Zadaný klíč hrany již existuje!");
             }
 
-            var startVertex = edge.GetStartVertex();
-            var targetVertex = edge.GetTargetVertex();
+            var startVertex = edge.StartVertex;
+            var targetVertex = edge.TargetVertex;
 
             if (startVertex == null || targetVertex == null)
             {
@@ -133,9 +133,9 @@ namespace Ukol_A
                 throw new UniqueItemException("Tato hrana v grafu již existuje!");
             }
 
-            _edges.Add(edge.GetKey(), edge);
-            startVertex.IncidentEdges().Add(edge);
-            targetVertex.IncidentEdges().Add(edge);
+            _edges.Add(edge.Key, edge);
+            startVertex.IncidentEdges.Add(edge);
+            targetVertex.IncidentEdges.Add(edge);
         }
 
         public TEdgeData RemoveEdge(TEdgeKey key)
@@ -157,19 +157,19 @@ namespace Ukol_A
                 throw new ItemNotFoundException("Hrana určená ke smazání nebyla v grafu nalezena!");
             }
 
-            var startVertex = edge.GetStartVertex();
-            var targetVertex = edge.GetTargetVertex();
+            var startVertex = edge.StartVertex;
+            var targetVertex = edge.TargetVertex;
 
             if (startVertex == null || targetVertex == null)
             {
                 throw new ItemNotFoundException("Zvolené vrcholy v grafu neexistují!");
             }
 
-            startVertex.IncidentEdges().Remove(edge);
-            targetVertex.IncidentEdges().Remove(edge);
+            startVertex.IncidentEdges.Remove(edge);
+            targetVertex.IncidentEdges.Remove(edge);
 
             TEdgeData data = edge.Data;
-            _edges.Remove(edge.GetKey());
+            _edges.Remove(edge.Key);
 
             return data;
         }
@@ -196,7 +196,7 @@ namespace Ukol_A
                 return null;
             }
 
-            foreach (var edge in start.IncidentEdges())
+            foreach (var edge in start.IncidentEdges)
             {
                 if (edge.GetOpositeVertex(start) == target)
                 {
@@ -257,7 +257,7 @@ namespace Ukol_A
 
             foreach (var edge in _edges)
             {
-                allEdge.Add((edge.Key, edge.Value.Data, edge.Value.GetStartVertex().GetKey(), edge.Value.GetTargetVertex().GetKey()));
+                allEdge.Add((edge.Key, edge.Value.Data, edge.Value.StartVertex.Key, edge.Value.TargetVertex.Key));
             }
 
             return allEdge;
@@ -273,10 +273,10 @@ namespace Ukol_A
                 return null;
             }
 
-            var incidentEdges = vertex.IncidentEdges();
+            var incidentEdges = vertex.IncidentEdges;
             foreach (var edge in incidentEdges)
             {
-                data.Add((edge.GetKey(), edge.Data, edge.GetTargetVertex().GetKey()));
+                data.Add((edge.Key, edge.Data, edge.TargetVertex.Key));
             }
             return data;
         }
@@ -302,8 +302,8 @@ namespace Ukol_A
 
             return new List<(TVertexKey key, TVertexData data)>()
             {
-                (edge.GetStartVertex().GetKey(), edge.GetStartVertex().Data),
-                (edge.GetTargetVertex().GetKey(), edge.GetTargetVertex().Data)
+                (edge.StartVertex.Key, edge.StartVertex.Data),
+                (edge.TargetVertex.Key, edge.TargetVertex.Data)
             };
         }
     }

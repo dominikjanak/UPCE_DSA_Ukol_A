@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Ukol_A
+namespace ForestGraph
 {
     public interface IForestGraph<TVertexKey, TVertexData, TEdgeKey, TEdgeData> 
         where TVertexKey : IComparable 

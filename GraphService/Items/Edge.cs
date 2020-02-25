@@ -1,59 +1,40 @@
 ﻿using System;
 
-namespace Ukol_A
+namespace ForestGraph
 {
-    public class Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> 
-        where TVertexKey : IComparable
+    public class Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>
+        : IEdge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>
         where TEdgeKey : IComparable
+        where TVertexKey : IComparable
     {
-        private TEdgeKey _key;
-        private TEdgeData _data;
+        public TEdgeKey Key { get; }
+        public TEdgeData Data { get; set; }
 
-        private Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> _startVertex;
-        private Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> _endVertex;
+        public Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> StartVertex { get; set; }
+        public Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> TargetVertex { get; set; }
 
-        public Edge(TEdgeKey edgeKey, TEdgeData edgeData,
-            Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> source,
+        public Edge(TEdgeKey edgeKey, TEdgeData edgeData, 
+            Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> source, 
             Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> destination)
         {
-            _key = edgeKey;
-            _data = edgeData;
-            _startVertex = source;
-            _endVertex = destination;
+            Key = edgeKey;
+            Data = edgeData;
+            StartVertex = source;
+            TargetVertex = destination;
         }
 
-        public TEdgeKey GetKey()
-        {
-            return _key;
-        }
-
-        public TEdgeData Data
-        {
-            get => _data;
-            set => _data = value;
-        }
-
-        public Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> GetStartVertex()
-        {
-            return _startVertex;
-        }
-
-        public Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> GetTargetVertex()
-        {
-            return _endVertex;
-        }
         public Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> GetOpositeVertex(Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> vertex)
         {
-            if (vertex == _startVertex)
+            if (vertex == StartVertex)
             {
-                return _endVertex;
+                return TargetVertex;
             }
-            return _startVertex;
+            return StartVertex;
         }
 
         public override string ToString()
         {
-            return _key.ToString();
+            return Key.ToString();
         }
     }
 }

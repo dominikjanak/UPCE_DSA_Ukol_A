@@ -1,42 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Ukol_A
+namespace ForestGraph
 {
-    public class Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> 
-        where TVertexKey : IComparable
+    public class Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData>
+        : IVertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData>
         where TEdgeKey : IComparable
+        where TVertexKey : IComparable
     {
-        private TVertexKey _key;
-        private TVertexData _data;
-        List<Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>> _incidentEdges;
+        public TVertexKey Key { get; }
+        public TVertexData Data { get; set; }
+        public List<Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>> IncidentEdges { get; }
 
-        public Vertex(TVertexKey vertexKey, TVertexData vertexData)
+        public Vertex(TVertexKey key, TVertexData data)
         {
-            _key = vertexKey;
-            _data = vertexData;
-            _incidentEdges = new List<Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>>();
-        }
-
-        public TVertexKey GetKey()
-        {
-            return _key;
-        }
-
-        public List<Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>> IncidentEdges()
-        {
-            return _incidentEdges;
-        }
-
-        public TVertexData Data
-        {
-            get => _data;
-            set => _data = value;
+            Key = key;
+            Data = data;
+            IncidentEdges = new List<Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>>();
         }
 
         public override string ToString()
         {
-            return _key.ToString();
+            return Key.ToString();
         }
     }
 }
