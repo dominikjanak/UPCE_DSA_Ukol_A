@@ -1,6 +1,6 @@
 ﻿namespace GUI.Dialog
 {
-    partial class SelectPathDialog
+    partial class SelectTwoVertexesDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -28,18 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SelectPathDialog));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SelectTwoVertexesDialog));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.label3 = new System.Windows.Forms.Label();
+            this.targetLabel = new System.Windows.Forms.Label();
             this.TargetTextbox = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.DialogCancelButton = new System.Windows.Forms.Button();
             this.DialogSubmitButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.label2 = new System.Windows.Forms.Label();
+            this.startLabel = new System.Windows.Forms.Label();
             this.StartTextbox = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.titleLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -56,7 +56,7 @@
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel4, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.titleLabel, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(9, 9);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -66,7 +66,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(193, 128);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(167, 128);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // tableLayoutPanel4
@@ -75,29 +75,29 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel4.ColumnCount = 2;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 45F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 66F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Controls.Add(this.label3, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.targetLabel, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.TargetTextbox, 1, 0);
             this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 59);
             this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(193, 29);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(167, 29);
             this.tableLayoutPanel4.TabIndex = 2;
             // 
-            // label3
+            // targetLabel
             // 
-            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label3.Location = new System.Drawing.Point(3, 6);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(26, 16);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Cíl:";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.targetLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.targetLabel.AutoSize = true;
+            this.targetLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.targetLabel.Location = new System.Drawing.Point(3, 6);
+            this.targetLabel.Name = "targetLabel";
+            this.targetLabel.Size = new System.Drawing.Size(49, 16);
+            this.targetLabel.TabIndex = 0;
+            this.targetLabel.Text = "Konec:";
+            this.targetLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // TargetTextbox
             // 
@@ -106,11 +106,11 @@
             this.TargetTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TargetTextbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.TargetTextbox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
-            this.TargetTextbox.Location = new System.Drawing.Point(45, 3);
+            this.TargetTextbox.Location = new System.Drawing.Point(66, 3);
             this.TargetTextbox.Margin = new System.Windows.Forms.Padding(0);
             this.TargetTextbox.MaxLength = 25;
             this.TargetTextbox.Name = "TargetTextbox";
-            this.TargetTextbox.Size = new System.Drawing.Size(148, 22);
+            this.TargetTextbox.Size = new System.Drawing.Size(101, 22);
             this.TargetTextbox.TabIndex = 2;
             this.TargetTextbox.TextChanged += new System.EventHandler(this.Textbox_TextChanged);
             this.TargetTextbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormSubmit_KeyUp);
@@ -131,7 +131,7 @@
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(193, 31);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(167, 31);
             this.tableLayoutPanel3.TabIndex = 3;
             // 
             // DialogCancelButton
@@ -146,7 +146,7 @@
             this.DialogCancelButton.Location = new System.Drawing.Point(0, 2);
             this.DialogCancelButton.Margin = new System.Windows.Forms.Padding(0, 2, 2, 0);
             this.DialogCancelButton.Name = "DialogCancelButton";
-            this.DialogCancelButton.Size = new System.Drawing.Size(94, 29);
+            this.DialogCancelButton.Size = new System.Drawing.Size(81, 29);
             this.DialogCancelButton.TabIndex = 2;
             this.DialogCancelButton.Text = "Storno";
             this.DialogCancelButton.UseVisualStyleBackColor = false;
@@ -160,12 +160,12 @@
             this.DialogSubmitButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.DialogSubmitButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.DialogSubmitButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.DialogSubmitButton.Location = new System.Drawing.Point(98, 2);
+            this.DialogSubmitButton.Location = new System.Drawing.Point(85, 2);
             this.DialogSubmitButton.Margin = new System.Windows.Forms.Padding(2, 2, 0, 0);
             this.DialogSubmitButton.Name = "DialogSubmitButton";
-            this.DialogSubmitButton.Size = new System.Drawing.Size(95, 29);
+            this.DialogSubmitButton.Size = new System.Drawing.Size(82, 29);
             this.DialogSubmitButton.TabIndex = 1;
-            this.DialogSubmitButton.Text = "Najít";
+            this.DialogSubmitButton.Text = "Odstranit";
             this.DialogSubmitButton.UseVisualStyleBackColor = false;
             this.DialogSubmitButton.Click += new System.EventHandler(this.DialogSubmitButton_Click);
             // 
@@ -175,28 +175,28 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 45F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 66F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Controls.Add(this.label2, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.startLabel, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.StartTextbox, 1, 0);
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 30);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(193, 29);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(167, 29);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
-            // label2
+            // startLabel
             // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label2.Location = new System.Drawing.Point(3, 6);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(38, 16);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Start:";
+            this.startLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.startLabel.AutoSize = true;
+            this.startLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.startLabel.Location = new System.Drawing.Point(3, 6);
+            this.startLabel.Name = "startLabel";
+            this.startLabel.Size = new System.Drawing.Size(60, 16);
+            this.startLabel.TabIndex = 0;
+            this.startLabel.Text = "Začátek:";
             // 
             // StartTextbox
             // 
@@ -205,39 +205,39 @@
             this.StartTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.StartTextbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.StartTextbox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
-            this.StartTextbox.Location = new System.Drawing.Point(45, 3);
+            this.StartTextbox.Location = new System.Drawing.Point(66, 3);
             this.StartTextbox.Margin = new System.Windows.Forms.Padding(0);
             this.StartTextbox.MaxLength = 25;
             this.StartTextbox.Name = "StartTextbox";
-            this.StartTextbox.Size = new System.Drawing.Size(148, 22);
+            this.StartTextbox.Size = new System.Drawing.Size(101, 22);
             this.StartTextbox.TabIndex = 1;
             this.StartTextbox.TextChanged += new System.EventHandler(this.Textbox_TextChanged);
             this.StartTextbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormSubmit_KeyUp);
             // 
-            // label1
+            // titleLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label1.Location = new System.Drawing.Point(3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(154, 25);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Vyhledat cestu";
+            this.titleLabel.AutoSize = true;
+            this.titleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.titleLabel.Location = new System.Drawing.Point(3, 0);
+            this.titleLabel.Name = "titleLabel";
+            this.titleLabel.Size = new System.Drawing.Size(160, 25);
+            this.titleLabel.TabIndex = 4;
+            this.titleLabel.Text = "Odstranit hranu";
             // 
-            // SelectPathDialog
+            // SelectTwoVertexesDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(211, 146);
+            this.ClientSize = new System.Drawing.Size(185, 146);
             this.Controls.Add(this.tableLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "SelectPathDialog";
+            this.Name = "SelectTwoVertexesDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "Vyhledat cestu";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SelectPathDialog_FormClosing);
+            this.Text = "Odstranit hranu";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SelectEdgeDialog_FormClosing);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel4.ResumeLayout(false);
@@ -254,13 +254,13 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label startLabel;
+        private System.Windows.Forms.Label titleLabel;
         private System.Windows.Forms.Button DialogCancelButton;
         private System.Windows.Forms.Button DialogSubmitButton;
         private System.Windows.Forms.TextBox StartTextbox;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label targetLabel;
         private System.Windows.Forms.TextBox TargetTextbox;
     }
 }

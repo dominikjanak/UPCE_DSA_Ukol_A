@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -20,6 +20,9 @@ namespace GUI.Drawing
 
         public DrawGraph()
         {
+            _canvasSize = new SizeF(0, 0);
+            _graphOffset = new PointF(0, 0);
+            _scaleRatio = new PointF(0, 0);
         }
 
         public void InitCanvas(Size drawingPanel, Graphics g)
@@ -42,8 +45,7 @@ namespace GUI.Drawing
         // Calculate graph scaling parameters (for form resizing)
         public void SetGraphSize(GraphSize<float> size)
         {
-            _graphOffset.X = size.XMin - 31; // offset from border
-            _graphOffset.Y = size.YMin - 30; // offset from border
+            _graphOffset = new PointF(size.XMin - 31, size.YMin - 30);
 
             _scaleRatio.X = (float)_canvasSize.Width / (size.XMax - size.XMin + 66);  // padding
             _scaleRatio.Y = (float)_canvasSize.Height / (size.YMax - size.YMin + 71); // padding
@@ -69,7 +71,7 @@ namespace GUI.Drawing
 
         public void DrawPath(PointF start, PointF target)
         {
-            Pen pen = new Pen(Color.FromArgb(128, Colors.Yellow), 8);
+            Pen pen = new Pen(Color.FromArgb(100, Colors.Yellow), 8);
 
             Normalize(ref start);
             Normalize(ref target);

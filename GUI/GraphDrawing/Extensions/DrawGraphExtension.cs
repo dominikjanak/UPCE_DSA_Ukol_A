@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Drawing;
 using ForestGraph;
 
@@ -92,7 +92,7 @@ namespace GUI.Drawing
         private static GraphSize<float> CalculateGraphSize(Dictionary<string, VertexData> vertexes)
         {
             bool first = true;
-            GraphSize<float> graphSize = null ;
+            GraphSize<float> graphSize = new GraphSize<float>(0,0,0,0);
 
             foreach (var vertex in vertexes)
             {

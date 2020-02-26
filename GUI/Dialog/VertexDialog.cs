@@ -119,6 +119,8 @@ namespace GUI.Dialog
         {
             if (e.KeyCode == Keys.Enter)
             {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
                 bool submit = true;
 
                 if (!ValidateFloat(YTextbox, false))

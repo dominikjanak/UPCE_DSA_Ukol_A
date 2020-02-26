@@ -49,6 +49,7 @@ namespace GUI
             this.AutoloadSaveButton = new System.Windows.Forms.ToolStripMenuItem();
             this.AutoloadLoadButton = new System.Windows.Forms.ToolStripMenuItem();
             this.closeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AboutProgramButton = new System.Windows.Forms.ToolStripMenuItem();
             this.graphCanvas = new GUI.Drawing.DoubleBufferedPanel();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -208,7 +209,8 @@ namespace GUI
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.programToolStripMenuItem});
+            this.programToolStripMenuItem,
+            this.AboutProgramButton});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(684, 24);
@@ -278,6 +280,15 @@ namespace GUI
             this.closeMenuItem.Text = "Ukončit";
             this.closeMenuItem.Click += new System.EventHandler(this.closeMenuItem_Click);
             // 
+            // AboutProgramButton
+            // 
+            this.AboutProgramButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.AboutProgramButton.Name = "AboutProgramButton";
+            this.AboutProgramButton.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.AboutProgramButton.Size = new System.Drawing.Size(84, 20);
+            this.AboutProgramButton.Text = "O programu";
+            this.AboutProgramButton.Click += new System.EventHandler(this.AboutProgramButton_Click);
+            // 
             // graphCanvas
             // 
             this.graphCanvas.BackColor = System.Drawing.Color.White;
@@ -306,7 +317,7 @@ namespace GUI
             this.MinimumSize = new System.Drawing.Size(700, 500);
             this.Name = "MainForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
-            this.Text = "UPCE DSA – Semestrální práce";
+            this.Text = "UPCE DSA – Forest graph";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Move += new System.EventHandler(this.MainForm_Move);
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -339,6 +350,7 @@ namespace GUI
         private System.Windows.Forms.Button TrajectoryMatrixButton;
         private System.Windows.Forms.Button CloseButton;
         private System.Windows.Forms.Button FindRouteButton;
+        private System.Windows.Forms.ToolStripMenuItem AboutProgramButton;
     }
 }
 

@@ -14,13 +14,14 @@ namespace GUI
     public partial class MainForm : Form
     {
         private DrawGraph _drawer;
-        private RectangleF _rectangle; // Contains relative data (before graph calculations it must be denormalized)
+        private RectangleF _rectangle;
         private bool _rectangleDrawing;
         private ForestGraph<string, VertexData, string, EdgeData> _forestGraph;
         private String _autoloadPath;
         private Point _newWindowPosition;
         private bool _saved;
-        private List<string> _path;
+        private List<string> _graphPath;
+        private DijkstraAlhorithm<string, VertexData, string, EdgeData> _dijkstra;
 
         public MainForm()
         {
@@ -30,7 +31,10 @@ namespace GUI
             _rectangleDrawing = false;
             _forestGraph = new ForestGraph<string, VertexData, string, EdgeData>();
             _saved = true;
-            _path = new List<string>();
+            _graphPath = new List<string>();
+            _dijkstra = new DijkstraAlhorithm<string, VertexData, string, EdgeData>(_forestGraph, 
+                weight => weight.Distance, through => through.EdgeType == EdgeType.Blocked);
+
 #if DEBUG
             _autoloadPath = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
 #else
@@ -77,16 +81,16 @@ namespace GUI
         {
             if (File.Exists(_autoloadPath))
             {
+                _graphPath.Clear();
                 DataManipulator.LoadData(_forestGraph, _autoloadPath);
                 graphCanvas.Invalidate();
+                _dijkstra.Invalidate();
             }
         }
 
         private void FindRouteButton_Click(object sender, EventArgs e)
         {
-            DijkstraAlhorithm<string, VertexData, string, EdgeData> dijkstra = new DijkstraAlhorithm<string, VertexData, string, EdgeData>(_forestGraph, weight=>weight.Distance, through=> through.EdgeType == EdgeType.Free);
-
-            SelectPathDialog selectPath = new SelectPathDialog()
+            SelectTwoVertexesDialog selectPath = new SelectTwoVertexesDialog(true)
             {
                 Location = _newWindowPosition
             };
@@ -96,20 +100,22 @@ namespace GUI
             {
                 if (DialogResult.OK == selectPath.ShowDialog())
                 {
-                    if(selectPath.Start == selectPath.Target && _forestGraph.HasVertex(selectPath.Target))
+                    if(selectPath.StartVertex == selectPath.TargetVertex && _forestGraph.HasVertex(selectPath.TargetVertex))
                     {
                         ShowMessage("Cesta vede do stejného vrcholu!", MessageBoxIcon.Information);
+                        continue;
                     }
 
-                    if (!_forestGraph.HasVertex(selectPath.Start) || !_forestGraph.HasVertex(selectPath.Target))
+                    if (!_forestGraph.HasVertex(selectPath.StartVertex) || !_forestGraph.HasVertex(selectPath.TargetVertex))
                     {
                         ShowMessage("Zvolené vrcholy v grafu neexistují!", MessageBoxIcon.Warning);
+                        continue;
                     }
 
                     try
                     {
-                        _path.Clear();
-                        _path = dijkstra.FindRoute(selectPath.Start, selectPath.Target);
+                        _graphPath.Clear();
+                        _graphPath = _dijkstra.FindPaths(selectPath.StartVertex).GetPath(selectPath.TargetVertex);
                         graphCanvas.Invalidate();
                     }
                     catch (Exception ex)
@@ -143,11 +149,13 @@ namespace GUI
                 if (DialogResult.OK == newVertex.ShowDialog())
                 {
                     VertexData data = new VertexData(new PointF(newVertex.X, newVertex.Y), newVertex.Type);
+                    _graphPath.Clear();
 
                     try
                     {
                         _forestGraph.AddVertex(newVertex.Key, data);
                         _saved = false;
+                        _dijkstra.Invalidate();
                     } 
                     catch (Exception ex)
                     {
@@ -177,7 +185,9 @@ namespace GUI
                     try
                     {
                         _forestGraph.RemoveVertex(selectVertex.Key);
+                        _graphPath.Clear();
                         _saved = false;
+                        _dijkstra.Invalidate();
                     }
                     catch (Exception ex)
                     {
@@ -209,7 +219,9 @@ namespace GUI
                     try
                     {
                         _forestGraph.AddEdge(newEdge.Key, newEdge.StartVertex, newEdge.TargetVertex, data);
+                        _graphPath.Clear();
                         _saved = false;
+                        _dijkstra.Invalidate();
                     }
                     catch (Exception ex)
                     {
@@ -226,7 +238,7 @@ namespace GUI
 
         private void RemoveEdgeButton_Click(object sender, EventArgs e)
         {
-            SelectEdgeDialog selectEdge = new SelectEdgeDialog()
+            SelectTwoVertexesDialog selectEdge = new SelectTwoVertexesDialog()
             {
                 Location = _newWindowPosition
             };
@@ -239,7 +251,9 @@ namespace GUI
                     try
                     {
                         _forestGraph.RemoveEdge(selectEdge.StartVertex, selectEdge.TargetVertex);
+                        _graphPath.Clear();
                         _saved = false;
+                        _dijkstra.Invalidate();
                     }
                     catch (Exception ex)
                     {
@@ -256,7 +270,7 @@ namespace GUI
 
         private void TrajectoryMatrixButton_Click(object sender, EventArgs e)
         {
-            TrajectoryMatrixDialog matrixDialog = new TrajectoryMatrixDialog();
+            TrajectoryMatrixDialog matrixDialog = new TrajectoryMatrixDialog(_forestGraph, _dijkstra);
             matrixDialog.ShowDialog();
         }
 
@@ -285,7 +299,7 @@ namespace GUI
 
                 Bitmap bitmap = new Bitmap(width, height);
                 var drawer = new DrawGraph(bitmap);
-                _forestGraph.DrawWithPath(drawer, _path);
+                _forestGraph.DrawWithPath(drawer, _graphPath);
 
                 bitmap.Save(filePath);
                 Process.Start(filePath);
@@ -312,14 +326,16 @@ namespace GUI
 
         private void LoadDataButton_Click(object sender, EventArgs e)
         {
+            _graphPath.Clear();
             DataManipulator.LoadData(_forestGraph);
             graphCanvas.Invalidate();
+            _dijkstra.Invalidate();
         }
 
         private void graphCanvas_Paint(object sender, PaintEventArgs e)
         {
             _drawer.InitCanvas(graphCanvas.Size, e.Graphics);
-            _forestGraph.DrawWithPath(_drawer, _path);
+            _forestGraph.DrawWithPath(_drawer, _graphPath);
 
             if (!_rectangle.Location.IsEmpty && !_rectangle.Size.IsEmpty && _rectangleDrawing)
             {
@@ -351,7 +367,9 @@ namespace GUI
             {
                 _rectangleDrawing = false;
                 UpdateEdgeType();
+                _graphPath.Clear();
                 graphCanvas.Invalidate();
+                _dijkstra.Invalidate();
             }
         }
 
@@ -446,6 +464,12 @@ namespace GUI
             {
                 DataManipulator.SaveDataDialog(_forestGraph);
             }
+        }
+
+        private void AboutProgramButton_Click(object sender, EventArgs e)
+        {
+            AboutBox about = new AboutBox();
+            about.ShowDialog();
         }
     }
 }

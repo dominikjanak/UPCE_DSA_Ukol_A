@@ -1,5 +1,7 @@
-﻿using System;
+using GUI.Drawing;
+using System;
 using System.Drawing;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace GUI.Dialog
@@ -36,7 +38,7 @@ namespace GUI.Dialog
             bool keyValid = ValidateText(KeyTextbox);
             bool startValid = ValidateText(StartTextbox);
             bool targetValid = ValidateText(TargetTextbox);
-            bool distanceValid = ValidateFloat(DistanceTextbox);
+            bool distanceValid = ValidatePositiveFloat(DistanceTextbox);
             if (DialogResult.OK == this.DialogResult && (!keyValid || !startValid || !targetValid || !distanceValid))
             {
                 e.Cancel = true;
@@ -62,28 +64,36 @@ namespace GUI.Dialog
 
         private void DistanceTextbox_TextChanged(object sender, EventArgs e)
         {
-            ValidateFloat(DistanceTextbox);
+            ValidatePositiveFloat(DistanceTextbox);
         }
 
-        private bool ValidateFloat(TextBox box, bool highlight = true)
+        private bool ValidatePositiveFloat(TextBox box, bool highlight = true)
         {
             float f;
+            Color color = Colors.White;
+            bool state = true;
+
+
             if (float.TryParse(box.Text, out f))
             {
-                if (highlight)
+                string pattern = @"^([0-9]+|,[0-9]+|[0-9]+,[0-9]+)$";
+                if (!Regex.Match(box.Text, pattern).Success)
                 {
-                    box.BackColor = Color.White;
+                    color = Color.FromArgb(255, 200, 200);
+                    state = false;
                 }
-                return true;
             }
             else
             {
-                if (highlight)
-                {
-                    box.BackColor = Color.FromArgb(255, 200, 200);
-                }
+                color = Color.FromArgb(255, 200, 200);
+                state = false;
             }
-            return false;
+
+            if (highlight)
+            {
+                box.BackColor = color;
+            }
+            return state;
         }
 
         private bool ValidateText(TextBox box, bool highlight = true)
@@ -110,9 +120,11 @@ namespace GUI.Dialog
         {
             if (e.KeyCode == Keys.Enter)
             {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
                 bool submit = true;
 
-                if (!ValidateFloat(DistanceTextbox, false))
+                if (!ValidatePositiveFloat(DistanceTextbox, false))
                 {
                     DistanceTextbox.Focus();
                     submit = false;

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -25,7 +25,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -52,22 +51,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dialog\AboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\AboutBox.Designer.cs">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataManipulator\EdgeSerialize.cs" />
     <Compile Include="DataManipulator\GraphData.cs" />
     <Compile Include="DataManipulator\VertexSerialize.cs" />
     <Compile Include="Data\EdgeData.cs" />
     <Compile Include="Data\VertexData.cs" />
-    <Compile Include="Dialog\SelectPathDialog.cs">
+    <Compile Include="Dialog\SelectTwoVertexesDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialog\SelectPathDialog.Designer.cs">
-      <DependentUpon>SelectPathDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Dialog\SelectEdgeDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dialog\SelectEdgeDialog.Designer.cs">
-      <DependentUpon>SelectEdgeDialog.cs</DependentUpon>
+    <Compile Include="Dialog\SelectTwoVertexesDialog.Designer.cs">
+      <DependentUpon>SelectTwoVertexesDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialog\SelectVertexDialog.cs">
       <SubType>Form</SubType>
@@ -102,6 +101,9 @@
     <Compile Include="DataManipulator\DataManipulator.cs" />
     <Compile Include="GraphDrawing\Data\LabelPosition.cs" />
     <Compile Include="GraphDrawing\Data\Colors.cs" />
+    <Compile Include="Component\DoubleBufferedDataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="GraphDrawing\DrawGraph.cs" />
     <Compile Include="GraphDrawing\Extensions\DrawGraphExtension.cs" />
     <Compile Include="MainForm.cs">
@@ -112,11 +114,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Dialog\SelectPathDialog.resx">
-      <DependentUpon>SelectPathDialog.cs</DependentUpon>
+    <EmbeddedResource Include="Dialog\AboutBox.resx">
+      <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialog\SelectEdgeDialog.resx">
-      <DependentUpon>SelectEdgeDialog.cs</DependentUpon>
+    <EmbeddedResource Include="Dialog\SelectTwoVertexesDialog.resx">
+      <DependentUpon>SelectTwoVertexesDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialog\SelectVertexDialog.resx">
       <DependentUpon>SelectVertexDialog.cs</DependentUpon>

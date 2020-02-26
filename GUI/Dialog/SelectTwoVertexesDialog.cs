@@ -4,24 +4,33 @@ using System.Windows.Forms;
 
 namespace GUI.Dialog
 {
-    public partial class SelectPathDialog : Form
+    public partial class SelectTwoVertexesDialog : Form
     {
-        public string Start { get; set; }
-        public string Target { get; set; }
+        public string StartVertex { get; set; }
+        public string TargetVertex { get; set; }
 
-
-        public SelectPathDialog()
+        public SelectTwoVertexesDialog(bool findPath = false)
         {
             InitializeComponent();
+            if (findPath)
+            {
+                Text = "Vyhledat cestu";
+                titleLabel.Text = "Vyhledat cestu";
+                startLabel.Text = "Start:";
+                targetLabel.Text = "Cíl:";
+                DialogSubmitButton.Text = "Najít";
+                tableLayoutPanel2.ColumnStyles[0].Width = 43;
+                tableLayoutPanel4.ColumnStyles[0].Width = 43;
+            }
         }
 
         private void DialogSubmitButton_Click(object sender, EventArgs e)
         {
-            Start = StartTextbox.Text;
-            Target = TargetTextbox.Text;
+            StartVertex = StartTextbox.Text;
+            TargetVertex = TargetTextbox.Text;
         }
 
-        private void SelectPathDialog_FormClosing(object sender, FormClosingEventArgs e)
+        private void SelectEdgeDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
             bool startValid = ValidateText(StartTextbox);
             bool targetValid = ValidateText(TargetTextbox);
@@ -60,6 +69,8 @@ namespace GUI.Dialog
         {
             if (e.KeyCode == Keys.Enter)
             {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
                 bool submit = true;
 
                 if (!ValidateText(TargetTextbox, false))
