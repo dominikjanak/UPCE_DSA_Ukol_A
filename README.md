@@ -4,8 +4,8 @@ Semestrální práce z předmětu Datové struktury a algoritmy (NNDSA).
 ## Náhled
 ![alt text][logo]
 
-### Data
-[Desmos - Data hlavního grafu](https://www.desmos.com/calculator/dfuwe0ypq7)
+### Program
+[Zip s programem ke stažení](https://www.dominikjanak.cz/_files/ForestGraph_1.zip)
 
 ## Autor
 [Univerzita Pardubice](https://www.upce.cz/)\
