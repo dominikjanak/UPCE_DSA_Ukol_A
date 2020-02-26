@@ -6,8 +6,8 @@ namespace ForestGraph
 {
     public class ForestGraph<TVertexKey, TVertexData, TEdgeKey, TEdgeData> 
         : IForestGraph<TVertexKey, TVertexData, TEdgeKey, TEdgeData>
-        where TVertexKey : IComparable
-        where TEdgeKey : IComparable
+        where TVertexKey : IComparable<TVertexKey>
+        where TEdgeKey : IComparable<TEdgeKey>
     {
         private Dictionary<TVertexKey, Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData>> _vertexes;
         private Dictionary<TEdgeKey, Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>> _edges; // Je možné držet i hrany pro optimálnější výkon
@@ -44,7 +44,7 @@ namespace ForestGraph
             AddVertex(vertex);
         }
 
-        protected void AddVertex(Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> vertex)
+        internal void AddVertex(Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> vertex)
         {
             if (!_vertexes.ContainsKey(vertex.Key))
             {
@@ -60,7 +60,7 @@ namespace ForestGraph
             return RemoveVertex(vertex);            
         }
 
-        protected TVertexData RemoveVertex(Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> vertex)
+        internal TVertexData RemoveVertex(Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> vertex)
         {
             if (vertex == null)
             {
@@ -84,7 +84,7 @@ namespace ForestGraph
             return _vertexes.ContainsKey(key);
         }
 
-        protected Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> GetVertex(TVertexKey key)
+        internal Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> GetVertex(TVertexKey key)
         {
             Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> vertex = null;
             if (_vertexes.TryGetValue(key, out vertex))
@@ -113,7 +113,7 @@ namespace ForestGraph
             AddEdge(edge);
         }
 
-        protected void AddEdge(Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> edge)
+        internal void AddEdge(Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> edge)
         {
             if (HasEdge(edge.Key))
             {
@@ -150,7 +150,7 @@ namespace ForestGraph
             return RemoveEdge(edge);
         }
 
-        protected TEdgeData RemoveEdge(Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> edge)
+        internal TEdgeData RemoveEdge(Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> edge)
         {
             if (edge == null)
             {
@@ -179,7 +179,7 @@ namespace ForestGraph
             return _edges.ContainsKey(key);
         }
 
-        protected Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> GetEdge(TVertexKey start, TVertexKey target)
+        internal Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> GetEdge(TVertexKey start, TVertexKey target)
         {
             var vertexStart = GetVertex(start);
             var vertexTarget = GetVertex(target);
@@ -187,7 +187,7 @@ namespace ForestGraph
             return GetEdge(vertexStart, vertexTarget);
         }
 
-        protected Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> GetEdge(
+        internal Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> GetEdge(
             Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> start,
             Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> target)
         {
@@ -207,7 +207,7 @@ namespace ForestGraph
             return null;
         }
 
-        protected Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> GetEdge(TEdgeKey key)
+        internal Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> GetEdge(TEdgeKey key)
         {
             Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> edge = null;
 

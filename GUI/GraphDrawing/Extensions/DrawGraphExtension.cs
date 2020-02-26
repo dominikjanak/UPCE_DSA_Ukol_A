@@ -1,35 +1,59 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using ForestGraph;
 
 namespace GUI.Drawing
 {
     public static class DrawGraphExtension
     {
-        public static void Draw(this ForestGraph<string, VertexData, string, EdgeData> graph, DrawGraph drawer)
+        public static void DrawWithPath(this ForestGraph<string, VertexData, string, EdgeData> graph, DrawGraph drawer, List<string> path)
         {
-            var vertexes = graph.GetAllVertexes();
-            var edges = graph.GetAllEdges();
+            Dictionary<string, VertexData> mappedVertexes = InitDraw(graph, drawer);
 
-            Dictionary<string, VertexData> mappedVertexes = new Dictionary<string, VertexData>();
-
-            foreach(var v in vertexes)
-            {
-                mappedVertexes.Add(v.key, v.data);
-            }
-
-            int vertexesCount = vertexes.Count;
-            int edgesCount = edges.Count;
-
-            drawer.ClearCanvas();
-
-            if (vertexesCount <= 0)
+            if (mappedVertexes.Count <= 0)
             {
                 return;
             }
 
-            GraphSize<float> graphSize = CalculateGraphSize(vertexes);
-            drawer.SetGraphSize(graphSize);
+            DrawEdges(drawer, mappedVertexes, graph.GetAllEdges());
+            DrawPath(drawer, mappedVertexes, path);
+            DrawVertexes(drawer, mappedVertexes);
+        }
 
+        public static void Draw(this ForestGraph<string, VertexData, string, EdgeData> graph, DrawGraph drawer)
+        {
+            Dictionary<string, VertexData> mappedVertexes = InitDraw(graph, drawer);
+
+            if (mappedVertexes.Count <= 0)
+            {
+                return;
+            }
+
+            DrawEdges(drawer, mappedVertexes, graph.GetAllEdges());
+            DrawVertexes(drawer, mappedVertexes);
+        }
+
+        private static Dictionary<string, VertexData> InitDraw(ForestGraph<string, VertexData, string, EdgeData> graph, DrawGraph drawer)
+        {
+            drawer.ClearCanvas();
+            var vertexes = graph.GetAllVertexes();
+
+            Dictionary<string, VertexData> mappedVertexes = new Dictionary<string, VertexData>();
+
+            foreach (var v in vertexes)
+            {
+                mappedVertexes.Add(v.key, v.data);
+            }
+
+            drawer.SetGraphSize(CalculateGraphSize(mappedVertexes));
+
+            return mappedVertexes;
+        }
+
+        private static void DrawEdges(DrawGraph drawer, Dictionary<string, VertexData> mappedVertexes, 
+            List<(string key, EdgeData data, string start, string target)> edges)
+        {
+            int edgesCount = edges.Count;
             for (int i = 0; i < edgesCount; i++)
             {
                 var edge = edges[i];
@@ -39,35 +63,57 @@ namespace GUI.Drawing
                 if (mappedVertexes.TryGetValue(edge.start, out vertexA) && mappedVertexes.TryGetValue(edge.target, out vertexB))
                 {
                     drawer.DrawEdge(vertexA.Location, vertexB.Location, edge.data.EdgeType, edge.data.Distance.ToString());
-                }                
-            }
-
-            for (int i = 0; i < vertexesCount; i++)
-            {
-                var vertex = vertexes[i];
-                drawer.DrawVertex(vertex.data.Location, vertex.data.VertexType, vertex.key.ToString());
+                }
             }
         }
 
-        private static GraphSize<float> CalculateGraphSize(List<(string key, VertexData data)> vertexes)
+        private static void DrawVertexes(DrawGraph drawer, Dictionary<string, VertexData> vertexes)
         {
-            float xLoc = vertexes[0].data.Location.X;
-            float yLoc = vertexes[0].data.Location.Y;
-            int vertexesCount = vertexes.Count;
-
-            GraphSize<float> graphSize = new GraphSize<float>(xLoc, xLoc, yLoc, yLoc);
-
-            for (int i = 1; i < vertexesCount; i++)
+            foreach(var vertex in vertexes)
             {
-                float x = vertexes[i].data.Location.X;
-                float y = vertexes[i].data.Location.Y;
+                drawer.DrawVertex(vertex.Value.Location, vertex.Value.VertexType, vertex.Key.ToString());
+            }
+        }
+
+        private static void DrawPath(DrawGraph drawer, Dictionary<string, VertexData> vertexes, List<string> path)
+        {
+            VertexData vertexA = null;
+            VertexData vertexB = null;
+            for (int i = 1; i < path.Count; i++)
+            {
+                if(vertexes.TryGetValue(path[i - 1], out vertexA) && vertexes.TryGetValue(path[i], out vertexB))
+                {
+                    drawer.DrawPath(vertexA.Location, vertexB.Location);
+                }
+                
+            }
+        }
+
+        private static GraphSize<float> CalculateGraphSize(Dictionary<string, VertexData> vertexes)
+        {
+            bool first = true;
+            GraphSize<float> graphSize = null ;
+
+            foreach (var vertex in vertexes)
+            {
+                if (first)
+                {
+                    float xLoc = vertex.Value.Location.X;
+                    float yLoc = vertex.Value.Location.Y;
+                    graphSize = new GraphSize<float>(xLoc, xLoc, yLoc, yLoc);
+                    first = false;
+                    continue;
+                }
+
+                float x = vertex.Value.Location.X;
+                float y = vertex.Value.Location.Y;
 
                 if (graphSize.XMax < x) { graphSize.XMax = x; }
                 if (graphSize.XMin > x) { graphSize.XMin = x; }
                 if (graphSize.YMax < y) { graphSize.YMax = y; }
                 if (graphSize.YMin > y) { graphSize.YMin = y; }
-            }
 
+            }
             return graphSize;
         }
     }

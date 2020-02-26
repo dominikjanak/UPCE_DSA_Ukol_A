@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
@@ -66,13 +67,14 @@ namespace GUI.Drawing
             DrawLabel(watermark, labelPosition, brush, boldFont);
         }
 
-        public void DrawPath(PointF start, PointF end)
+        public void DrawPath(PointF start, PointF target)
         {
-            Normalize(ref start);
-            Normalize(ref end);
-
             Pen pen = new Pen(Color.FromArgb(128, Colors.Yellow), 8);
-            _canvas.DrawLine(pen, start.X, start.Y, end.X, end.Y);
+
+            Normalize(ref start);
+            Normalize(ref target);
+
+            _canvas.DrawLine(pen, start.X, start.Y, target.X, target.Y);
         }
 
         // Draw edge

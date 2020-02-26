@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dijkstra\DijkstraAlhorithm.cs" />
+    <Compile Include="Exceptions\RouteNotExistsException.cs" />
     <Compile Include="Exceptions\ItemNotFoundException.cs" />
     <Compile Include="Exceptions\UniqueItemException.cs" />
     <Compile Include="Exceptions\UniqueKeyException.cs" />

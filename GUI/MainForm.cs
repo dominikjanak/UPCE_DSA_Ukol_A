@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using ForestGraph;
+using GraphService.Dijkstra;
 using GUI.Dialog;
 using GUI.Drawing;
 
@@ -18,6 +20,7 @@ namespace GUI
         private String _autoloadPath;
         private Point _newWindowPosition;
         private bool _saved;
+        private List<string> _path;
 
         public MainForm()
         {
@@ -27,6 +30,7 @@ namespace GUI
             _rectangleDrawing = false;
             _forestGraph = new ForestGraph<string, VertexData, string, EdgeData>();
             _saved = true;
+            _path = new List<string>();
 #if DEBUG
             _autoloadPath = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
 #else
@@ -80,7 +84,45 @@ namespace GUI
 
         private void FindRouteButton_Click(object sender, EventArgs e)
         {
+            DijkstraAlhorithm<string, VertexData, string, EdgeData> dijkstra = new DijkstraAlhorithm<string, VertexData, string, EdgeData>(_forestGraph, weight=>weight.Distance, through=> through.EdgeType == EdgeType.Free);
 
+            SelectPathDialog selectPath = new SelectPathDialog()
+            {
+                Location = _newWindowPosition
+            };
+            bool repeate = true;
+
+            do
+            {
+                if (DialogResult.OK == selectPath.ShowDialog())
+                {
+                    if(selectPath.Start == selectPath.Target && _forestGraph.HasVertex(selectPath.Target))
+                    {
+                        ShowMessage("Cesta vede do stejného vrcholu!", MessageBoxIcon.Information);
+                    }
+
+                    if (!_forestGraph.HasVertex(selectPath.Start) || !_forestGraph.HasVertex(selectPath.Target))
+                    {
+                        ShowMessage("Zvolené vrcholy v grafu neexistují!", MessageBoxIcon.Warning);
+                    }
+
+                    try
+                    {
+                        _path.Clear();
+                        _path = dijkstra.FindRoute(selectPath.Start, selectPath.Target);
+                        graphCanvas.Invalidate();
+                    }
+                    catch (Exception ex)
+                    {
+                        ShowMessage(ex.Message);
+                        continue;
+                    }
+
+                    graphCanvas.Invalidate();
+                    repeate = false;
+                }
+                repeate = false;
+            } while (repeate);
         }
 
         private void CloseButton_Click(object sender, EventArgs e)
@@ -109,7 +151,7 @@ namespace GUI
                     } 
                     catch (Exception ex)
                     {
-                        ShowErrorMessage(ex.Message);
+                        ShowMessage(ex.Message);
                         continue;
                     }
 
@@ -139,7 +181,7 @@ namespace GUI
                     }
                     catch (Exception ex)
                     {
-                        ShowErrorMessage(ex.Message);
+                        ShowMessage(ex.Message);
                         continue;
                     }
 
@@ -171,7 +213,7 @@ namespace GUI
                     }
                     catch (Exception ex)
                     {
-                        ShowErrorMessage(ex.Message);
+                        ShowMessage(ex.Message);
                         continue;
                     }
 
@@ -201,7 +243,7 @@ namespace GUI
                     }
                     catch (Exception ex)
                     {
-                        ShowErrorMessage(ex.Message);
+                        ShowMessage(ex.Message);
                         continue;
                     }
 
@@ -218,9 +260,9 @@ namespace GUI
             matrixDialog.ShowDialog();
         }
 
-        private void ShowErrorMessage(string message)
+        private void ShowMessage(string message, MessageBoxIcon icon = MessageBoxIcon.Error)
         {
-            MessageBox.Show(message, "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(message, "Chyba", MessageBoxButtons.OK, icon);
         }
 
         public void SaveImageManager(Panel canvas)
@@ -236,17 +278,17 @@ namespace GUI
             
             if(saveImage.ShowDialog() == DialogResult.OK)
             {
-                string path = saveImage.FileName;
+                string filePath = saveImage.FileName;
 
                 int width = canvas.Size.Width;
                 int height = canvas.Size.Height;
 
                 Bitmap bitmap = new Bitmap(width, height);
                 var drawer = new DrawGraph(bitmap);
-                _forestGraph.Draw(drawer);
+                _forestGraph.DrawWithPath(drawer, _path);
 
-                bitmap.Save(path);
-                Process.Start(path);
+                bitmap.Save(filePath);
+                Process.Start(filePath);
             }
         }
         
@@ -277,7 +319,7 @@ namespace GUI
         private void graphCanvas_Paint(object sender, PaintEventArgs e)
         {
             _drawer.InitCanvas(graphCanvas.Size, e.Graphics);
-            _forestGraph.Draw(_drawer);
+            _forestGraph.DrawWithPath(_drawer, _path);
 
             if (!_rectangle.Location.IsEmpty && !_rectangle.Size.IsEmpty && _rectangleDrawing)
             {

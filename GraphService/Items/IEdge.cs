@@ -3,8 +3,8 @@
 namespace ForestGraph
 {
     public interface IEdge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>
-        where TEdgeKey : IComparable
-        where TVertexKey : IComparable
+        where TVertexKey : IComparable<TVertexKey>
+        where TEdgeKey : IComparable<TEdgeKey>
     {
         /// <summary>
         /// Edge key object

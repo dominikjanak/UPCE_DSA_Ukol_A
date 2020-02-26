@@ -57,6 +57,12 @@
     <Compile Include="DataManipulator\VertexSerialize.cs" />
     <Compile Include="Data\EdgeData.cs" />
     <Compile Include="Data\VertexData.cs" />
+    <Compile Include="Dialog\SelectPathDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\SelectPathDialog.Designer.cs">
+      <DependentUpon>SelectPathDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialog\SelectEdgeDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -106,6 +112,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Dialog\SelectPathDialog.resx">
+      <DependentUpon>SelectPathDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dialog\SelectEdgeDialog.resx">
       <DependentUpon>SelectEdgeDialog.cs</DependentUpon>
     </EmbeddedResource>

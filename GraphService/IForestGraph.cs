@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace ForestGraph
 {
-    public interface IForestGraph<TVertexKey, TVertexData, TEdgeKey, TEdgeData> 
-        where TVertexKey : IComparable 
-        where TEdgeKey : IComparable
+    public interface IForestGraph<TVertexKey, TVertexData, TEdgeKey, TEdgeData>
+        where TVertexKey : IComparable<TVertexKey>
+        where TEdgeKey : IComparable<TEdgeKey>
     {
         /// <summary>
         /// Vymaže všechna data

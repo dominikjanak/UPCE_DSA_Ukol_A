@@ -20,6 +20,6 @@ namespace ForestGraph
         /// <summary>
         /// List of incident edges
         /// </summary>
-        List<Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>> IncidentEdges { get; }
+        //List<Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>> IncidentEdges { get; }
     }
 }
