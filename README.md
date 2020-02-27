@@ -17,11 +17,10 @@ Semestrální práce z předmětu Datové struktury a algoritmy (NNDSA).
 ## Autor
 [Univerzita Pardubice](https://www.upce.cz/)<br>
 [Bc. Dominik Janák](https://www.dominikjanak.cz/)<br>
-**Číslo studenta:** st61459<br>
 **Školní e-mail:** [dominik.janak@student.upce.cz](mailto:dominik.janak@student.upce.cz)<br>
 **Osobní e-mail:** [mail@dominikjanak.cz](mailto:mail@dominikjanak.cz)
 
 [preview1]: preview_1.png "Malý les"
 [preview21]: preview_2.png "Velký les"
-[preview22]: preview_2_matice.png "Matice strajektorií"
+[preview22]: preview_2_matice.png "Matice trajektorií"
 [preview3]: preview_3.png "Říční údolí"
