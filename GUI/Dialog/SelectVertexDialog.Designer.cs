@@ -61,7 +61,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(216, 103);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(232, 103);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // tableLayoutPanel3
@@ -80,7 +80,7 @@
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(216, 31);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(232, 31);
             this.tableLayoutPanel3.TabIndex = 4;
             // 
             // DialogCancelButton
@@ -95,7 +95,7 @@
             this.DialogCancelButton.Location = new System.Drawing.Point(0, 2);
             this.DialogCancelButton.Margin = new System.Windows.Forms.Padding(0, 2, 2, 0);
             this.DialogCancelButton.Name = "DialogCancelButton";
-            this.DialogCancelButton.Size = new System.Drawing.Size(106, 29);
+            this.DialogCancelButton.Size = new System.Drawing.Size(114, 29);
             this.DialogCancelButton.TabIndex = 2;
             this.DialogCancelButton.Text = "Storno";
             this.DialogCancelButton.UseVisualStyleBackColor = false;
@@ -109,10 +109,10 @@
             this.DialogSubmitButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.DialogSubmitButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.DialogSubmitButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.DialogSubmitButton.Location = new System.Drawing.Point(110, 2);
+            this.DialogSubmitButton.Location = new System.Drawing.Point(118, 2);
             this.DialogSubmitButton.Margin = new System.Windows.Forms.Padding(2, 2, 0, 0);
             this.DialogSubmitButton.Name = "DialogSubmitButton";
-            this.DialogSubmitButton.Size = new System.Drawing.Size(106, 29);
+            this.DialogSubmitButton.Size = new System.Drawing.Size(114, 29);
             this.DialogSubmitButton.TabIndex = 1;
             this.DialogSubmitButton.Text = "Odstranit";
             this.DialogSubmitButton.UseVisualStyleBackColor = false;
@@ -133,7 +133,7 @@
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(216, 33);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(232, 33);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // label2
@@ -158,7 +158,7 @@
             this.KeyTextbox.Margin = new System.Windows.Forms.Padding(0);
             this.KeyTextbox.MaxLength = 25;
             this.KeyTextbox.Name = "KeyTextbox";
-            this.KeyTextbox.Size = new System.Drawing.Size(175, 22);
+            this.KeyTextbox.Size = new System.Drawing.Size(191, 22);
             this.KeyTextbox.TabIndex = 1;
             this.KeyTextbox.TextChanged += new System.EventHandler(this.KeyTextbox_TextChanged);
             this.KeyTextbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormSubmit_KeyUp);
@@ -177,7 +177,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(234, 121);
+            this.ClientSize = new System.Drawing.Size(250, 121);
             this.Controls.Add(this.tableLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

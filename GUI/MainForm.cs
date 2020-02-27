@@ -67,6 +67,39 @@ namespace GUI
             }
         }
 
+        private void NewGraphButton_Click(object sender, EventArgs e)
+        {
+            if (DialogResult.Cancel == AskForSave())
+            {
+                return;
+            }
+
+            _dijkstra.Invalidate();
+            _rectangle = new RectangleF(0, 0, 0, 0);
+            _forestGraph.Clear();
+            _graphPath.Clear();
+            _saved = true;
+            graphCanvas.Invalidate();
+        }
+
+        private DialogResult AskForSave()
+        {
+            if (_saved)
+            {
+                return DialogResult.None;
+            }
+
+            DialogResult result = MessageBox.Show(Resources.UNSAVED_CHANGES_ASK_TO_SAVE,
+                Resources.UNSAVED_CHANGES, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+            if (DialogResult.Yes == result)
+            {
+                DataManipulator.SaveDataDialog(_forestGraph);
+            }
+
+            return result;
+        }
+
         private void AutoloadSaveButton_Click(object sender, EventArgs e)
         {
             if (DataManipulator.SaveData(_forestGraph, _autoloadPath))
@@ -325,7 +358,7 @@ namespace GUI
 
         private void SaveDataButton_Click(object sender, EventArgs e)
         {
-            if (DataManipulator.SaveDataDialog(_forestGraph, true))
+            if (DataManipulator.SaveDataDialog(_forestGraph))
             {
                 _saved = true;
             }
@@ -459,15 +492,9 @@ namespace GUI
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (_saved)
+            if (DialogResult.Cancel == AskForSave())
             {
-                return;
-            }
-
-            if (DialogResult.Yes == MessageBox.Show(Resources.UNSAVED_CHANGES_ASK_TO_SAVE,
-                Resources.UNSAVED_CHANGES, MessageBoxButtons.YesNo, MessageBoxIcon.Question))
-            {
-                DataManipulator.SaveDataDialog(_forestGraph);
+                e.Cancel = true;
             }
         }
 

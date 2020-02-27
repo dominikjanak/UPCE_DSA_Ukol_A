@@ -138,6 +138,42 @@ namespace GUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Chcete otevřít soubor s uloženými daty?.
+        /// </summary>
+        internal static string OPEN_DATA_FILE {
+            get {
+                return ResourceManager.GetString("OPEN_DATA_FILE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chcete otevřít soubor s uloženými daty?.
+        /// </summary>
+        internal static string OPEN_DATA_FILE_QUESTION {
+            get {
+                return ResourceManager.GetString("OPEN_DATA_FILE_QUESTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Otevřít soubor.
+        /// </summary>
+        internal static string OPEN_FILE_TITILE {
+            get {
+                return ResourceManager.GetString("OPEN_FILE_TITILE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Otevřít soubor.
+        /// </summary>
+        internal static string OPEN_FILE_TITLE {
+            get {
+                return ResourceManager.GetString("OPEN_FILE_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cesta vede do stejného vrcholu!.
         /// </summary>
         internal static string PATH_TO_SAME_VETEX {
@@ -165,7 +201,7 @@ namespace GUI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Máte neuložené změny, chcete je před koncem uložit?.
+        ///   Looks up a localized string similar to Máte neuložené změny grafu, chcete je uložit?.
         /// </summary>
         internal static string UNSAVED_CHANGES_ASK_TO_SAVE {
             get {

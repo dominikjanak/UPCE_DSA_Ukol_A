@@ -1,17 +1,27 @@
 # Datové struktury a algoritmy 
 Semestrální práce z předmětu Datové struktury a algoritmy (NNDSA).
 
-## Náhled
-![alt text][logo]
+## Náhled programu
+### Malý graf
+![alt text][preview1]
+### Velký graf
+![alt text][preview21]
+#### Matice trajektorií
+![alt text][preview22]
+### Říční údolí
+![alt text][preview3]
 
 ### Program
-[Zip s programem ke stažení](https://www.dominikjanak.cz/_files/ForestGraph_1.zip)
+[Zip s programem ke stažení](https://www.dominikjanak.cz/_files/ForestRoute_1.3.2.zip)
 
 ## Autor
-[Univerzita Pardubice](https://www.upce.cz/)\
-[Bc. Dominik Janák](https://www.dominikjanak.cz/)\
-**Číslo studenta:** st61459\
-**Školní e-mail:** [dominik.janak@student.upce.cz](mailto:dominik.janak@student.upce.cz)\
+[Univerzita Pardubice](https://www.upce.cz/)<br>
+[Bc. Dominik Janák](https://www.dominikjanak.cz/)<br>
+**Číslo studenta:** st61459<br>
+**Školní e-mail:** [dominik.janak@student.upce.cz](mailto:dominik.janak@student.upce.cz)<br>
 **Osobní e-mail:** [mail@dominikjanak.cz](mailto:mail@dominikjanak.cz)
 
-[logo]: preview.png "Náhled programu"
+[preview1]: preview_1.png "Malý les"
+[preview21]: preview_2.png "Velký les"
+[preview22]: preview_2_matice.png "Matice strajektorií"
+[preview3]: preview_3.png "Říční údolí"

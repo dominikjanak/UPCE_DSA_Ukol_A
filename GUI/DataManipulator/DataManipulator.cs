@@ -12,7 +12,7 @@ namespace GUI
 {
     static class DataManipulator
     {
-        public static bool SaveDataDialog(ForestGraph<string, VertexData, string, EdgeData> graph, bool openAfter = false)
+        public static bool SaveDataDialog(ForestGraph<string, VertexData, string, EdgeData> graph)
         {
             bool state = false;
             using (SaveFileDialog saveDialog = new SaveFileDialog())
@@ -23,8 +23,11 @@ namespace GUI
 
                 if (saveDialog.ShowDialog() == DialogResult.OK)
                 {
+                    bool openFile = MessageBox.Show(Resources.OPEN_DATA_FILE, Resources.OPEN_FILE_TITLE, MessageBoxButtons.YesNo,
+                                        MessageBoxIcon.Question) == DialogResult.Yes;
+
                     state = SaveData(graph, saveDialog.FileName);
-                    if (File.Exists(saveDialog.FileName) && openAfter)
+                    if (File.Exists(saveDialog.FileName) && openFile)
                     {
                         Process.Start(saveDialog.FileName);
                     }

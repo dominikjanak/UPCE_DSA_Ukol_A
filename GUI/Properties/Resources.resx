@@ -125,7 +125,7 @@
     <value>Chyba</value>
   </data>
   <data name="UNSAVED_CHANGES_ASK_TO_SAVE" xml:space="preserve">
-    <value>Máte neuložené změny, chcete je před koncem uložit?</value>
+    <value>Máte neuložené změny grafu, chcete je uložit?</value>
   </data>
   <data name="UNSAVED_CHANGES" xml:space="preserve">
     <value>Neuložené změny</value>
@@ -157,5 +157,17 @@
   </data>
   <data name="IMPORT_ERROR_TITLE" xml:space="preserve">
     <value>Chyba importu</value>
+  </data>
+  <data name="OPEN_DATA_FILE_QUESTION" xml:space="preserve">
+    <value>Chcete otevřít soubor s uloženými daty?</value>
+  </data>
+  <data name="OPEN_FILE_TITILE" xml:space="preserve">
+    <value>Otevřít soubor</value>
+  </data>
+  <data name="OPEN_DATA_FILE" xml:space="preserve">
+    <value>Chcete otevřít soubor s uloženými daty?</value>
+  </data>
+  <data name="OPEN_FILE_TITLE" xml:space="preserve">
+    <value>Otevřít soubor</value>
   </data>
 </root>

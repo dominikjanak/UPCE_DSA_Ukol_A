@@ -51,6 +51,7 @@ namespace GUI
             this.AutoloadLoadButton = new System.Windows.Forms.ToolStripMenuItem();
             this.closeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AboutProgramButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.NewGraphButton = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -236,6 +237,7 @@ namespace GUI
             // programToolStripMenuItem
             // 
             this.programToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.NewGraphButton,
             this.saveImageMenuItem,
             this.SaveDataButton,
             this.LoadDataButton,
@@ -248,21 +250,21 @@ namespace GUI
             // saveImageMenuItem
             // 
             this.saveImageMenuItem.Name = "saveImageMenuItem";
-            this.saveImageMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.saveImageMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveImageMenuItem.Text = "Uložit obrázek";
             this.saveImageMenuItem.Click += new System.EventHandler(this.saveImageButton_Click);
             // 
             // SaveDataButton
             // 
             this.SaveDataButton.Name = "SaveDataButton";
-            this.SaveDataButton.Size = new System.Drawing.Size(148, 22);
+            this.SaveDataButton.Size = new System.Drawing.Size(180, 22);
             this.SaveDataButton.Text = "Uložit jako...";
             this.SaveDataButton.Click += new System.EventHandler(this.SaveDataButton_Click);
             // 
             // LoadDataButton
             // 
             this.LoadDataButton.Name = "LoadDataButton";
-            this.LoadDataButton.Size = new System.Drawing.Size(148, 22);
+            this.LoadDataButton.Size = new System.Drawing.Size(180, 22);
             this.LoadDataButton.Text = "Načíst...";
             this.LoadDataButton.Click += new System.EventHandler(this.LoadDataButton_Click);
             // 
@@ -272,7 +274,7 @@ namespace GUI
             this.AutoloadSaveButton,
             this.AutoloadLoadButton});
             this.AutoloadButton.Name = "AutoloadButton";
-            this.AutoloadButton.Size = new System.Drawing.Size(148, 22);
+            this.AutoloadButton.Size = new System.Drawing.Size(180, 22);
             this.AutoloadButton.Text = "Autoload";
             // 
             // AutoloadSaveButton
@@ -292,7 +294,7 @@ namespace GUI
             // closeMenuItem
             // 
             this.closeMenuItem.Name = "closeMenuItem";
-            this.closeMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.closeMenuItem.Size = new System.Drawing.Size(180, 22);
             this.closeMenuItem.Text = "Ukončit";
             this.closeMenuItem.Click += new System.EventHandler(this.closeMenuItem_Click);
             // 
@@ -304,6 +306,13 @@ namespace GUI
             this.AboutProgramButton.Size = new System.Drawing.Size(84, 20);
             this.AboutProgramButton.Text = "O programu";
             this.AboutProgramButton.Click += new System.EventHandler(this.AboutProgramButton_Click);
+            // 
+            // NewGraphButton
+            // 
+            this.NewGraphButton.Name = "NewGraphButton";
+            this.NewGraphButton.Size = new System.Drawing.Size(180, 22);
+            this.NewGraphButton.Text = "Nový";
+            this.NewGraphButton.Click += new System.EventHandler(this.NewGraphButton_Click);
             // 
             // MainForm
             // 
@@ -352,6 +361,7 @@ namespace GUI
         private System.Windows.Forms.Button FindRouteButton;
         private System.Windows.Forms.ToolStripMenuItem AboutProgramButton;
         private GUI.Drawing.DoubleBufferedPanel graphCanvas;
+        private System.Windows.Forms.ToolStripMenuItem NewGraphButton;
     }
 }
 
