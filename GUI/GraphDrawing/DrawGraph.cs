@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
@@ -7,15 +6,18 @@ namespace GUI.Drawing
 {
     public class DrawGraph
     {
-        private Graphics _canvas;            // Drawing area
-        private SizeF _canvasSize;           // Canvas size
-        private PointF _graphOffset;         // Reduce space form [0,0]
-        private PointF _scaleRatio;          // Graph resize parameters
+        private Graphics _canvas; // Drawing area
+        private SizeF _canvasSize; // Canvas size
+        private PointF _graphOffset; // Reduce space form [0,0]
+        private PointF _scaleRatio; // Graph resize parameters
+        Font _boldFont;
+        Font _font;
 
         public DrawGraph(Image image)
         {
             if (image == null) throw new ArgumentNullException(nameof(image));
             InitCanvas(image);
+            Fonts();
         }
 
         public DrawGraph()
@@ -23,6 +25,13 @@ namespace GUI.Drawing
             _canvasSize = new SizeF(0, 0);
             _graphOffset = new PointF(0, 0);
             _scaleRatio = new PointF(0, 0);
+            Fonts();
+        }
+
+        private void Fonts()
+        {
+            _boldFont = new Font("Arial", 12, FontStyle.Bold, GraphicsUnit.Pixel); 
+            _font = new Font("Arial", 10, FontStyle.Regular, GraphicsUnit.Pixel);
         }
 
         public void InitCanvas(Size drawingPanel, Graphics g)
@@ -31,7 +40,6 @@ namespace GUI.Drawing
             _canvas = g;
             _canvas.SmoothingMode = SmoothingMode.HighQuality;
             ClearCanvas();
-
         }
 
         public void InitCanvas(Image image)
@@ -47,8 +55,8 @@ namespace GUI.Drawing
         {
             _graphOffset = new PointF(size.XMin - 31, size.YMin - 30);
 
-            _scaleRatio.X = (float)_canvasSize.Width / (size.XMax - size.XMin + 66);  // padding
-            _scaleRatio.Y = (float)_canvasSize.Height / (size.YMax - size.YMin + 71); // padding
+            _scaleRatio.X = (float) _canvasSize.Width / (size.XMax - size.XMin + 66); // padding
+            _scaleRatio.Y = (float) _canvasSize.Height / (size.YMax - size.YMin + 71); // padding
         }
 
         // Clear canvas with white colour
@@ -60,13 +68,13 @@ namespace GUI.Drawing
 
         private void DrawWatermark()
         {
-            string watermark = "Forest Graph ‐ © 2020 ‐ Dominik Janák";
-            Font boldFont = new Font("Arial", 12, FontStyle.Bold, GraphicsUnit.Pixel); 
+            string watermark = AssemblyData.Product + " ‐ " + AssemblyData.Copyright;
             SolidBrush brush = new SolidBrush(Color.FromArgb(128, Colors.Black));
 
-            PointF labelPosition = CalculateLabelPosition(new PointF(_canvasSize.Width, _canvasSize.Height), 0, watermark, boldFont, LabelPosition.Left);
+            PointF labelPosition = CalculateLabelPosition(new PointF(_canvasSize.Width, _canvasSize.Height), 0,
+                watermark, _boldFont, LabelPosition.Left);
             labelPosition.Y -= 13;
-            DrawLabel(watermark, labelPosition, brush, boldFont);
+            DrawLabel(watermark, labelPosition, brush, _boldFont);
         }
 
         public void DrawPath(PointF start, PointF target)
@@ -107,14 +115,12 @@ namespace GUI.Drawing
                     X = Math.Abs((start.X + end.X) / 2),
                     Y = Math.Abs((start.Y + end.Y) / 2)
                 };
-
-                Font font = new Font("Arial", 10, FontStyle.Regular, GraphicsUnit.Pixel);
                 SolidBrush brush = new SolidBrush(pen.Color);
-                labelPosition = CalculateLabelPosition(labelPosition, 0, label, font, LabelPosition.Center);
+                labelPosition = CalculateLabelPosition(labelPosition, 0, label, _font, LabelPosition.Center);
 
-                DrawEdgeLabelBackground(labelPosition, label, font);
+                DrawEdgeLabelBackground(labelPosition, label, _font);
 
-                DrawLabel(label, labelPosition, brush, font);
+                DrawLabel(label, labelPosition, brush, _font);
             }
         }
 
@@ -152,25 +158,24 @@ namespace GUI.Drawing
             Normalize(ref vertexLocation); // Normalize coordinates
             DrawFilledCircle(vertexLocation, radius, brush);
 
-            Font font = new Font("Arial", 10, FontStyle.Regular, GraphicsUnit.Pixel);
-            Font boldFont = new Font("Arial", 12, FontStyle.Bold, GraphicsUnit.Pixel);
-
             // Draw vertex label
             if (label != null)
             {
-                PointF labelPosition = CalculateLabelPosition(vertexLocation, radius, label, boldFont, LabelPosition.Top);
-                DrawLabel(label, labelPosition, brush, boldFont);
+                PointF labelPosition =
+                    CalculateLabelPosition(vertexLocation, radius, label, _boldFont, LabelPosition.Top);
+                DrawLabel(label, labelPosition, brush, _boldFont);
             }
 
             // Draw vertex coordinations 
-            PointF coordinationsPosition = CalculateLabelPosition(vertexLocation, radius, coordinationsLabel, font, LabelPosition.Bottom);
+            PointF coordinationsPosition =
+                CalculateLabelPosition(vertexLocation, radius, coordinationsLabel, _font, LabelPosition.Bottom);
             brush.Color = Colors.Black;
-            DrawLabel(coordinationsLabel, coordinationsPosition, brush, font);
+            DrawLabel(coordinationsLabel, coordinationsPosition, brush, _font);
         }
 
         public void DrawRectangle(RectangleF rectangle)
         {
-            Pen pen = new Pen(Colors.Red, (float)1.3);
+            Pen pen = new Pen(Colors.Red, (float) 1.3);
             SolidBrush transBrush = new SolidBrush(Color.FromArgb(25, Colors.Red));
 
             pen.DashStyle = DashStyle.Dash;
@@ -186,6 +191,7 @@ namespace GUI.Drawing
                 size.Width = -size.Width;
                 start.X -= size.Width;
             }
+
             if (size.Height < 0)
             {
                 size.Height = -size.Height;
@@ -209,9 +215,6 @@ namespace GUI.Drawing
         {
             size.Width /= _scaleRatio.X;
             size.Height /= _scaleRatio.Y;
-
-            //size.Width += _graphOffset.X;
-            //size.Height += _graphOffset.Y;
         }
 
         // Recalculate coordinates
@@ -227,23 +230,21 @@ namespace GUI.Drawing
         // Recalculate coordinates
         public void Normalize(ref SizeF size)
         {
-            //size.Width -= _graphOffset.X;
-            //size.Height -= _graphOffset.Y;
-
             size.Width *= _scaleRatio.X;
             size.Height *= _scaleRatio.Y;
         }
 
-        private SizeF LabelSize(string label, Font font)
+        private static SizeF LabelSize(string label, Font font)
         {
-            using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(new Bitmap(1, 1)))
+            using (Graphics graphics = Graphics.FromImage(new Bitmap(1, 1)))
             {
                 return graphics.MeasureString(label, font);
             }
         }
 
         // Calculate coordinates for label 
-        private PointF CalculateLabelPosition(PointF vertexLocation, int vertexRadius, string label, Font font, LabelPosition labelPosition = LabelPosition.Top)
+        private PointF CalculateLabelPosition(PointF vertexLocation, int vertexRadius, string label, Font font,
+            LabelPosition labelPosition = LabelPosition.Top)
         {
             PointF labelLocation = new PointF(vertexLocation.X, vertexLocation.Y);
             SizeF labelSize = LabelSize(label, font);
@@ -259,7 +260,7 @@ namespace GUI.Drawing
             {
                 case LabelPosition.Top:
                     location.X -= labelSize.Width / 2;
-                    location.Y -= vertexRadius + (int)labelSize.Height;
+                    location.Y -= vertexRadius + (int) labelSize.Height;
                     break;
                 case LabelPosition.Bottom:
                     location.X -= labelSize.Width / 2;

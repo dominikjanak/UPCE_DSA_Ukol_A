@@ -17,6 +17,13 @@ namespace GUI.Dialog
             InitializeComponent();
             ComboVertexType.SelectedIndex = 0;
             this.ActiveControl = ComboVertexType;
+
+            Point position = Properties.Settings.Default.DialogPosition;
+            if (!(position.X <= -1000 && position.Y <= -1000))
+            {
+                StartPosition = FormStartPosition.Manual;
+                Location = position;
+            }
         }
 
         private void DialogSubmitButton_Click(object sender, EventArgs e)
@@ -158,6 +165,11 @@ namespace GUI.Dialog
                 }
             }
             return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private void VertexDialog_Move(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.DialogPosition = Location;
         }
     }
 }

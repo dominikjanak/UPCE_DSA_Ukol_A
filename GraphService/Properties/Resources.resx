@@ -117,45 +117,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="InfoPanel" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\InfoPanel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="EDGE_EXISTS" xml:space="preserve">
+    <value>Tato hrana v grafu již existuje!</value>
   </data>
-  <data name="ERROR_LABEL" xml:space="preserve">
-    <value>Chyba</value>
+  <data name="EDGE_NOT_FOUND" xml:space="preserve">
+    <value>Hrana nebyla v grafu nalezena!</value>
   </data>
-  <data name="UNSAVED_CHANGES_ASK_TO_SAVE" xml:space="preserve">
-    <value>Máte neuložené změny, chcete je před koncem uložit?</value>
+  <data name="GRAPH_NOT_EXPLORED" xml:space="preserve">
+    <value>Nelze získat cestu, neboť graf není prozkoumán!</value>
   </data>
-  <data name="UNSAVED_CHANGES" xml:space="preserve">
-    <value>Neuložené změny</value>
+  <data name="INVALID_CALCULATIONS" xml:space="preserve">
+    <value>Výpočty cest již nejsou platné a je potřeba provést přepočet!</value>
   </data>
-  <data name="PATH_TO_SAME_VETEX" xml:space="preserve">
-    <value>Cesta vede do stejného vrcholu!</value>
+  <data name="INVALID_DATA" xml:space="preserve">
+    <value>Data již nejsou platná a je potřeba je přegenerovat!</value>
   </data>
-  <data name="SELECTED_VERTEXES_NOT_EXITS" xml:space="preserve">
+  <data name="KEY_IS_ALREADY_EXISTS" xml:space="preserve">
+    <value>Zadaný klíč v grafu již existuje!</value>
+  </data>
+  <data name="ROUTE_NOT_EXISTS" xml:space="preserve">
+    <value>Cesta mezi body neexistuje!</value>
+  </data>
+  <data name="START_KEY_NOT_RECIEVE" xml:space="preserve">
+    <value>Nebyl zadán klíč cílového bodu!</value>
+  </data>
+  <data name="TARGET_KEY_NOT_RECIEVE" xml:space="preserve">
+    <value>Nebyl zadán klíč počátečního bodu!</value>
+  </data>
+  <data name="VALUE_IS_ALREADY_EXISTS" xml:space="preserve">
+    <value>Zadaná položka v grafu již existuje!</value>
+  </data>
+  <data name="VALUE_NOT_EXISTS" xml:space="preserve">
+    <value>Zadaná položka v grafu neexistuje!</value>
+  </data>
+  <data name="VERTEXES_NOT_EXIST" xml:space="preserve">
     <value>Zvolené vrcholy v grafu neexistují!</value>
   </data>
-  <data name="EXPORT_ERROR" xml:space="preserve">
-    <value>V průběhu exportování se vyskytla chyba:
-
-</value>
+  <data name="VERTEX_NOT_EXISTS" xml:space="preserve">
+    <value>Zadaný vrchol v grafu neexistuje!</value>
   </data>
-  <data name="EXPORT_ERROR_TITLE" xml:space="preserve">
-    <value>Chyba exportu</value>
-  </data>
-  <data name="DATA_ALREADY_EXISTS_TITLE" xml:space="preserve">
-    <value>Existující data</value>
-  </data>
-  <data name="DATA_ALREADY_EXISTS" xml:space="preserve">
-    <value>V programu již existuji data, chcete je přapsat?</value>
-  </data>
-  <data name="IMPORT_ERROR" xml:space="preserve">
-    <value>V průběhu importování se vyskytla chyba:
-
-</value>
-  </data>
-  <data name="IMPORT_ERROR_TITLE" xml:space="preserve">
-    <value>Chyba importu</value>
+  <data name="VERTEX_NOT_FOUND" xml:space="preserve">
+    <value>Vrchol nebyl v grafu nalezen!</value>
   </data>
 </root>

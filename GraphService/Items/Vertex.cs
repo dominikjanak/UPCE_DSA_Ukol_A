@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace ForestGraph
 {
     public class Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData>
-        //: IVertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData>
+        : IVertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData>
         where TVertexKey : IComparable<TVertexKey>
         where TEdgeKey : IComparable<TEdgeKey>
     {

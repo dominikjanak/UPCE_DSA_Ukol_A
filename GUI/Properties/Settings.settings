@@ -1,7 +1,21 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="GUI.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="MainformSize" Type="System.Drawing.Size" Scope="User">
+      <Value Profile="(Default)">700, 500</Value>
+    </Setting>
+    <Setting Name="MatrixformSize" Type="System.Drawing.Size" Scope="User">
+      <Value Profile="(Default)">400, 300</Value>
+    </Setting>
+    <Setting Name="MainformPosition" Type="System.Drawing.Point" Scope="User">
+      <Value Profile="(Default)">-1000, -1000</Value>
+    </Setting>
+    <Setting Name="DialogPosition" Type="System.Drawing.Point" Scope="User">
+      <Value Profile="(Default)">-1000, -1000</Value>
+    </Setting>
+    <Setting Name="MatrixformPosition" Type="System.Drawing.Point" Scope="User">
+      <Value Profile="(Default)">-1000, -1000</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

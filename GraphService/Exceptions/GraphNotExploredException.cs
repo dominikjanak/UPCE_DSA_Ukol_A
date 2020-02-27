@@ -1,4 +1,7 @@
-﻿using System;
+﻿using GraphService.Properties;
+using System;
+using System.Runtime.Serialization;
+using System.Security;
 
 namespace ForestGraph
 {
@@ -9,7 +12,7 @@ namespace ForestGraph
         { }
 
         public GraphNotExploredException()
-            : base("Nelze získat cestu, neboť graf není prozkoumán!")
+            : base(Resources.GRAPH_NOT_EXPLORED)
         { }
     }
 }

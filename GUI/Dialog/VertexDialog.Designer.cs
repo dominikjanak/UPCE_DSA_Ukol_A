@@ -337,9 +337,10 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "VertexDialog";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Vytvořit vrchol";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.VertexDialog_FormClosing);
+            this.Move += new System.EventHandler(this.VertexDialog_Move);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel5.ResumeLayout(false);

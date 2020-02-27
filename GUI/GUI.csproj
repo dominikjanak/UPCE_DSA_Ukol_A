@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>logo_small_inverted.ico</ApplicationIcon>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyData.cs" />
     <Compile Include="Dialog\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -92,8 +93,8 @@
     <Compile Include="Dialog\VertexDialog.Designer.cs">
       <DependentUpon>VertexDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Enums\EdgeType.cs" />
-    <Compile Include="Enums\VertexType.cs" />
+    <Compile Include="Data\Enums\EdgeType.cs" />
+    <Compile Include="Data\Enums\VertexType.cs" />
     <Compile Include="GraphDrawing\Component\DoubleBufferedPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -114,6 +115,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
     <EmbeddedResource Include="Dialog\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -143,6 +145,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -156,9 +159,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="logo_small_inverted.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
@@ -177,6 +177,12 @@
       <Project>{3246cdaa-425b-4f9b-b7ad-3f1c2e9400b0}</Project>
       <Name>GraphService</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\InfoPanel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

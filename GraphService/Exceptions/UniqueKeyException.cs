@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GraphService.Properties;
+using System;
 
 namespace ForestGraph
 {
@@ -9,7 +10,7 @@ namespace ForestGraph
         { }
 
         public UniqueKeyException()
-            : base("Zadaný klíč v grafu již existuje!")
+            : base(Resources.KEY_IS_ALREADY_EXISTS)
         { }
     }
 }

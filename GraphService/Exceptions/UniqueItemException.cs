@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GraphService.Properties;
+using System;
 
 namespace ForestGraph
 {
@@ -9,7 +10,7 @@ namespace ForestGraph
         { }
 
         public UniqueItemException()
-            : base("Zadaná položka v grafu již existuje!")
+            : base(Resources.VALUE_IS_ALREADY_EXISTS)
         { }
     }
 }

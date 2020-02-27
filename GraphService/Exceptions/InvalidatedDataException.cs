@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GraphService.Properties;
+using System;
 
 namespace ForestGraph
 {
@@ -9,7 +10,7 @@ namespace ForestGraph
         { }
 
         public InvalidatedDataException()
-            : base("Data již nejsou platná a je potřeba je přegenerovat!")
+            : base(Resources.INVALID_DATA)
         { }
     }
 }

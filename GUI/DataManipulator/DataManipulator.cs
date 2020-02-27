@@ -6,6 +6,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using ForestGraph;
+using GUI.Properties;
 
 namespace GUI
 {
@@ -14,22 +15,21 @@ namespace GUI
         public static bool SaveDataDialog(ForestGraph<string, VertexData, string, EdgeData> graph, bool openAfter = false)
         {
             bool state = false;
-            SaveFileDialog saveDialog = new SaveFileDialog()
+            using (SaveFileDialog saveDialog = new SaveFileDialog())
             {
-                FileName = "GraphData_" + DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"),
-                Filter = "XML Data|*.xml",
-                AddExtension = true,
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
-            };
+                saveDialog.FileName = "GraphData_" + DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss");
+                saveDialog.Filter = "XML Data|*.xml";
+                saveDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
-            if (saveDialog.ShowDialog() == DialogResult.OK)
-            {
-                state = SaveData(graph, saveDialog.FileName);
-                if (File.Exists(saveDialog.FileName) && openAfter) 
-                { 
-                    Process.Start(saveDialog.FileName);
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    state = SaveData(graph, saveDialog.FileName);
+                    if (File.Exists(saveDialog.FileName) && openAfter)
+                    {
+                        Process.Start(saveDialog.FileName);
+                    }
                 }
-            }
+            }                      
             return state;
         }
 
@@ -62,7 +62,7 @@ namespace GUI
             }
             catch (Exception ex)
             {
-                MessageBox.Show("V průběhu exportování se vyskytla chyba:\n\n" + ex.Message, "Chyba exportu",
+                MessageBox.Show(Resources.EXPORT_ERROR + ex.Message, Resources.EXPORT_ERROR_TITLE,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return false;
@@ -98,7 +98,7 @@ namespace GUI
 
                 if (!graph.IsEmpty())
                 {
-                    DialogResult result = MessageBox.Show("V programu již existuji data, chcete je přapsat?", "Existující data",
+                    DialogResult result = MessageBox.Show(Resources.DATA_ALREADY_EXISTS, Resources.DATA_ALREADY_EXISTS_TITLE,
                         MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (result == DialogResult.Yes)
                     {
@@ -126,7 +126,7 @@ namespace GUI
             }
             catch (Exception ex)
             {
-                MessageBox.Show("V průběhu importování se vyskytla chyba:\n\n" + ex.Message, "Chyba importu",
+                MessageBox.Show(Resources.IMPORT_ERROR + ex.Message, Resources.IMPORT_ERROR_TITLE,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

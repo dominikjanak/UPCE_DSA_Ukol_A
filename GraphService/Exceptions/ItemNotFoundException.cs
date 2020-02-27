@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GraphService.Properties;
+using System;
 
 namespace ForestGraph
 {
@@ -9,7 +10,7 @@ namespace ForestGraph
         { }
 
         public ItemNotFoundException()
-            : base("Zadaná položka v grafu neexistuje!")
+            : base(Resources.VALUE_NOT_EXISTS)
         { }
     }
 }

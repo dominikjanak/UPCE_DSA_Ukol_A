@@ -235,9 +235,10 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SelectTwoVertexesDialog";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Odstranit hranu";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SelectEdgeDialog_FormClosing);
+            this.Move += new System.EventHandler(this.SelectTwoVertexesDialog_Move);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel4.ResumeLayout(false);

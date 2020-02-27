@@ -32,6 +32,7 @@ namespace GUI
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.graphCanvas = new GUI.Drawing.DoubleBufferedPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.CloseButton = new System.Windows.Forms.Button();
             this.RemoveEdgeButton = new System.Windows.Forms.Button();
@@ -50,7 +51,6 @@ namespace GUI
             this.AutoloadLoadButton = new System.Windows.Forms.ToolStripMenuItem();
             this.closeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AboutProgramButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.graphCanvas = new GUI.Drawing.DoubleBufferedPanel();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -70,8 +70,24 @@ namespace GUI
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(660, 422);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(460, 222);
             this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // graphCanvas
+            // 
+            this.graphCanvas.BackColor = System.Drawing.Color.White;
+            this.graphCanvas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.graphCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.graphCanvas.Location = new System.Drawing.Point(3, 2);
+            this.graphCanvas.Margin = new System.Windows.Forms.Padding(3, 2, 0, 3);
+            this.graphCanvas.Name = "graphCanvas";
+            this.graphCanvas.Size = new System.Drawing.Size(327, 217);
+            this.graphCanvas.TabIndex = 0;
+            this.graphCanvas.Paint += new System.Windows.Forms.PaintEventHandler(this.graphCanvas_Paint);
+            this.graphCanvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.graphCanvas_MouseDown);
+            this.graphCanvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.graphCanvas_MouseMove);
+            this.graphCanvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.graphCanvas_MouseUp);
+            this.graphCanvas.Resize += new System.EventHandler(this.graphCanvas_Resize);
             // 
             // tableLayoutPanel2
             // 
@@ -85,7 +101,7 @@ namespace GUI
             this.tableLayoutPanel2.Controls.Add(this.TrajectoryMatrixButton, 0, 5);
             this.tableLayoutPanel2.Controls.Add(this.FindRouteButton, 0, 6);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(533, 2);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(333, 2);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(3, 2, 0, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 9;
@@ -98,7 +114,7 @@ namespace GUI
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(127, 420);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(127, 220);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // CloseButton
@@ -107,7 +123,7 @@ namespace GUI
             this.CloseButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CloseButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.CloseButton.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.CloseButton.Location = new System.Drawing.Point(0, 385);
+            this.CloseButton.Location = new System.Drawing.Point(0, 185);
             this.CloseButton.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
             this.CloseButton.Name = "CloseButton";
             this.CloseButton.Size = new System.Drawing.Size(127, 32);
@@ -213,7 +229,7 @@ namespace GUI
             this.AboutProgramButton});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(684, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(484, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -289,36 +305,21 @@ namespace GUI
             this.AboutProgramButton.Text = "O programu";
             this.AboutProgramButton.Click += new System.EventHandler(this.AboutProgramButton_Click);
             // 
-            // graphCanvas
-            // 
-            this.graphCanvas.BackColor = System.Drawing.Color.White;
-            this.graphCanvas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.graphCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.graphCanvas.Location = new System.Drawing.Point(3, 2);
-            this.graphCanvas.Margin = new System.Windows.Forms.Padding(3, 2, 0, 3);
-            this.graphCanvas.Name = "graphCanvas";
-            this.graphCanvas.Size = new System.Drawing.Size(527, 417);
-            this.graphCanvas.TabIndex = 0;
-            this.graphCanvas.Paint += new System.Windows.Forms.PaintEventHandler(this.graphCanvas_Paint);
-            this.graphCanvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.graphCanvas_MouseDown);
-            this.graphCanvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.graphCanvas_MouseMove);
-            this.graphCanvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.graphCanvas_MouseUp);
-            this.graphCanvas.Resize += new System.EventHandler(this.graphCanvas_Resize);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 461);
+            this.ClientSize = new System.Drawing.Size(484, 261);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(700, 500);
+            this.MinimumSize = new System.Drawing.Size(500, 300);
             this.Name = "MainForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
-            this.Text = "UPCE DSA – Forest graph";
+            this.Text = "Dynamic Title";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.ResizeEnd += new System.EventHandler(this.MainForm_ResizeEnd);
             this.Move += new System.EventHandler(this.MainForm_Move);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -337,7 +338,6 @@ namespace GUI
         private System.Windows.Forms.ToolStripMenuItem programToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveImageMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeMenuItem;
-        private DoubleBufferedPanel graphCanvas;
         private System.Windows.Forms.ToolStripMenuItem SaveDataButton;
         private System.Windows.Forms.ToolStripMenuItem LoadDataButton;
         private System.Windows.Forms.Button RemoveEdgeButton;
@@ -351,6 +351,7 @@ namespace GUI
         private System.Windows.Forms.Button CloseButton;
         private System.Windows.Forms.Button FindRouteButton;
         private System.Windows.Forms.ToolStripMenuItem AboutProgramButton;
+        private GUI.Drawing.DoubleBufferedPanel graphCanvas;
     }
 }
 

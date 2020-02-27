@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GraphService.Properties;
+using System;
 
 namespace ForestGraph
 {
@@ -9,7 +10,7 @@ namespace ForestGraph
         { }
 
         public RouteNotExistsException()
-            : base("Cesta mezi body neexistuje!")
+            : base(Resources.ROUTE_NOT_EXISTS)
         { }
     }
 }

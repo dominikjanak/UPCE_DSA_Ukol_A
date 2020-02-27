@@ -3,7 +3,7 @@
 namespace ForestGraph
 {
     public class Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>
-        //: IEdge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>
+        : IEdge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>
         where TVertexKey : IComparable<TVertexKey>
         where TEdgeKey : IComparable<TEdgeKey>
     {

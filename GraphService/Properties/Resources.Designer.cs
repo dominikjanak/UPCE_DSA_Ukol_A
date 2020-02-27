@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GUI.Properties {
+namespace GraphService.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace GUI.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GUI.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GraphService.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,115 +61,128 @@ namespace GUI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to V programu již existuji data, chcete je přapsat?.
+        ///   Looks up a localized string similar to Tato hrana v grafu již existuje!.
         /// </summary>
-        internal static string DATA_ALREADY_EXISTS {
+        internal static string EDGE_EXISTS {
             get {
-                return ResourceManager.GetString("DATA_ALREADY_EXISTS", resourceCulture);
+                return ResourceManager.GetString("EDGE_EXISTS", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Existující data.
+        ///   Looks up a localized string similar to Hrana nebyla v grafu nalezena!.
         /// </summary>
-        internal static string DATA_ALREADY_EXISTS_TITLE {
+        internal static string EDGE_NOT_FOUND {
             get {
-                return ResourceManager.GetString("DATA_ALREADY_EXISTS_TITLE", resourceCulture);
+                return ResourceManager.GetString("EDGE_NOT_FOUND", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Chyba.
+        ///   Looks up a localized string similar to Nelze získat cestu, neboť graf není prozkoumán!.
         /// </summary>
-        internal static string ERROR_LABEL {
+        internal static string GRAPH_NOT_EXPLORED {
             get {
-                return ResourceManager.GetString("ERROR_LABEL", resourceCulture);
+                return ResourceManager.GetString("GRAPH_NOT_EXPLORED", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to V průběhu exportování se vyskytla chyba:
-        ///
-        ///.
+        ///   Looks up a localized string similar to Výpočty cest již nejsou platné a je potřeba provést přepočet!.
         /// </summary>
-        internal static string EXPORT_ERROR {
+        internal static string INVALID_CALCULATIONS {
             get {
-                return ResourceManager.GetString("EXPORT_ERROR", resourceCulture);
+                return ResourceManager.GetString("INVALID_CALCULATIONS", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Chyba exportu.
+        ///   Looks up a localized string similar to Data již nejsou platná a je potřeba je přegenerovat!.
         /// </summary>
-        internal static string EXPORT_ERROR_TITLE {
+        internal static string INVALID_DATA {
             get {
-                return ResourceManager.GetString("EXPORT_ERROR_TITLE", resourceCulture);
+                return ResourceManager.GetString("INVALID_DATA", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to V průběhu importování se vyskytla chyba:
-        ///
-        ///.
+        ///   Looks up a localized string similar to Zadaný klíč v grafu již existuje!.
         /// </summary>
-        internal static string IMPORT_ERROR {
+        internal static string KEY_IS_ALREADY_EXISTS {
             get {
-                return ResourceManager.GetString("IMPORT_ERROR", resourceCulture);
+                return ResourceManager.GetString("KEY_IS_ALREADY_EXISTS", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Chyba importu.
+        ///   Looks up a localized string similar to Cesta mezi body neexistuje!.
         /// </summary>
-        internal static string IMPORT_ERROR_TITLE {
+        internal static string ROUTE_NOT_EXISTS {
             get {
-                return ResourceManager.GetString("IMPORT_ERROR_TITLE", resourceCulture);
+                return ResourceManager.GetString("ROUTE_NOT_EXISTS", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        ///   Looks up a localized string similar to Nebyl zadán klíč cílového bodu!.
         /// </summary>
-        internal static System.Drawing.Bitmap InfoPanel {
+        internal static string START_KEY_NOT_RECIEVE {
             get {
-                object obj = ResourceManager.GetObject("InfoPanel", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ResourceManager.GetString("START_KEY_NOT_RECIEVE", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cesta vede do stejného vrcholu!.
+        ///   Looks up a localized string similar to Nebyl zadán klíč počátečního bodu!.
         /// </summary>
-        internal static string PATH_TO_SAME_VETEX {
+        internal static string TARGET_KEY_NOT_RECIEVE {
             get {
-                return ResourceManager.GetString("PATH_TO_SAME_VETEX", resourceCulture);
+                return ResourceManager.GetString("TARGET_KEY_NOT_RECIEVE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zadaná položka v grafu již existuje!.
+        /// </summary>
+        internal static string VALUE_IS_ALREADY_EXISTS {
+            get {
+                return ResourceManager.GetString("VALUE_IS_ALREADY_EXISTS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zadaná položka v grafu neexistuje!.
+        /// </summary>
+        internal static string VALUE_NOT_EXISTS {
+            get {
+                return ResourceManager.GetString("VALUE_NOT_EXISTS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zadaný vrchol v grafu neexistuje!.
+        /// </summary>
+        internal static string VERTEX_NOT_EXISTS {
+            get {
+                return ResourceManager.GetString("VERTEX_NOT_EXISTS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vrchol nebyl v grafu nalezen!.
+        /// </summary>
+        internal static string VERTEX_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("VERTEX_NOT_FOUND", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Zvolené vrcholy v grafu neexistují!.
         /// </summary>
-        internal static string SELECTED_VERTEXES_NOT_EXITS {
+        internal static string VERTEXES_NOT_EXIST {
             get {
-                return ResourceManager.GetString("SELECTED_VERTEXES_NOT_EXITS", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Neuložené změny.
-        /// </summary>
-        internal static string UNSAVED_CHANGES {
-            get {
-                return ResourceManager.GetString("UNSAVED_CHANGES", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Máte neuložené změny, chcete je před koncem uložit?.
-        /// </summary>
-        internal static string UNSAVED_CHANGES_ASK_TO_SAVE {
-            get {
-                return ResourceManager.GetString("UNSAVED_CHANGES_ASK_TO_SAVE", resourceCulture);
+                return ResourceManager.GetString("VERTEXES_NOT_EXIST", resourceCulture);
             }
         }
     }

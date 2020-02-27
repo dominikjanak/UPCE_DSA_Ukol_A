@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GraphService.Properties;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,7 +11,7 @@ namespace ForestGraph
         where TEdgeKey : IComparable<TEdgeKey>
     {
         private Dictionary<TVertexKey, Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData>> _vertexes;
-        private Dictionary<TEdgeKey, Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>> _edges; // Je možné držet i hrany pro optimálnější výkon
+        private Dictionary<TEdgeKey, Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>> _edges;
 
         public ForestGraph()
         {
@@ -46,12 +47,12 @@ namespace ForestGraph
 
         internal void AddVertex(Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> vertex)
         {
-            if (!_vertexes.ContainsKey(vertex.Key))
+            if (_vertexes.ContainsKey(vertex.Key))
             {
-                _vertexes.Add(vertex.Key, vertex);
-                return;
+                throw new UniqueKeyException(Resources.KEY_IS_ALREADY_EXISTS);
             }
-            throw new UniqueKeyException("Zadaný klíč vrcholu již existuje!");
+
+            _vertexes.Add(vertex.Key, vertex);
         }
 
         public TVertexData RemoveVertex(TVertexKey key)
@@ -64,7 +65,7 @@ namespace ForestGraph
         {
             if (vertex == null)
             {
-                throw new ItemNotFoundException("Vrchol určený ke smazání nebyl v grafu nalezen!");
+                throw new ItemNotFoundException(Resources.VERTEX_NOT_FOUND);
             }            
 
             List<TEdgeKey> edges = vertex.IncidentEdges.Select(edge => edge.Key).ToList();
@@ -117,7 +118,7 @@ namespace ForestGraph
         {
             if (HasEdge(edge.Key))
             {
-                throw new UniqueKeyException("Zadaný klíč hrany již existuje!");
+                throw new UniqueKeyException(Resources.KEY_IS_ALREADY_EXISTS);
             }
 
             var startVertex = edge.StartVertex;
@@ -125,12 +126,12 @@ namespace ForestGraph
 
             if (startVertex == null || targetVertex == null)
             {
-                throw new ItemNotFoundException("Zvolené vrcholy v grafu neexistují!");
+                throw new ItemNotFoundException(Resources.VERTEXES_NOT_EXIST);
             }
 
             if (GetEdge(startVertex, targetVertex) != null)
             {
-                throw new UniqueItemException("Tato hrana v grafu již existuje!");
+                throw new UniqueItemException(Resources.EDGE_EXISTS);
             }
 
             _edges.Add(edge.Key, edge);
@@ -154,7 +155,7 @@ namespace ForestGraph
         {
             if (edge == null)
             {
-                throw new ItemNotFoundException("Hrana určená ke smazání nebyla v grafu nalezena!");
+                throw new ItemNotFoundException(Resources.EDGE_NOT_FOUND);
             }
 
             var startVertex = edge.StartVertex;
@@ -162,7 +163,7 @@ namespace ForestGraph
 
             if (startVertex == null || targetVertex == null)
             {
-                throw new ItemNotFoundException("Zvolené vrcholy v grafu neexistují!");
+                throw new ItemNotFoundException(Resources.VERTEXES_NOT_EXIST);
             }
 
             startVertex.IncidentEdges.Remove(edge);
@@ -196,15 +197,7 @@ namespace ForestGraph
                 return null;
             }
 
-            foreach (var edge in start.IncidentEdges)
-            {
-                if (edge.GetOpositeVertex(start) == target)
-                {
-                    return edge;
-                }
-            }
-
-            return null;
+            return start.IncidentEdges.FirstOrDefault(edge => edge.GetOpositeVertex(start) == target);
         }
 
         internal Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> GetEdge(TEdgeKey key)

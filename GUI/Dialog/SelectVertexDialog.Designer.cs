@@ -184,9 +184,10 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SelectVertexDialog";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Odstranit vrchol";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SelectVertexDialog_FormClosing);
+            this.Move += new System.EventHandler(this.SelectVertexDialog_Move);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);

@@ -12,6 +12,13 @@ namespace GUI.Dialog
         public SelectVertexDialog()
         {
             InitializeComponent();
+
+            Point position = Properties.Settings.Default.DialogPosition;
+            if (!(position.X <= -1000 && position.Y <= -1000))
+            {
+                StartPosition = FormStartPosition.Manual;
+                Location = position;
+            }
         }
 
         private void DialogSubmitButton_Click(object sender, EventArgs e)
@@ -72,6 +79,11 @@ namespace GUI.Dialog
                     this.DialogSubmitButton.PerformClick();
                 }
             }
+        }
+
+        private void SelectVertexDialog_Move(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.DialogPosition = Location;
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
