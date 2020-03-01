@@ -61,29 +61,56 @@ namespace GUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to V průběhu automatického načtení dat při startu programu, nastala neočekávaná chyba. Je možné, že je poškozený datový soubor. Zkuste tento soubor přejmenovat nebo odstranit. Nachází se v adresáři s polečně s tímto programem. .
+        /// </summary>
+        internal static string AutoImportError {
+            get {
+                return ResourceManager.GetString("AutoImportError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chyba automatickkého načtení dat.
+        /// </summary>
+        internal static string AutoImportErrorTitle {
+            get {
+                return ResourceManager.GetString("AutoImportErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to V programu již existuji data, chcete je přapsat?.
         /// </summary>
-        internal static string DATA_ALREADY_EXISTS {
+        internal static string DataAlreadyExists {
             get {
-                return ResourceManager.GetString("DATA_ALREADY_EXISTS", resourceCulture);
+                return ResourceManager.GetString("DataAlreadyExists", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Existující data.
         /// </summary>
-        internal static string DATA_ALREADY_EXISTS_TITLE {
+        internal static string DataAlreadyExistsTitle {
             get {
-                return ResourceManager.GetString("DATA_ALREADY_EXISTS_TITLE", resourceCulture);
+                return ResourceManager.GetString("DataAlreadyExistsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Při ukládaní dat se vyskytla chyba!.
+        /// </summary>
+        internal static string DataSaveError {
+            get {
+                return ResourceManager.GetString("DataSaveError", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Chyba.
         /// </summary>
-        internal static string ERROR_LABEL {
+        internal static string ErrorLabel {
             get {
-                return ResourceManager.GetString("ERROR_LABEL", resourceCulture);
+                return ResourceManager.GetString("ErrorLabel", resourceCulture);
             }
         }
         
@@ -92,18 +119,18 @@ namespace GUI.Properties {
         ///
         ///.
         /// </summary>
-        internal static string EXPORT_ERROR {
+        internal static string ExportError {
             get {
-                return ResourceManager.GetString("EXPORT_ERROR", resourceCulture);
+                return ResourceManager.GetString("ExportError", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Chyba exportu.
         /// </summary>
-        internal static string EXPORT_ERROR_TITLE {
+        internal static string ExportErrorTitle {
             get {
-                return ResourceManager.GetString("EXPORT_ERROR_TITLE", resourceCulture);
+                return ResourceManager.GetString("ExportErrorTitle", resourceCulture);
             }
         }
         
@@ -112,18 +139,27 @@ namespace GUI.Properties {
         ///
         ///.
         /// </summary>
-        internal static string IMPORT_ERROR {
+        internal static string ImportError {
             get {
-                return ResourceManager.GetString("IMPORT_ERROR", resourceCulture);
+                return ResourceManager.GetString("ImportError", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Chyba importu.
         /// </summary>
-        internal static string IMPORT_ERROR_TITLE {
+        internal static string ImportErrorTitle {
             get {
-                return ResourceManager.GetString("IMPORT_ERROR_TITLE", resourceCulture);
+                return ResourceManager.GetString("ImportErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Neexistuje soubor pro import!.
+        /// </summary>
+        internal static string ImportFileNotExists {
+            get {
+                return ResourceManager.GetString("ImportFileNotExists", resourceCulture);
             }
         }
         
@@ -140,72 +176,63 @@ namespace GUI.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Chcete otevřít soubor s uloženými daty?.
         /// </summary>
-        internal static string OPEN_DATA_FILE {
+        internal static string OpenDataFile {
             get {
-                return ResourceManager.GetString("OPEN_DATA_FILE", resourceCulture);
+                return ResourceManager.GetString("OpenDataFile", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Chcete otevřít soubor s uloženými daty?.
         /// </summary>
-        internal static string OPEN_DATA_FILE_QUESTION {
+        internal static string OpenDataFileQuestion {
             get {
-                return ResourceManager.GetString("OPEN_DATA_FILE_QUESTION", resourceCulture);
+                return ResourceManager.GetString("OpenDataFileQuestion", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Otevřít soubor.
         /// </summary>
-        internal static string OPEN_FILE_TITILE {
+        internal static string OpenFileTitle {
             get {
-                return ResourceManager.GetString("OPEN_FILE_TITILE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Otevřít soubor.
-        /// </summary>
-        internal static string OPEN_FILE_TITLE {
-            get {
-                return ResourceManager.GetString("OPEN_FILE_TITLE", resourceCulture);
+                return ResourceManager.GetString("OpenFileTitle", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Cesta vede do stejného vrcholu!.
         /// </summary>
-        internal static string PATH_TO_SAME_VETEX {
+        internal static string PathToSameVertex {
             get {
-                return ResourceManager.GetString("PATH_TO_SAME_VETEX", resourceCulture);
+                return ResourceManager.GetString("PathToSameVertex", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Zvolené vrcholy v grafu neexistují!.
         /// </summary>
-        internal static string SELECTED_VERTEXES_NOT_EXITS {
+        internal static string SelectedVerticesNotExist {
             get {
-                return ResourceManager.GetString("SELECTED_VERTEXES_NOT_EXITS", resourceCulture);
+                return ResourceManager.GetString("SelectedVerticesNotExist", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Neuložené změny.
         /// </summary>
-        internal static string UNSAVED_CHANGES {
+        internal static string UnsavedChanges {
             get {
-                return ResourceManager.GetString("UNSAVED_CHANGES", resourceCulture);
+                return ResourceManager.GetString("UnsavedChanges", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Máte neuložené změny grafu, chcete je uložit?.
         /// </summary>
-        internal static string UNSAVED_CHANGES_ASK_TO_SAVE {
+        internal static string UnsavedChangesQuestionToSave {
             get {
-                return ResourceManager.GetString("UNSAVED_CHANGES_ASK_TO_SAVE", resourceCulture);
+                return ResourceManager.GetString("UnsavedChangesQuestionToSave", resourceCulture);
             }
         }
     }

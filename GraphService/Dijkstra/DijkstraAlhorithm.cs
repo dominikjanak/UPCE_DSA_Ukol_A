@@ -49,17 +49,17 @@ namespace GraphService.Dijkstra
         {
             if (_invalidated)
             {
-                throw new InvalidatedDataException(Resources.INVALID_CALCULATIONS);
+                throw new InvalidatedDataException(Resources.InvalidCalculations);
             }
 
             if (target == null)
             {
-                throw new ArgumentNullException(Resources.START_KEY_NOT_RECIEVE);
+                throw new ArgumentNullException(Resources.StartKeyNull);
             }
 
             if(_start.CompareTo(default(TVertexKey)) == 0)
             {
-                throw new GraphNotExploredException(Resources.GRAPH_NOT_EXPLORED);
+                throw new GraphNotExploredException(Resources.GraphNotExplored);
             }
 
             List<TVertexKey> route = new List<TVertexKey>();
@@ -84,12 +84,12 @@ namespace GraphService.Dijkstra
         {
             if (start == null)
             {
-                throw new ArgumentNullException(Resources.TARGET_KEY_NOT_RECIEVE);
+                throw new ArgumentNullException(Resources.TargetKeyNull);
             }
 
             if(!_graph.HasVertex(start))
             {
-                throw new ItemNotFoundException(Resources.VERTEX_NOT_EXISTS);
+                throw new ItemNotFoundException(Resources.VertexNotExists);
             }
 
             if (_invalidated || _ignoreBlocked != ignoreBlocked || _start == null || (_start != null && _start.CompareTo(start) != 0)) 

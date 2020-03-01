@@ -82,5 +82,17 @@ namespace GUI.Properties {
                 this["MatrixformPosition"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1000, -1000")]
+        public global::System.Drawing.Point HelpPosition {
+            get {
+                return ((global::System.Drawing.Point)(this["HelpPosition"]));
+            }
+            set {
+                this["HelpPosition"] = value;
+            }
+        }
     }
 }

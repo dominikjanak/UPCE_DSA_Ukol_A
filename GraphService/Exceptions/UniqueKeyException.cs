@@ -10,7 +10,7 @@ namespace ForestGraph
         { }
 
         public UniqueKeyException()
-            : base(Resources.KEY_IS_ALREADY_EXISTS)
+            : base(Resources.KeyAlreadyExists)
         { }
     }
 }

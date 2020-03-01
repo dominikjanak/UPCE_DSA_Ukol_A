@@ -10,7 +10,7 @@ namespace ForestGraph
         { }
 
         public RouteNotExistsException()
-            : base(Resources.ROUTE_NOT_EXISTS)
+            : base(Resources.RouteNotExists)
         { }
     }
 }

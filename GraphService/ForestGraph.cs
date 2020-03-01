@@ -10,7 +10,7 @@ namespace ForestGraph
         where TVertexKey : IComparable<TVertexKey>
         where TEdgeKey : IComparable<TEdgeKey>
     {
-        private Dictionary<TVertexKey, Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData>> _vertexes;
+        private Dictionary<TVertexKey, Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData>> _vertices;
         private Dictionary<TEdgeKey, Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>> _edges;
 
         public ForestGraph()
@@ -20,21 +20,21 @@ namespace ForestGraph
 
         public void Clear()
         {
-            _vertexes = new Dictionary<TVertexKey, Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData>>();
+            _vertices = new Dictionary<TVertexKey, Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData>>();
             _edges = new Dictionary<TEdgeKey, Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData>>();
         }
 
         public bool IsEmpty()
         {
-            return (_vertexes.Count == 0);
+            return (_vertices.Count == 0);
         }
 
-        public int CountVertex()
+        public int VerticesCount()
         {
-            return _vertexes.Count;
+            return _vertices.Count;
         }
 
-        public int CountEdges()
+        public int EdgesCount()
         {
             return _edges.Count;
         }
@@ -47,12 +47,12 @@ namespace ForestGraph
 
         internal void AddVertex(Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> vertex)
         {
-            if (_vertexes.ContainsKey(vertex.Key))
+            if (_vertices.ContainsKey(vertex.Key))
             {
-                throw new UniqueKeyException(Resources.KEY_IS_ALREADY_EXISTS);
+                throw new UniqueKeyException(Resources.KeyAlreadyExists);
             }
 
-            _vertexes.Add(vertex.Key, vertex);
+            _vertices.Add(vertex.Key, vertex);
         }
 
         public TVertexData RemoveVertex(TVertexKey key)
@@ -65,7 +65,7 @@ namespace ForestGraph
         {
             if (vertex == null)
             {
-                throw new ItemNotFoundException(Resources.VERTEX_NOT_FOUND);
+                throw new ItemNotFoundException(Resources.VertexNotFound);
             }            
 
             List<TEdgeKey> edges = vertex.IncidentEdges.Select(edge => edge.Key).ToList();
@@ -76,19 +76,19 @@ namespace ForestGraph
             }
 
             TVertexData data = vertex.Data;
-            _vertexes.Remove(vertex.Key);
+            _vertices.Remove(vertex.Key);
             return data;
         }
 
         public bool HasVertex(TVertexKey key)
         {
-            return _vertexes.ContainsKey(key);
+            return _vertices.ContainsKey(key);
         }
 
         internal Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> GetVertex(TVertexKey key)
         {
             Vertex<TVertexKey, TVertexData, TEdgeKey, TEdgeData> vertex = null;
-            if (_vertexes.TryGetValue(key, out vertex))
+            if (_vertices.TryGetValue(key, out vertex))
             {
                 return vertex;
             }
@@ -118,7 +118,7 @@ namespace ForestGraph
         {
             if (HasEdge(edge.Key))
             {
-                throw new UniqueKeyException(Resources.KEY_IS_ALREADY_EXISTS);
+                throw new UniqueKeyException(Resources.KeyAlreadyExists);
             }
 
             var startVertex = edge.StartVertex;
@@ -126,12 +126,12 @@ namespace ForestGraph
 
             if (startVertex == null || targetVertex == null)
             {
-                throw new ItemNotFoundException(Resources.VERTEXES_NOT_EXIST);
+                throw new ItemNotFoundException(Resources.VerticesNotExist);
             }
 
             if (GetEdge(startVertex, targetVertex) != null)
             {
-                throw new UniqueItemException(Resources.EDGE_EXISTS);
+                throw new UniqueItemException(Resources.EdgeExists);
             }
 
             _edges.Add(edge.Key, edge);
@@ -155,7 +155,7 @@ namespace ForestGraph
         {
             if (edge == null)
             {
-                throw new ItemNotFoundException(Resources.EDGE_NOT_FOUND);
+                throw new ItemNotFoundException(Resources.EdgeNotFound);
             }
 
             var startVertex = edge.StartVertex;
@@ -163,7 +163,7 @@ namespace ForestGraph
 
             if (startVertex == null || targetVertex == null)
             {
-                throw new ItemNotFoundException(Resources.VERTEXES_NOT_EXIST);
+                throw new ItemNotFoundException(Resources.VerticesNotExist);
             }
 
             startVertex.IncidentEdges.Remove(edge);
@@ -232,16 +232,16 @@ namespace ForestGraph
             return default;
         }
 
-        public List<(TVertexKey key, TVertexData data)> GetAllVertexes()
+        public List<(TVertexKey key, TVertexData data)> GetAllVertices()
         {
-            var allVertexes = new List<(TVertexKey key, TVertexData data)>();
+            var allVertices = new List<(TVertexKey key, TVertexData data)>();
 
-            foreach (var vertex in _vertexes)
+            foreach (var vertex in _vertices)
             {
-                allVertexes.Add((vertex.Key, vertex.Value.Data));
+                allVertices.Add((vertex.Key, vertex.Value.Data));
             }
 
-            return allVertexes;
+            return allVertices;
         }
 
         public List<(TEdgeKey key, TEdgeData data, TVertexKey start, TVertexKey target)> GetAllEdges()

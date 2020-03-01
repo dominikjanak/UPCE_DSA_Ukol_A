@@ -12,7 +12,7 @@ namespace ForestGraph
         { }
 
         public GraphNotExploredException()
-            : base(Resources.GRAPH_NOT_EXPLORED)
+            : base(Resources.GraphNotExplored)
         { }
     }
 }

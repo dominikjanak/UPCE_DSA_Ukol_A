@@ -63,126 +63,126 @@ namespace GraphService.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Tato hrana v grafu již existuje!.
         /// </summary>
-        internal static string EDGE_EXISTS {
+        internal static string EdgeExists {
             get {
-                return ResourceManager.GetString("EDGE_EXISTS", resourceCulture);
+                return ResourceManager.GetString("EdgeExists", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Hrana nebyla v grafu nalezena!.
         /// </summary>
-        internal static string EDGE_NOT_FOUND {
+        internal static string EdgeNotFound {
             get {
-                return ResourceManager.GetString("EDGE_NOT_FOUND", resourceCulture);
+                return ResourceManager.GetString("EdgeNotFound", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Nelze získat cestu, neboť graf není prozkoumán!.
         /// </summary>
-        internal static string GRAPH_NOT_EXPLORED {
+        internal static string GraphNotExplored {
             get {
-                return ResourceManager.GetString("GRAPH_NOT_EXPLORED", resourceCulture);
+                return ResourceManager.GetString("GraphNotExplored", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Výpočty cest již nejsou platné a je potřeba provést přepočet!.
         /// </summary>
-        internal static string INVALID_CALCULATIONS {
+        internal static string InvalidCalculations {
             get {
-                return ResourceManager.GetString("INVALID_CALCULATIONS", resourceCulture);
+                return ResourceManager.GetString("InvalidCalculations", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Data již nejsou platná a je potřeba je přegenerovat!.
         /// </summary>
-        internal static string INVALID_DATA {
+        internal static string InvalidData {
             get {
-                return ResourceManager.GetString("INVALID_DATA", resourceCulture);
+                return ResourceManager.GetString("InvalidData", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Zadaný klíč v grafu již existuje!.
         /// </summary>
-        internal static string KEY_IS_ALREADY_EXISTS {
+        internal static string KeyAlreadyExists {
             get {
-                return ResourceManager.GetString("KEY_IS_ALREADY_EXISTS", resourceCulture);
+                return ResourceManager.GetString("KeyAlreadyExists", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Cesta mezi body neexistuje!.
         /// </summary>
-        internal static string ROUTE_NOT_EXISTS {
+        internal static string RouteNotExists {
             get {
-                return ResourceManager.GetString("ROUTE_NOT_EXISTS", resourceCulture);
+                return ResourceManager.GetString("RouteNotExists", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nebyl zadán klíč cílového bodu!.
+        ///   Looks up a localized string similar to Null hodnota počátečního bodu!.
         /// </summary>
-        internal static string START_KEY_NOT_RECIEVE {
+        internal static string StartKeyNull {
             get {
-                return ResourceManager.GetString("START_KEY_NOT_RECIEVE", resourceCulture);
+                return ResourceManager.GetString("StartKeyNull", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nebyl zadán klíč počátečního bodu!.
+        ///   Looks up a localized string similar to Null hodnota cílového bodu!.
         /// </summary>
-        internal static string TARGET_KEY_NOT_RECIEVE {
+        internal static string TargetKeyNull {
             get {
-                return ResourceManager.GetString("TARGET_KEY_NOT_RECIEVE", resourceCulture);
+                return ResourceManager.GetString("TargetKeyNull", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Zadaná položka v grafu již existuje!.
         /// </summary>
-        internal static string VALUE_IS_ALREADY_EXISTS {
+        internal static string ValueAlreadyExists {
             get {
-                return ResourceManager.GetString("VALUE_IS_ALREADY_EXISTS", resourceCulture);
+                return ResourceManager.GetString("ValueAlreadyExists", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Zadaná položka v grafu neexistuje!.
         /// </summary>
-        internal static string VALUE_NOT_EXISTS {
+        internal static string ValueNotExists {
             get {
-                return ResourceManager.GetString("VALUE_NOT_EXISTS", resourceCulture);
+                return ResourceManager.GetString("ValueNotExists", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Zadaný vrchol v grafu neexistuje!.
         /// </summary>
-        internal static string VERTEX_NOT_EXISTS {
+        internal static string VertexNotExists {
             get {
-                return ResourceManager.GetString("VERTEX_NOT_EXISTS", resourceCulture);
+                return ResourceManager.GetString("VertexNotExists", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Vrchol nebyl v grafu nalezen!.
         /// </summary>
-        internal static string VERTEX_NOT_FOUND {
+        internal static string VertexNotFound {
             get {
-                return ResourceManager.GetString("VERTEX_NOT_FOUND", resourceCulture);
+                return ResourceManager.GetString("VertexNotFound", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Zvolené vrcholy v grafu neexistují!.
         /// </summary>
-        internal static string VERTEXES_NOT_EXIST {
+        internal static string VerticesNotExist {
             get {
-                return ResourceManager.GetString("VERTEXES_NOT_EXIST", resourceCulture);
+                return ResourceManager.GetString("VerticesNotExist", resourceCulture);
             }
         }
     }

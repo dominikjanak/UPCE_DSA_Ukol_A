@@ -10,7 +10,7 @@ namespace ForestGraph
         { }
 
         public InvalidatedDataException()
-            : base(Resources.INVALID_DATA)
+            : base(Resources.InvalidData)
         { }
     }
 }

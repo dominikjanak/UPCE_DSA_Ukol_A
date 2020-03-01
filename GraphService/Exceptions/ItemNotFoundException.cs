@@ -10,7 +10,7 @@ namespace ForestGraph
         { }
 
         public ItemNotFoundException()
-            : base(Resources.VALUE_NOT_EXISTS)
+            : base(Resources.ValueNotExists)
         { }
     }
 }

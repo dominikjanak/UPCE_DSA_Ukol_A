@@ -121,53 +121,62 @@
   <data name="InfoPanel" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\InfoPanel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ERROR_LABEL" xml:space="preserve">
+  <data name="ErrorLabel" xml:space="preserve">
     <value>Chyba</value>
   </data>
-  <data name="UNSAVED_CHANGES_ASK_TO_SAVE" xml:space="preserve">
+  <data name="UnsavedChangesQuestionToSave" xml:space="preserve">
     <value>Máte neuložené změny grafu, chcete je uložit?</value>
   </data>
-  <data name="UNSAVED_CHANGES" xml:space="preserve">
+  <data name="UnsavedChanges" xml:space="preserve">
     <value>Neuložené změny</value>
   </data>
-  <data name="PATH_TO_SAME_VETEX" xml:space="preserve">
+  <data name="PathToSameVertex" xml:space="preserve">
     <value>Cesta vede do stejného vrcholu!</value>
   </data>
-  <data name="SELECTED_VERTEXES_NOT_EXITS" xml:space="preserve">
+  <data name="SelectedVerticesNotExist" xml:space="preserve">
     <value>Zvolené vrcholy v grafu neexistují!</value>
   </data>
-  <data name="EXPORT_ERROR" xml:space="preserve">
+  <data name="ExportError" xml:space="preserve">
     <value>V průběhu exportování se vyskytla chyba:
 
 </value>
   </data>
-  <data name="EXPORT_ERROR_TITLE" xml:space="preserve">
+  <data name="ExportErrorTitle" xml:space="preserve">
     <value>Chyba exportu</value>
   </data>
-  <data name="DATA_ALREADY_EXISTS_TITLE" xml:space="preserve">
+  <data name="DataAlreadyExistsTitle" xml:space="preserve">
     <value>Existující data</value>
   </data>
-  <data name="DATA_ALREADY_EXISTS" xml:space="preserve">
+  <data name="DataAlreadyExists" xml:space="preserve">
     <value>V programu již existuji data, chcete je přapsat?</value>
   </data>
-  <data name="IMPORT_ERROR" xml:space="preserve">
+  <data name="ImportError" xml:space="preserve">
     <value>V průběhu importování se vyskytla chyba:
 
 </value>
   </data>
-  <data name="IMPORT_ERROR_TITLE" xml:space="preserve">
+  <data name="ImportErrorTitle" xml:space="preserve">
     <value>Chyba importu</value>
   </data>
-  <data name="OPEN_DATA_FILE_QUESTION" xml:space="preserve">
+  <data name="OpenDataFileQuestion" xml:space="preserve">
     <value>Chcete otevřít soubor s uloženými daty?</value>
   </data>
-  <data name="OPEN_FILE_TITILE" xml:space="preserve">
-    <value>Otevřít soubor</value>
-  </data>
-  <data name="OPEN_DATA_FILE" xml:space="preserve">
+  <data name="OpenDataFile" xml:space="preserve">
     <value>Chcete otevřít soubor s uloženými daty?</value>
   </data>
-  <data name="OPEN_FILE_TITLE" xml:space="preserve">
+  <data name="OpenFileTitle" xml:space="preserve">
     <value>Otevřít soubor</value>
+  </data>
+  <data name="AutoImportError" xml:space="preserve">
+    <value>V průběhu automatického načtení dat při startu programu, nastala neočekávaná chyba. Je možné, že je poškozený datový soubor. Zkuste tento soubor přejmenovat nebo odstranit. Nachází se v adresáři s polečně s tímto programem. </value>
+  </data>
+  <data name="AutoImportErrorTitle" xml:space="preserve">
+    <value>Chyba automatickkého načtení dat</value>
+  </data>
+  <data name="DataSaveError" xml:space="preserve">
+    <value>Při ukládaní dat se vyskytla chyba!</value>
+  </data>
+  <data name="ImportFileNotExists" xml:space="preserve">
+    <value>Neexistuje soubor pro import!</value>
   </data>
 </root>

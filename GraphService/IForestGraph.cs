@@ -16,13 +16,13 @@ namespace ForestGraph
         /// Počet vrcholů grafu
         /// </summary>
         /// <returns>Počet vrcholů</returns>
-        int CountVertex();
+        int VerticesCount();
 
         /// <summary>
         /// Počet hran grafu
         /// </summary>
         /// <returns>Počet hran</returns>
-        int CountEdges();
+        int EdgesCount();
 
         /// <summary>
         /// Zjistí zda je graf prázný
@@ -108,7 +108,7 @@ namespace ForestGraph
         /// Vrátí data všech vrcholů
         /// </summary>
         /// <returns>Data o všech vrcholech</returns>
-        List<(TVertexKey key, TVertexData data)> GetAllVertexes();
+        List<(TVertexKey key, TVertexData data)> GetAllVertices();
 
         /// <summary>
         /// Vrátí data všech hran

@@ -10,7 +10,7 @@ namespace ForestGraph
         { }
 
         public UniqueItemException()
-            : base(Resources.VALUE_IS_ALREADY_EXISTS)
+            : base(Resources.ValueAlreadyExists)
         { }
     }
 }
