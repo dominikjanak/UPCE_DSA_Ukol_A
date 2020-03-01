@@ -179,4 +179,10 @@
   <data name="ImportFileNotExists" xml:space="preserve">
     <value>Neexistuje soubor pro import!</value>
   </data>
+  <data name="AutoloadFileExists" xml:space="preserve">
+    <value>Soubor s daty pro automatické načtení již existuje. Chcete ho prepsat?</value>
+  </data>
+  <data name="AutoloadFileExistsTitle" xml:space="preserve">
+    <value>Soubor již existuje</value>
+  </data>
 </root>

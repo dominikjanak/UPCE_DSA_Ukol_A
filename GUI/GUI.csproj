@@ -87,6 +87,12 @@
     <Compile Include="Dialog\TrajectoryMatrixDialog.Designer.cs">
       <DependentUpon>TrajectoryMatrixDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialog\HelpDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\HelpDialog.Designer.cs">
+      <DependentUpon>HelpDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialog\VertexDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -95,6 +101,7 @@
     </Compile>
     <Compile Include="Data\Enums\EdgeType.cs" />
     <Compile Include="Data\Enums\VertexType.cs" />
+    <Compile Include="GraphDataGenerator.cs" />
     <Compile Include="GraphDrawing\Component\DoubleBufferedPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -130,6 +137,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dialog\TrajectoryMatrixDialog.resx">
       <DependentUpon>TrajectoryMatrixDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialog\HelpDialog.resx">
+      <DependentUpon>HelpDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialog\VertexDialog.resx">
       <DependentUpon>VertexDialog.cs</DependentUpon>

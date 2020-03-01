@@ -79,6 +79,24 @@ namespace GUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Soubor s daty pro automatické načtení již existuje. Chcete ho prepsat?.
+        /// </summary>
+        internal static string AutoloadFileExists {
+            get {
+                return ResourceManager.GetString("AutoloadFileExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Soubor již existuje.
+        /// </summary>
+        internal static string AutoloadFileExistsTitle {
+            get {
+                return ResourceManager.GetString("AutoloadFileExistsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to V programu již existuji data, chcete je přapsat?.
         /// </summary>
         internal static string DataAlreadyExists {

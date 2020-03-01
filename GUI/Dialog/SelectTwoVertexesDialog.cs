@@ -4,12 +4,12 @@ using System.Windows.Forms;
 
 namespace GUI.Dialog
 {
-    public partial class SelectTwoVertexesDialog : Form
+    public partial class SelectTwoVerticesDialog : Form
     {
         public string StartVertex { get; set; }
         public string TargetVertex { get; set; }
 
-        public SelectTwoVertexesDialog(bool findPath = false)
+        public SelectTwoVerticesDialog(bool findPath = false)
         {
             InitializeComponent();
             if (findPath)
@@ -99,7 +99,7 @@ namespace GUI.Dialog
             }
         }
 
-        private void SelectTwoVertexesDialog_Move(object sender, EventArgs e)
+        private void SelectTwoVerticesDialog_Move(object sender, EventArgs e)
         {
             Properties.Settings.Default.DialogPosition = Location;
         }

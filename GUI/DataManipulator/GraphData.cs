@@ -11,18 +11,18 @@ namespace GUI
     [XmlRoot("GraphData")]
     public class GraphData
     {
-        List<VertexSerialize> _vertexes;
+        List<VertexSerialize> _vertices;
         List<EdgeSerialize> _edges;
 
         public GraphData() 
         {
-            _vertexes = new List<VertexSerialize>();
+            _vertices = new List<VertexSerialize>();
             _edges = new List<EdgeSerialize>();
         }
 
-        [XmlArray("Vertexes")]
+        [XmlArray("Vertices")]
         [XmlArrayItem("Vertex")]
-        public List<VertexSerialize> Vertexes { get => _vertexes; }
+        public List<VertexSerialize> Vertices { get => _vertices; }
 
 
         [XmlArray("Edges")]

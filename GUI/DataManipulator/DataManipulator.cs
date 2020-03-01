@@ -12,28 +12,29 @@ namespace GUI
 {
     static class DataManipulator
     {
-        public static bool SaveDataDialog(ForestGraph<string, VertexData, string, EdgeData> graph)
+        public static string SaveDataDialog(ForestGraph<string, VertexData, string, EdgeData> graph, string path = "")
         {
-            bool state = false;
             using (SaveFileDialog saveDialog = new SaveFileDialog())
             {
                 saveDialog.FileName = "GraphData_" + DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss");
                 saveDialog.Filter = "XML Data|*.xml";
                 saveDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
-                if (saveDialog.ShowDialog() == DialogResult.OK)
+                if (!string.IsNullOrEmpty(path) || saveDialog.ShowDialog() == DialogResult.OK)
                 {
-                    bool openFile = MessageBox.Show(Resources.OPEN_DATA_FILE, Resources.OPEN_FILE_TITLE, MessageBoxButtons.YesNo,
-                                        MessageBoxIcon.Question) == DialogResult.Yes;
-
-                    state = SaveData(graph, saveDialog.FileName);
-                    if (File.Exists(saveDialog.FileName) && openFile)
+                    if (string.IsNullOrEmpty(path))
                     {
-                        Process.Start(saveDialog.FileName);
+                        path = saveDialog.FileName;
                     }
+
+                    if (!SaveData(graph, path))
+                    {
+                        MessageBox.Show(Resources.DataSaveError, Resources.ExportErrorTitle);
+                    }
+                    return path;
                 }
             }                      
-            return state;
+            return "";
         }
 
         public static bool SaveData(ForestGraph<string, VertexData, string, EdgeData> graph, string path)
@@ -42,12 +43,12 @@ namespace GUI
             {
                 GraphData data = new GraphData();
 
-                var allVertexes = graph.GetAllVertexes();
-                foreach (var vertex in allVertexes)
+                var allVertices = graph.GetAllVertices();
+                foreach (var vertex in allVertices)
                 {
                     VertexSerialize v = new VertexSerialize(vertex.key, vertex.data.Location.X,
                         vertex.data.Location.Y, vertex.data.VertexType);
-                    data.Vertexes.Add(v);
+                    data.Vertices.Add(v);
                 }
 
                 var allEdges = graph.GetAllEdges();
@@ -65,13 +66,13 @@ namespace GUI
             }
             catch (Exception ex)
             {
-                MessageBox.Show(Resources.EXPORT_ERROR + ex.Message, Resources.EXPORT_ERROR_TITLE,
+                MessageBox.Show(Resources.ExportError + ex.Message, Resources.ExportErrorTitle,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return false;
         }
 
-        public static void LoadData(ForestGraph<string, VertexData, string, EdgeData> graph)
+        public static string LoadDataDialog(ForestGraph<string, VertexData, string, EdgeData> graph)
         {
             OpenFileDialog loadDialog = new OpenFileDialog
             {
@@ -82,56 +83,53 @@ namespace GUI
 
             if (loadDialog.ShowDialog() == DialogResult.OK)
             {
-                LoadData(graph, loadDialog.FileName);
+                if(LoadData(graph, loadDialog.FileName))
+                {
+                    return loadDialog.FileName;
+                }                
             }
+            return "";
         }
 
-        public static void LoadData(ForestGraph<string, VertexData, string, EdgeData> graph, string path)
+        public static bool LoadData(ForestGraph<string, VertexData, string, EdgeData> graph, string path)
         {
-            try
+            GraphData data;
+
+            StreamReader sr = new StreamReader(path);
+            XmlSerializer deserializer = new XmlSerializer(typeof(GraphData));
+            data = (GraphData)deserializer.Deserialize(sr);
+            sr.Close();
+
+            bool replaceData = false;
+
+            if (!graph.IsEmpty())
             {
-                GraphData data;
-
-                StreamReader sr = new StreamReader(path);
-                XmlSerializer deserializer = new XmlSerializer(typeof(GraphData));
-                data = (GraphData)deserializer.Deserialize(sr);
-                sr.Close();
-
-                bool replaceData = false;
-
-                if (!graph.IsEmpty())
+                DialogResult result = MessageBox.Show(Resources.DataAlreadyExists, Resources.DataAlreadyExistsTitle,
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
                 {
-                    DialogResult result = MessageBox.Show(Resources.DATA_ALREADY_EXISTS, Resources.DATA_ALREADY_EXISTS_TITLE,
-                        MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (result == DialogResult.Yes)
-                    {
-                        replaceData = true;
-                    }
+                    replaceData = true;
+                }
+            }
+
+            if(graph.IsEmpty() || (!graph.IsEmpty() && replaceData))
+            { 
+                graph.Clear();
+
+                foreach (var v in data.Vertices)
+                {
+                    VertexData vertexData = new VertexData(new PointF(v.X, v.Y), v.Type);
+                    graph.AddVertex(v.ID, vertexData);
                 }
 
-                if(graph.IsEmpty() || (!graph.IsEmpty() && replaceData))
-                { 
-                    graph.Clear();
-
-                    foreach (var v in data.Vertexes)
-                    {
-                        VertexData vertexData = new VertexData(new PointF(v.X, v.Y), v.Type);
-                        graph.AddVertex(v.ID, vertexData);
-                    }
-
-                    foreach (var e in data.Edges)
-                    {
-                        EdgeData edgeData = new EdgeData(e.Size, EdgeType.Free);
-                        graph.AddEdge(e.ID, e.Start, e.Target, edgeData);
-                    }
+                foreach (var e in data.Edges)
+                {
+                    EdgeData edgeData = new EdgeData(e.Size, EdgeType.Free);
+                    graph.AddEdge(e.ID, e.Start, e.Target, edgeData);
                 }
-
+                return true;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(Resources.IMPORT_ERROR + ex.Message, Resources.IMPORT_ERROR_TITLE,
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            return false;
         }
     }
 }

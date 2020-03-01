@@ -39,8 +39,8 @@ namespace GUI.Dialog
             List<string> stops = new List<string>();
             List<string> restAreas = new List<string>();
 
-            //Get vertexes separated by type
-            foreach(var vertex in _graph.GetAllVertexes())
+            //Get vertices separated by type
+            foreach(var vertex in _graph.GetAllVertices())
             {
                 if(vertex.data.VertexType == VertexType.Stop)
                 {
@@ -82,7 +82,7 @@ namespace GUI.Dialog
                             {
                                 cost += _graph.FindEdge(path[v - 1], path[v]).Distance;
                             }
-                            MatrixGrid.Rows[i].Cells[l].Value = path.Count.ToString() + " (" + cost + ")";
+                            MatrixGrid.Rows[i].Cells[l].Value = cost;
                         }
                         else
                         {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GraphData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <Vertexes>
+  <Vertices>
     <Vertex>
       <ID>K1</ID>
       <X>321</X>
@@ -139,7 +139,7 @@
       <Y>40</Y>
       <Type>Stop</Type>
     </Vertex>
-  </Vertexes>
+  </Vertices>
   <Edges>
     <Edge>
       <ID>H10</ID>

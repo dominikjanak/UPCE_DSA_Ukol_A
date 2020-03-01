@@ -1,6 +1,6 @@
 ﻿namespace GUI.Dialog
 {
-    partial class SelectTwoVertexesDialog
+    partial class SelectTwoVerticesDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SelectTwoVertexesDialog));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SelectTwoVerticesDialog));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.targetLabel = new System.Windows.Forms.Label();
@@ -224,7 +224,7 @@
             this.titleLabel.TabIndex = 4;
             this.titleLabel.Text = "Odstranit hranu";
             // 
-            // SelectTwoVertexesDialog
+            // SelectTwoVerticesDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -234,11 +234,11 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "SelectTwoVertexesDialog";
+            this.Name = "SelectTwoVerticesDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Odstranit hranu";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SelectEdgeDialog_FormClosing);
-            this.Move += new System.EventHandler(this.SelectTwoVertexesDialog_Move);
+            this.Move += new System.EventHandler(this.SelectTwoVerticesDialog_Move);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel4.ResumeLayout(false);

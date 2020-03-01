@@ -24,12 +24,12 @@ namespace GUI
         private List<string> _graphPath;
         private DijkstraAlhorithm<string, VertexData, string, EdgeData> _dijkstra;
         TrajectoryMatrixDialog _matrixDialog;
+        private string _saveFileName;
 
         public MainForm()
         {
             InitializeComponent();
             _matrixDialog = null;
-            Text = @"UPCE - " + AssemblyData.Product;
             _drawer = new DrawGraph();
             _rectangle = new Rectangle(0, 0, 0, 0);
             _rectangleDrawing = false;
@@ -38,6 +38,8 @@ namespace GUI
             _graphPath = new List<string>();
             _dijkstra = new DijkstraAlhorithm<string, VertexData, string, EdgeData>(_forestGraph,
                 weight => weight.Distance, through => through.EdgeType == EdgeType.Blocked);
+            _saveFileName = "";
+            SetTitle();
 
 #if DEBUG
             _autoloadPath = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
@@ -49,8 +51,15 @@ namespace GUI
             // autoload data
             if (File.Exists(_autoloadPath))
             {
-                DataManipulator.LoadData(_forestGraph, _autoloadPath);
-                graphCanvas.Invalidate();
+                try
+                {
+                    DataManipulator.LoadData(_forestGraph, _autoloadPath);
+                    graphCanvas.Invalidate();
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(Resources.AutoImportError + "\n\nDetail chyby:\n" + ex.Message, Resources.AutoImportErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
 
             Size size = Properties.Settings.Default.MainformSize;
@@ -67,6 +76,15 @@ namespace GUI
             }
         }
 
+        private void SetTitle(string file = "")
+        {
+            Text = @"UPCE - " + AssemblyData.Product;
+            if (!string.IsNullOrEmpty(file))
+            {
+                Text += " ["+file+"]";
+            }
+        }
+
         private void NewGraphButton_Click(object sender, EventArgs e)
         {
             if (DialogResult.Cancel == AskForSave())
@@ -80,6 +98,8 @@ namespace GUI
             _graphPath.Clear();
             _saved = true;
             graphCanvas.Invalidate();
+            _saveFileName = "";
+            SetTitle();
         }
 
         private DialogResult AskForSave()
@@ -89,39 +109,77 @@ namespace GUI
                 return DialogResult.None;
             }
 
-            DialogResult result = MessageBox.Show(Resources.UNSAVED_CHANGES_ASK_TO_SAVE,
-                Resources.UNSAVED_CHANGES, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show(Resources.UnsavedChangesQuestionToSave,
+                Resources.UnsavedChanges, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
 
             if (DialogResult.Yes == result)
             {
-                DataManipulator.SaveDataDialog(_forestGraph);
+                try
+                {
+                    _saveFileName = DataManipulator.SaveDataDialog(_forestGraph, _saveFileName);
+                    SetTitle(Path.GetFileName(_saveFileName));
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(Resources.ExportError + "\n" + ex.Message, Resources.ExportErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
 
             return result;
         }
 
-        private void AutoloadSaveButton_Click(object sender, EventArgs e)
-        {
-            if (DataManipulator.SaveData(_forestGraph, _autoloadPath))
-            {
-                _saved = false;
-            }
-        }
-
-        private void AutoloadLoadButton_Click(object sender, EventArgs e)
+        private void Autoload_SaveButton_Click(object sender, EventArgs e)
         {
             if (File.Exists(_autoloadPath))
             {
-                _graphPath.Clear();
-                DataManipulator.LoadData(_forestGraph, _autoloadPath);
-                graphCanvas.Invalidate();
-                _dijkstra.Invalidate();
+                DialogResult result = MessageBox.Show(Resources.AutoloadFileExists, Resources.AutoloadFileExistsTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if(result != DialogResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            try
+            {
+
+                if (DataManipulator.SaveData(_forestGraph, _autoloadPath))
+                {
+                    _saved = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(Resources.ExportError + ex.Message, Resources.ExportErrorTitle,
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void Autoload_LoadButton_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(_autoloadPath))
+            {
+                try
+                {
+                    _graphPath.Clear();
+                    DataManipulator.LoadData(_forestGraph, _autoloadPath);
+                    graphCanvas.Invalidate();
+                    _dijkstra.Invalidate();
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(Resources.ImportError + ex.Message, Resources.ImportErrorTitle,
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show(Resources.ImportFileNotExists, Resources.ImportErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void FindRouteButton_Click(object sender, EventArgs e)
         {
-            SelectTwoVertexesDialog selectPath = new SelectTwoVertexesDialog(true);
+            SelectTwoVerticesDialog selectPath = new SelectTwoVerticesDialog(true);
             bool repeate = true;
 
             do
@@ -132,7 +190,7 @@ namespace GUI
                     if (selectPath.StartVertex == selectPath.TargetVertex &&
                         _forestGraph.HasVertex(selectPath.TargetVertex))
                     {
-                        ShowMessage(Resources.PATH_TO_SAME_VETEX, MessageBoxIcon.Information);
+                        ShowMessage(Resources.PathToSameVertex, MessageBoxIcon.Information);
                         continue;
                     }
 
@@ -140,7 +198,7 @@ namespace GUI
                     if (!_forestGraph.HasVertex(selectPath.StartVertex) ||
                         !_forestGraph.HasVertex(selectPath.TargetVertex))
                     {
-                        ShowMessage(Resources.SELECTED_VERTEXES_NOT_EXITS, MessageBoxIcon.Warning);
+                        ShowMessage(Resources.SelectedVerticesNotExist, MessageBoxIcon.Warning);
                         continue;
                     }
 
@@ -260,7 +318,7 @@ namespace GUI
 
         private void RemoveEdgeButton_Click(object sender, EventArgs e)
         {
-            SelectTwoVertexesDialog selectEdge = new SelectTwoVertexesDialog();
+            SelectTwoVerticesDialog selectEdge = new SelectTwoVerticesDialog();
             bool repeate = true;
 
             do
@@ -293,7 +351,13 @@ namespace GUI
             AboutBox about = new AboutBox();
             about.ShowDialog();
         }
-        
+
+        private void ProgramHelpButton_Click(object sender, EventArgs e)
+        {
+            HelpDialog help = new HelpDialog();
+            help.ShowDialog();
+        }
+
         public void MatrixOnThread()
         {
             _matrixDialog?.Close();
@@ -310,7 +374,7 @@ namespace GUI
 
         private void ShowMessage(string message, MessageBoxIcon icon = MessageBoxIcon.Error)
         {
-            MessageBox.Show(message, Resources.ERROR_LABEL, MessageBoxButtons.OK, icon);
+            MessageBox.Show(message, Resources.ErrorLabel, MessageBoxButtons.OK, icon);
         }
 
         private void saveImageButton_Click(object sender, EventArgs e)
@@ -346,30 +410,73 @@ namespace GUI
             }
         }
 
-        private void closeMenuItem_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private void CloseButton_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void SaveDataButton_Click(object sender, EventArgs e)
+        private void SaveButton_Click(object sender, EventArgs e)
         {
-            if (DataManipulator.SaveDataDialog(_forestGraph))
+            string path = DataManipulator.SaveDataDialog(_forestGraph, _saveFileName);
+            if (!string.IsNullOrEmpty(path))
             {
+                _saveFileName = path;
                 _saved = true;
+                SetTitle(Path.GetFileName(_saveFileName));
             }
         }
 
-        private void LoadDataButton_Click(object sender, EventArgs e)
+        private void SaveAsButton_Click(object sender, EventArgs e)
         {
-            _graphPath.Clear();
-            DataManipulator.LoadData(_forestGraph);
-            graphCanvas.Invalidate();
-            _dijkstra.Invalidate();
+            try
+            {
+                string path = DataManipulator.SaveDataDialog(_forestGraph);
+                if (!string.IsNullOrEmpty(path))
+                {
+                    _saveFileName = path; 
+                    _saved = true;
+                    SetTitle(Path.GetFileName(_saveFileName));
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(Resources.ExportError + "\n" + ex.Message, Resources.ExportErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string path = DataManipulator.LoadDataDialog(_forestGraph);
+                if (!string.IsNullOrEmpty(path))
+                {
+                    _graphPath.Clear();
+                    graphCanvas.Invalidate();
+                    _dijkstra.Invalidate();
+
+                    _saveFileName = path;
+                    _saved = true;
+                    SetTitle(Path.GetFileName(_saveFileName));
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(Resources.ImportError + "\n" + ex.Message, Resources.ImportErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void GenerateGraphStrip_Click(object sender, EventArgs e)
+        {
+            if (_forestGraph.VerticesCount() > 0)
+            {
+                DialogResult result = MessageBox.Show(Resources.DataAlreadyExists, Resources.DataAlreadyExistsTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result != DialogResult.Yes)
+                {
+                    return;
+                }
+            }
+
         }
 
         private void graphCanvas_Paint(object sender, PaintEventArgs e)
@@ -439,10 +546,10 @@ namespace GUI
                 edge.data.EdgeType = EdgeType.Free;
             }
 
-            var vertexes = _forestGraph.GetAllVertexes();
+            var vertices = _forestGraph.GetAllVertices();
             
-            //Analyse all vertexes
-            foreach (var vertex in vertexes)
+            //Analyse all vertices
+            foreach (var vertex in vertices)
             {
                 var loc = vertex.data.Location;
                 RectangleF rect = _rectangle;
@@ -498,20 +605,71 @@ namespace GUI
             }
         }
 
-        // Save data after press Ctrl + S
+        // Program shortcuts
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (msg.Msg == 256)
             {
+                if (keyData == (Keys.Control | Keys.N))
+                {
+                    NewGraphButton_Click(null, null);
+                }
+
                 if (keyData == (Keys.Control | Keys.S))
                 {
-                    if (DataManipulator.SaveData(_forestGraph, _autoloadPath))
-                    {
-                        _saved = false;
-                    }
+                    SaveButton_Click(null, null);
+                }
+
+                if (keyData == (Keys.Control | Keys.D))
+                {
+                    SaveAsButton_Click(null, null);
+                }
+
+                if (keyData == (Keys.Control | Keys.O))
+                {
+                    LoadButton_Click(null, null);
+                }
+
+                if (keyData == (Keys.Control | Keys.F))
+                {
+                    FindRouteButton_Click(null, null);
+                }
+
+                if (keyData == (Keys.Control | Keys.R))
+                {
+                    AddVertexButton_Click(null, null);
+                }
+
+                if (keyData == (Keys.Control | Keys.E))
+                {
+                    AddEdgeButton_Click(null, null);
+                }
+
+                if (keyData == (Keys.Control | Keys.Shift | Keys.R))
+                {
+                    RemoveVertexButton_Click(null, null);
+                }
+
+                if (keyData == (Keys.Control | Keys.Shift | Keys.E))
+                {
+                    RemoveEdgeButton_Click(null, null);
+                }
+
+                if (keyData == (Keys.Control | Keys.P))
+                {
+                    saveImageButton_Click(null, null);
+                }
+
+                if (keyData == (Keys.Control | Keys.M))
+                {
+                    TrajectoryMatrixButton_Click(null, null);
+                }
+
+                if (keyData == (Keys.F1))
+                {
+                    ProgramHelpButton_Click(null, null);
                 }
             }
-
             return base.ProcessCmdKey(ref msg, keyData);
         }
     }

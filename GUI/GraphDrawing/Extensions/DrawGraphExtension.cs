@@ -8,46 +8,46 @@ namespace GUI.Drawing
     {
         public static void DrawWithPath(this ForestGraph<string, VertexData, string, EdgeData> graph, DrawGraph drawer, List<string> path)
         {
-            Dictionary<string, VertexData> mappedVertexes = InitDraw(graph, drawer);
+            Dictionary<string, VertexData> mappedVertices = InitDraw(graph, drawer);
 
-            if (mappedVertexes.Count <= 0)
+            if (mappedVertices.Count <= 0)
             {
                 return;
             }
 
-            DrawEdges(drawer, mappedVertexes, graph.GetAllEdges());
-            DrawPath(drawer, mappedVertexes, path);
-            DrawVertexes(drawer, mappedVertexes);
+            DrawEdges(drawer, mappedVertices, graph.GetAllEdges());
+            DrawPath(drawer, mappedVertices, path);
+            DrawVertices(drawer, mappedVertices);
         }
 
         public static void Draw(this ForestGraph<string, VertexData, string, EdgeData> graph, DrawGraph drawer)
         {
-            Dictionary<string, VertexData> mappedVertexes = InitDraw(graph, drawer);
+            Dictionary<string, VertexData> mappedVertices = InitDraw(graph, drawer);
 
-            if (mappedVertexes.Count <= 0)
+            if (mappedVertices.Count <= 0)
             {
                 return;
             }
 
-            DrawEdges(drawer, mappedVertexes, graph.GetAllEdges());
-            DrawVertexes(drawer, mappedVertexes);
+            DrawEdges(drawer, mappedVertices, graph.GetAllEdges());
+            DrawVertices(drawer, mappedVertices);
         }
 
         private static Dictionary<string, VertexData> InitDraw(ForestGraph<string, VertexData, string, EdgeData> graph, DrawGraph drawer)
         {
             drawer.ClearCanvas();
-            var vertexes = graph.GetAllVertexes();
+            var vertices = graph.GetAllVertices();
 
-            Dictionary<string, VertexData> mappedVertexes = new Dictionary<string, VertexData>();
+            Dictionary<string, VertexData> mappedVertices = new Dictionary<string, VertexData>();
 
-            foreach (var v in vertexes)
+            foreach (var v in vertices)
             {
-                mappedVertexes.Add(v.key, v.data);
+                mappedVertices.Add(v.key, v.data);
             }
 
-            drawer.SetGraphSize(CalculateGraphSize(mappedVertexes));
+            drawer.SetGraphSize(CalculateGraphSize(mappedVertices));
 
-            return mappedVertexes;
+            return mappedVertices;
         }
 
         private static void DrawEdges(DrawGraph drawer, Dictionary<string, VertexData> mappedVertexes, 
@@ -67,21 +67,21 @@ namespace GUI.Drawing
             }
         }
 
-        private static void DrawVertexes(DrawGraph drawer, Dictionary<string, VertexData> vertexes)
+        private static void DrawVertices(DrawGraph drawer, Dictionary<string, VertexData> vertices)
         {
-            foreach(var vertex in vertexes)
+            foreach(var vertex in vertices)
             {
                 drawer.DrawVertex(vertex.Value.Location, vertex.Value.VertexType, vertex.Key.ToString());
             }
         }
 
-        private static void DrawPath(DrawGraph drawer, Dictionary<string, VertexData> vertexes, List<string> path)
+        private static void DrawPath(DrawGraph drawer, Dictionary<string, VertexData> vertices, List<string> path)
         {
             VertexData vertexA = null;
             VertexData vertexB = null;
             for (int i = 1; i < path.Count; i++)
             {
-                if(vertexes.TryGetValue(path[i - 1], out vertexA) && vertexes.TryGetValue(path[i], out vertexB))
+                if(vertices.TryGetValue(path[i - 1], out vertexA) && vertices.TryGetValue(path[i], out vertexB))
                 {
                     drawer.DrawPath(vertexA.Location, vertexB.Location);
                 }
@@ -89,12 +89,12 @@ namespace GUI.Drawing
             }
         }
 
-        private static GraphSize<float> CalculateGraphSize(Dictionary<string, VertexData> vertexes)
+        private static GraphSize<float> CalculateGraphSize(Dictionary<string, VertexData> vertices)
         {
             bool first = true;
             GraphSize<float> graphSize = new GraphSize<float>(0,0,0,0);
 
-            foreach (var vertex in vertexes)
+            foreach (var vertex in vertices)
             {
                 if (first)
                 {
