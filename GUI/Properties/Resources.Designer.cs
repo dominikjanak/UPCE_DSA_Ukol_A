@@ -97,6 +97,15 @@ namespace GUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to      Graf neblo možné vykreslit!\nObsahuje více než 1000 vrcholů!.
+        /// </summary>
+        internal static string CannotDrawGraph {
+            get {
+                return ResourceManager.GetString("CannotDrawGraph", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to V programu již existuji data, chcete je přapsat?.
         /// </summary>
         internal static string DataAlreadyExists {

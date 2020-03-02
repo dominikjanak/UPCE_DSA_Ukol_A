@@ -185,4 +185,7 @@
   <data name="AutoloadFileExistsTitle" xml:space="preserve">
     <value>Soubor již existuje</value>
   </data>
+  <data name="CannotDrawGraph" xml:space="preserve">
+    <value>     Graf neblo možné vykreslit!\nObsahuje více než 1000 vrcholů!</value>
+  </data>
 </root>

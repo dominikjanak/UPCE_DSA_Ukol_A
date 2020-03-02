@@ -11,6 +11,7 @@ namespace GUI.Drawing
         private PointF _graphOffset; // Reduce space form [0,0]
         private PointF _scaleRatio; // Graph resize parameters
         Font _boldFont;
+        Font _fontBig;
         Font _font;
 
         public DrawGraph(Image image)
@@ -30,8 +31,9 @@ namespace GUI.Drawing
 
         private void Fonts()
         {
-            _boldFont = new Font("Arial", 12, FontStyle.Bold, GraphicsUnit.Pixel); 
+            _boldFont = new Font("Arial", 12, FontStyle.Bold, GraphicsUnit.Pixel);
             _font = new Font("Arial", 10, FontStyle.Regular, GraphicsUnit.Pixel);
+            _fontBig = new Font("Arial", 15, FontStyle.Bold, GraphicsUnit.Pixel);
         }
 
         public void InitCanvas(Size drawingPanel, Graphics g)
@@ -75,6 +77,15 @@ namespace GUI.Drawing
                 watermark, _boldFont, LabelPosition.Left);
             labelPosition.Y -= 13;
             DrawLabel(watermark, labelPosition, brush, _boldFont);
+        }
+
+        public void DrawWarning(string test)
+        {
+            SolidBrush brush = new SolidBrush(Colors.Red);
+
+            PointF labelPosition = CalculateLabelPosition(new PointF(_canvasSize.Width/2, _canvasSize.Height/2), 0,
+                test, _fontBig, LabelPosition.Center);
+            DrawLabel(test, labelPosition, brush, _fontBig);
         }
 
         public void DrawPath(PointF start, PointF target)

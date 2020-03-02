@@ -116,7 +116,7 @@
             this.panel1.Location = new System.Drawing.Point(41, 1);
             this.panel1.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(175, 26);
+            this.panel1.Size = new System.Drawing.Size(183, 26);
             this.panel1.TabIndex = 1;
             // 
             // ComboVertexType
@@ -134,7 +134,7 @@
             this.ComboVertexType.Location = new System.Drawing.Point(1, 1);
             this.ComboVertexType.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.ComboVertexType.Name = "ComboVertexType";
-            this.ComboVertexType.Size = new System.Drawing.Size(173, 24);
+            this.ComboVertexType.Size = new System.Drawing.Size(181, 24);
             this.ComboVertexType.TabIndex = 1;
             this.ComboVertexType.KeyUp += new System.Windows.Forms.KeyEventHandler(this.FormSubmit_KeyUp);
             // 

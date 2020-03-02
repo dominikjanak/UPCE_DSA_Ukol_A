@@ -468,23 +468,30 @@ namespace GUI
 
         private void GenerateGraphStrip_Click(object sender, EventArgs e)
         {
-            if (_forestGraph.VerticesCount() > 0 && !_saved)
-            {
-                DialogResult result = MessageBox.Show(Resources.DataAlreadyExists, Resources.DataAlreadyExistsTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result != DialogResult.Yes)
+            GenerateDialog genDialog = new GenerateDialog();
+
+            if(genDialog.ShowDialog() == DialogResult.OK) 
+            { 
+                if (_forestGraph.VerticesCount() > 0 && !_saved)
                 {
-                    return;
+                    DialogResult result = MessageBox.Show(Resources.DataAlreadyExists, 
+                        Resources.DataAlreadyExistsTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result != DialogResult.Yes)
+                    {
+                        return;
+                    }
                 }
+
+                GraphDataGenerator.Init(_forestGraph);
+                GraphDataGenerator.Generate((genDialog.JunctionsCount, genDialog.RestAreasCount, 
+                    genDialog.StopsCount), genDialog.MinVertexEdge, genDialog.MaxVertexEdge);
+
+                _dijkstra.Invalidate();
+                _rectangle = new RectangleF(0, 0, 0, 0);
+                _graphPath.Clear();
+                _saved = true;
+                graphCanvas.Invalidate();
             }
-
-            GraphDataGenerator.Init(_forestGraph);
-            GraphDataGenerator.Generate((200,70,25), 1, 4);
-
-            _dijkstra.Invalidate();
-            _rectangle = new RectangleF(0, 0, 0, 0);
-            _graphPath.Clear();
-            _saved = true;
-            graphCanvas.Invalidate();
         }
 
         private void graphCanvas_Paint(object sender, PaintEventArgs e)

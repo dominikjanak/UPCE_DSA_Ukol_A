@@ -1,13 +1,22 @@
 using System.Collections.Generic;
 using System.Drawing;
 using ForestGraph;
+using GUI.Properties;
 
 namespace GUI.Drawing
 {
     public static class DrawGraphExtension
     {
+
         public static void DrawWithPath(this ForestGraph<string, VertexData, string, EdgeData> graph, DrawGraph drawer, List<string> path)
         {
+            if(graph.VerticesCount() > 1000)
+            {
+                drawer.ClearCanvas();
+                drawer.DrawWarning(Resources.CannotDrawGraph);
+                return;
+            }
+
             Dictionary<string, VertexData> mappedVertices = InitDraw(graph, drawer);
 
             if (mappedVertices.Count <= 0)
@@ -25,6 +34,12 @@ namespace GUI.Drawing
 
         public static void Draw(this ForestGraph<string, VertexData, string, EdgeData> graph, DrawGraph drawer)
         {
+            if (graph.VerticesCount() > 1000)
+            {
+                drawer.DrawWarning(Resources.CannotDrawGraph);
+                return;
+            }
+
             Dictionary<string, VertexData> mappedVertices = InitDraw(graph, drawer);
 
             if (mappedVertices.Count <= 0)
