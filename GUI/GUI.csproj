@@ -107,7 +107,7 @@
     </Compile>
     <Compile Include="Data\Enums\EdgeType.cs" />
     <Compile Include="Data\Enums\VertexType.cs" />
-    <Compile Include="GraphDataGenerator.cs" />
+    <Compile Include="DataManipulator\GraphDataGenerator.cs" />
     <Compile Include="GraphDrawing\Component\DoubleBufferedPanel.cs">
       <SubType>Component</SubType>
     </Compile>

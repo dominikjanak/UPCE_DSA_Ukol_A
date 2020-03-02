@@ -33,8 +33,8 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.TrajectoryMatrixButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.warnLabel = new System.Windows.Forms.Label();
             this.MatrixGrid = new GUI.DoubleBufferedDataGridView();
+            this.warnLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MatrixGrid)).BeginInit();
@@ -98,21 +98,9 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(182, 26);
+            this.label1.Size = new System.Drawing.Size(107, 13);
             this.label1.TabIndex = 7;
-            this.label1.Text = "Legenda: Počet vrcholů cesty (cena cesty)";
-            // 
-            // warnLabel
-            // 
-            this.warnLabel.AutoSize = true;
-            this.warnLabel.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.warnLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.warnLabel.ForeColor = System.Drawing.Color.Maroon;
-            this.warnLabel.Location = new System.Drawing.Point(19, 19);
-            this.warnLabel.Name = "warnLabel";
-            this.warnLabel.Size = new System.Drawing.Size(262, 32);
-            this.warnLabel.TabIndex = 1;
-            this.warnLabel.Text = "Neexistuje dostatečný počet vrcholů \r\npro výpočet matice směrování!";
+            this.label1.Text = "Legenda: cena cesty";
             // 
             // MatrixGrid
             // 
@@ -133,6 +121,18 @@
             this.MatrixGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.MatrixGrid.Size = new System.Drawing.Size(296, 105);
             this.MatrixGrid.TabIndex = 1;
+            // 
+            // warnLabel
+            // 
+            this.warnLabel.AutoSize = true;
+            this.warnLabel.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.warnLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.warnLabel.ForeColor = System.Drawing.Color.Maroon;
+            this.warnLabel.Location = new System.Drawing.Point(19, 19);
+            this.warnLabel.Name = "warnLabel";
+            this.warnLabel.Size = new System.Drawing.Size(262, 32);
+            this.warnLabel.TabIndex = 1;
+            this.warnLabel.Text = "Neexistuje dostatečný počet vrcholů \r\npro výpočet matice směrování!";
             // 
             // TrajectoryMatrixDialog
             // 
