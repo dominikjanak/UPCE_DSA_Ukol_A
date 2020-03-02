@@ -1,4 +1,4 @@
-﻿using GraphService.Properties;
+using GraphService.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -178,6 +178,11 @@ namespace ForestGraph
         public bool HasEdge(TEdgeKey key)
         {
             return _edges.ContainsKey(key);
+        }
+
+        public bool HasEdge(TVertexKey start, TVertexKey target)
+        {
+            return (FindEdge(start, target) != null);
         }
 
         internal Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> GetEdge(TVertexKey start, TVertexKey target)

@@ -75,6 +75,14 @@ namespace ForestGraph
         bool HasEdge(TEdgeKey key);
 
         /// <summary>
+        /// Zjistí zda existuje hrana mezi dvěma body
+        /// </summary>
+        /// <param name="start">Počáteční vrchol</param>
+        /// <param name="target">Cílový vrchol</param>
+        /// <returns>Existuje hrana</returns>
+        bool HasEdge(TVertexKey start, TVertexKey target);
+
+        /// <summary>
         /// Najde hranu grafu
         /// </summary>
         /// <param name="key">Klíč hrany</param>
