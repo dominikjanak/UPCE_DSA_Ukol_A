@@ -16,8 +16,8 @@ namespace GUI.Drawing
         public DrawGraph(Image image)
         {
             if (image == null) throw new ArgumentNullException(nameof(image));
-            InitCanvas(image);
             Fonts();
+            InitCanvas(image);
         }
 
         public DrawGraph()

@@ -468,7 +468,7 @@ namespace GUI
 
         private void GenerateGraphStrip_Click(object sender, EventArgs e)
         {
-            if (_forestGraph.VerticesCount() > 0)
+            if (_forestGraph.VerticesCount() > 0 && !_saved)
             {
                 DialogResult result = MessageBox.Show(Resources.DataAlreadyExists, Resources.DataAlreadyExistsTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result != DialogResult.Yes)
@@ -477,6 +477,14 @@ namespace GUI
                 }
             }
 
+            GraphDataGenerator.Init(_forestGraph);
+            GraphDataGenerator.Generate((200,70,25), 1, 4);
+
+            _dijkstra.Invalidate();
+            _rectangle = new RectangleF(0, 0, 0, 0);
+            _graphPath.Clear();
+            _saved = true;
+            graphCanvas.Invalidate();
         }
 
         private void graphCanvas_Paint(object sender, PaintEventArgs e)
@@ -633,6 +641,11 @@ namespace GUI
                 if (keyData == (Keys.Control | Keys.F))
                 {
                     FindRouteButton_Click(null, null);
+                }
+
+                if (keyData == (Keys.Control | Keys.G))
+                {
+                    GenerateGraphStrip_Click(null, null);
                 }
 
                 if (keyData == (Keys.Control | Keys.R))

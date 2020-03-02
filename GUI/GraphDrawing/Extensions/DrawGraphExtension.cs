@@ -16,7 +16,10 @@ namespace GUI.Drawing
             }
 
             DrawEdges(drawer, mappedVertices, graph.GetAllEdges());
-            DrawPath(drawer, mappedVertices, path);
+            if (path != null) 
+            { 
+                DrawPath(drawer, mappedVertices, path);
+            }
             DrawVertices(drawer, mappedVertices);
         }
 
