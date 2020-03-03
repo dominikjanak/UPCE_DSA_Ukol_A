@@ -1,9 +1,7 @@
 ﻿using GraphService.Properties;
 using System;
-using System.Runtime.Serialization;
-using System.Security;
 
-namespace ForestGraph
+namespace GraphService
 {
     class GraphNotExploredException : Exception
     {

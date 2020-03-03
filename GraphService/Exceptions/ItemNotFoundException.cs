@@ -1,7 +1,7 @@
 ﻿using GraphService.Properties;
 using System;
 
-namespace ForestGraph
+namespace GraphService
 {
     class ItemNotFoundException : Exception
     {

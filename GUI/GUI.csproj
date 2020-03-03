@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -52,17 +52,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyData.cs" />
+    <Compile Include="Graph\Component\TrajectoryMatrix.cs" />
     <Compile Include="Dialog\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Dialog\AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="DataManipulator\EdgeSerialize.cs" />
-    <Compile Include="DataManipulator\GraphData.cs" />
-    <Compile Include="DataManipulator\VertexSerialize.cs" />
-    <Compile Include="Data\EdgeData.cs" />
-    <Compile Include="Data\VertexData.cs" />
+    <Compile Include="DataSerializer\DataPackages\EdgeSerialize.cs" />
+    <Compile Include="DataSerializer\DataPackages\GraphData.cs" />
+    <Compile Include="DataSerializer\DataPackages\VertexSerialize.cs" />
+    <Compile Include="Graph\Data\EdgeData.cs" />
+    <Compile Include="Graph\Data\VertexData.cs" />
     <Compile Include="Dialog\SelectTwoVertexesDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -105,21 +106,21 @@
     <Compile Include="Dialog\VertexDialog.Designer.cs">
       <DependentUpon>VertexDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Data\Enums\EdgeType.cs" />
-    <Compile Include="Data\Enums\VertexType.cs" />
-    <Compile Include="DataManipulator\GraphDataGenerator.cs" />
-    <Compile Include="GraphDrawing\Component\DoubleBufferedPanel.cs">
+    <Compile Include="Graph\Data\Enums\EdgeType.cs" />
+    <Compile Include="Graph\Data\Enums\VertexType.cs" />
+    <Compile Include="Graph\Component\GraphGenerator.cs" />
+    <Compile Include="Component\DoubleBufferedPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="GraphDrawing\Data\GraphSize.cs" />
-    <Compile Include="DataManipulator\DataManipulator.cs" />
-    <Compile Include="GraphDrawing\Data\LabelPosition.cs" />
-    <Compile Include="GraphDrawing\Data\Colors.cs" />
+    <Compile Include="Graph\Drawing\Data\GraphSize.cs" />
+    <Compile Include="DataSerializer\DataSerializer.cs" />
+    <Compile Include="Graph\Drawing\Data\LabelPosition.cs" />
+    <Compile Include="Graph\Drawing\Data\Colors.cs" />
     <Compile Include="Component\DoubleBufferedDataGridView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="GraphDrawing\DrawGraph.cs" />
-    <Compile Include="GraphDrawing\Extensions\DrawGraphExtension.cs" />
+    <Compile Include="Graph\Drawing\DrawGraph.cs" />
+    <Compile Include="Graph\Drawing\Extensions\DrawGraphExtension.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -196,6 +197,10 @@
       <Project>{3246cdaa-425b-4f9b-b7ad-3f1c2e9400b0}</Project>
       <Name>GraphService</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RangeTree\RangeTree.csproj">
+      <Project>{d4823c0f-828f-48a3-b590-d76e10b85a97}</Project>
+      <Name>RangeTree</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\InfoPanel.png" />
@@ -203,5 +208,6 @@
   <ItemGroup>
     <Content Include="icon.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

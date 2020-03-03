@@ -32,7 +32,6 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.TrajectoryMatrixButton = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.MatrixGrid = new GUI.DoubleBufferedDataGridView();
             this.warnLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
@@ -54,7 +53,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(296, 143);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
@@ -67,13 +66,12 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel2.Controls.Add(this.TrajectoryMatrixButton, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 108);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 116);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(296, 35);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(296, 27);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // TrajectoryMatrixButton
@@ -86,21 +84,11 @@
             this.TrajectoryMatrixButton.Location = new System.Drawing.Point(196, 0);
             this.TrajectoryMatrixButton.Margin = new System.Windows.Forms.Padding(0);
             this.TrajectoryMatrixButton.Name = "TrajectoryMatrixButton";
-            this.TrajectoryMatrixButton.Size = new System.Drawing.Size(100, 35);
+            this.TrajectoryMatrixButton.Size = new System.Drawing.Size(100, 27);
             this.TrajectoryMatrixButton.TabIndex = 6;
             this.TrajectoryMatrixButton.Text = "Zavřít";
             this.TrajectoryMatrixButton.UseVisualStyleBackColor = false;
             this.TrajectoryMatrixButton.Click += new System.EventHandler(this.TrajectoryMatrixButton_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label1.Location = new System.Drawing.Point(3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(107, 13);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Legenda: cena cesty";
             // 
             // MatrixGrid
             // 
@@ -119,7 +107,7 @@
             this.MatrixGrid.Name = "MatrixGrid";
             this.MatrixGrid.ReadOnly = true;
             this.MatrixGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.MatrixGrid.Size = new System.Drawing.Size(296, 105);
+            this.MatrixGrid.Size = new System.Drawing.Size(296, 113);
             this.MatrixGrid.TabIndex = 1;
             // 
             // warnLabel
@@ -132,7 +120,7 @@
             this.warnLabel.Name = "warnLabel";
             this.warnLabel.Size = new System.Drawing.Size(262, 32);
             this.warnLabel.TabIndex = 1;
-            this.warnLabel.Text = "Neexistuje dostatečný počet vrcholů \r\npro výpočet matice směrování!";
+            this.warnLabel.Text = "Neexistuje dostatečný počet vrcholů \r\npro výpočet matici směrování!";
             // 
             // TrajectoryMatrixDialog
             // 
@@ -145,12 +133,11 @@
             this.MinimumSize = new System.Drawing.Size(200, 200);
             this.Name = "TrajectoryMatrixDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Matice trajektorií";
+            this.Text = "Matice směrování";
             this.ResizeEnd += new System.EventHandler(this.TrajectoryMatrixDialog_ResizeEnd);
             this.Move += new System.EventHandler(this.TrajectoryMatrixDialog_Move);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MatrixGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -163,7 +150,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Button TrajectoryMatrixButton;
         private DoubleBufferedDataGridView MatrixGrid;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label warnLabel;
     }
 }

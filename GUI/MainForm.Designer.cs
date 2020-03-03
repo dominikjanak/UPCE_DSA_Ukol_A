@@ -32,7 +32,7 @@ namespace GUI
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.graphCanvas = new GUI.Drawing.DoubleBufferedPanel();
+            this.graphCanvas = new GUI.DoubleBufferedPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.CloseButton = new System.Windows.Forms.Button();
             this.RemoveEdgeButton = new System.Windows.Forms.Button();
@@ -502,7 +502,7 @@ namespace GUI
         private System.Windows.Forms.Button CloseButton;
         private System.Windows.Forms.Button FindRouteButton;
         private System.Windows.Forms.ToolStripMenuItem AboutProgramButton;
-        private GUI.Drawing.DoubleBufferedPanel graphCanvas;
+        private GUI.DoubleBufferedPanel graphCanvas;
         private System.Windows.Forms.ToolStripMenuItem NewGraphStrip;
         private System.Windows.Forms.ToolStripMenuItem SaveDataStrip;
         private System.Windows.Forms.ToolStripMenuItem ProgramHelpButton;

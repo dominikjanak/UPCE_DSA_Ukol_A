@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Threading;
 using System.Windows.Forms;
-using ForestGraph;
+using GraphService;
 using GraphService.Dijkstra;
 using GUI.Dialog;
-using GUI.Drawing;
+using GUI.Graph;
+using GUI.Graph.Component;
+using GUI.Graph.Drawing;
 using GUI.Properties;
 
 namespace GUI
@@ -18,7 +19,7 @@ namespace GUI
         private DrawGraph _drawer;
         private RectangleF _rectangle;
         private bool _rectangleDrawing;
-        private ForestGraph<string, VertexData, string, EdgeData> _forestGraph;
+        private Graph<string, VertexData, string, EdgeData> _forestGraph;
         private String _autoloadPath;
         private bool _saved;
         private List<string> _graphPath;
@@ -33,11 +34,10 @@ namespace GUI
             _drawer = new DrawGraph();
             _rectangle = new Rectangle(0, 0, 0, 0);
             _rectangleDrawing = false;
-            _forestGraph = new ForestGraph<string, VertexData, string, EdgeData>();
+            _forestGraph = new Graph<string, VertexData, string, EdgeData>();
             _saved = true;
             _graphPath = new List<string>();
-            _dijkstra = new DijkstraAlhorithm<string, VertexData, string, EdgeData>(_forestGraph,
-                weight => weight.Distance, through => through.EdgeType == EdgeType.Blocked);
+            _dijkstra = new DijkstraAlhorithm<string, VertexData, string, EdgeData>(_forestGraph);
             _saveFileName = "";
             SetTitle();
 
@@ -53,7 +53,7 @@ namespace GUI
             {
                 try
                 {
-                    DataManipulator.LoadData(_forestGraph, _autoloadPath);
+                    DataSerializer.LoadData(_forestGraph, _autoloadPath);
                     graphCanvas.Invalidate();
                 }
                 catch(Exception ex)
@@ -116,7 +116,7 @@ namespace GUI
             {
                 try
                 {
-                    _saveFileName = DataManipulator.SaveDataDialog(_forestGraph, _saveFileName);
+                    _saveFileName = DataSerializer.SaveDataDialog(_forestGraph, _saveFileName);
                     SetTitle(Path.GetFileName(_saveFileName));
                 }
                 catch(Exception ex)
@@ -142,7 +142,7 @@ namespace GUI
             try
             {
 
-                if (DataManipulator.SaveData(_forestGraph, _autoloadPath))
+                if (DataSerializer.SaveData(_forestGraph, _autoloadPath))
                 {
                     _saved = false;
                 }
@@ -161,7 +161,7 @@ namespace GUI
                 try
                 {
                     _graphPath.Clear();
-                    DataManipulator.LoadData(_forestGraph, _autoloadPath);
+                    DataSerializer.LoadData(_forestGraph, _autoloadPath);
                     graphCanvas.Invalidate();
                     _dijkstra.Invalidate();
                 }
@@ -358,18 +358,15 @@ namespace GUI
             help.ShowDialog();
         }
 
-        public void MatrixOnThread()
-        {
-            _matrixDialog?.Close();
-            _matrixDialog = new TrajectoryMatrixDialog(_forestGraph, _dijkstra);
-            _matrixDialog.ShowDialog();
-        }
-
         private void TrajectoryMatrixButton_Click(object sender, EventArgs e)
         {
-            Thread t = new Thread(new ThreadStart(MatrixOnThread));
-            t.SetApartmentState(ApartmentState.STA);
-            t.Start();
+            if(_matrixDialog != null)
+            {
+                _matrixDialog.Close();
+            }
+
+            _matrixDialog = new TrajectoryMatrixDialog(_forestGraph, _dijkstra);
+            _matrixDialog.Show();
         }
 
         private void ShowMessage(string message, MessageBoxIcon icon = MessageBoxIcon.Error)
@@ -417,7 +414,7 @@ namespace GUI
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            string path = DataManipulator.SaveDataDialog(_forestGraph, _saveFileName);
+            string path = DataSerializer.SaveDataDialog(_forestGraph, _saveFileName);
             if (!string.IsNullOrEmpty(path))
             {
                 _saveFileName = path;
@@ -430,7 +427,7 @@ namespace GUI
         {
             try
             {
-                string path = DataManipulator.SaveDataDialog(_forestGraph);
+                string path = DataSerializer.SaveDataDialog(_forestGraph);
                 if (!string.IsNullOrEmpty(path))
                 {
                     _saveFileName = path; 
@@ -448,7 +445,7 @@ namespace GUI
         {
             try
             {
-                string path = DataManipulator.LoadDataDialog(_forestGraph);
+                string path = DataSerializer.LoadDataDialog(_forestGraph);
                 if (!string.IsNullOrEmpty(path))
                 {
                     _graphPath.Clear();
@@ -482,8 +479,8 @@ namespace GUI
                     }
                 }
 
-                GraphDataGenerator.Init(_forestGraph);
-                GraphDataGenerator.Generate((genDialog.JunctionsCount, genDialog.RestAreasCount, 
+                GraphGenerator.Init(_forestGraph);
+                GraphGenerator.Generate((genDialog.JunctionsCount, genDialog.RestAreasCount, 
                     genDialog.StopsCount), genDialog.MinVertexEdge, genDialog.MaxVertexEdge);
 
                 _dijkstra.Invalidate();

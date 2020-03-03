@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -45,19 +45,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dijkstra\DijkstraAlhorithm.cs" />
+    <Compile Include="Dijkstra algorithm\DijkstraAlhorithm.cs" />
     <Compile Include="Exceptions\InvalidatedDataException.cs" />
     <Compile Include="Exceptions\RouteNotExistsException.cs" />
     <Compile Include="Exceptions\ItemNotFoundException.cs" />
     <Compile Include="Exceptions\UniqueItemException.cs" />
     <Compile Include="Exceptions\GraphNotExploredException.cs" />
     <Compile Include="Exceptions\UniqueKeyException.cs" />
-    <Compile Include="ForestGraph.cs" />
-    <Compile Include="IForestGraph.cs" />
-    <Compile Include="Items\Edge.cs" />
-    <Compile Include="Items\IEdge.cs" />
-    <Compile Include="Items\IVertex.cs" />
-    <Compile Include="Items\Vertex.cs" />
+    <Compile Include="Graph\Graph.cs" />
+    <Compile Include="DataInterface\IVertexData.cs" />
+    <Compile Include="DataInterface\IEdgeData.cs" />
+    <Compile Include="Graph\Interface\IGraph.cs" />
+    <Compile Include="Graph\Items\Edge.cs" />
+    <Compile Include="Graph\Items\Interfaces\IEdge.cs" />
+    <Compile Include="Graph\Items\Interfaces\IVertex.cs" />
+    <Compile Include="Graph\Items\Vertex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
