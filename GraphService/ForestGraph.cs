@@ -68,16 +68,13 @@ namespace ForestGraph
                 throw new ItemNotFoundException(Resources.VertexNotFound);
             }            
 
-            List<TEdgeKey> edges = vertex.IncidentEdges.Select(edge => edge.Key).ToList();
-
-            foreach (var edge in edges)
+            foreach (var edge in vertex.IncidentEdges)
             {
                 RemoveEdge(edge);
             }
 
-            TVertexData data = vertex.Data;
             _vertices.Remove(vertex.Key);
-            return data;
+            return vertex.Data;
         }
 
         public bool HasVertex(TVertexKey key)
@@ -169,10 +166,8 @@ namespace ForestGraph
             startVertex.IncidentEdges.Remove(edge);
             targetVertex.IncidentEdges.Remove(edge);
 
-            TEdgeData data = edge.Data;
             _edges.Remove(edge.Key);
-
-            return data;
+            return edge.Data;
         }
 
         public bool HasEdge(TEdgeKey key)
@@ -183,6 +178,17 @@ namespace ForestGraph
         public bool HasEdge(TVertexKey start, TVertexKey target)
         {
             return (FindEdge(start, target) != null);
+        }
+
+        internal Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> GetEdge(TEdgeKey key)
+        {
+            Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> edge = null;
+
+            if (_edges.TryGetValue(key, out edge))
+            {
+                return edge;
+            }
+            return null;
         }
 
         internal Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> GetEdge(TVertexKey start, TVertexKey target)
@@ -203,17 +209,6 @@ namespace ForestGraph
             }
 
             return start.IncidentEdges.FirstOrDefault(edge => edge.GetOpositeVertex(start) == target);
-        }
-
-        internal Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> GetEdge(TEdgeKey key)
-        {
-            Edge<TEdgeKey, TEdgeData, TVertexKey, TVertexData> edge = null;
-
-            if (_edges.TryGetValue(key, out edge))
-            {
-                return edge;
-            }
-            return null;
         }
 
         public TEdgeData FindEdge(TEdgeKey key)
@@ -263,15 +258,15 @@ namespace ForestGraph
 
         public List<(TEdgeKey key, TEdgeData data, TVertexKey target)> GetVertexIncidents(TVertexKey key)
         {
-            var data = new List<(TEdgeKey key, TEdgeData data, TVertexKey target)>();
             var vertex = GetVertex(key);
-
             if (vertex == null)
             {
                 return null;
             }
 
+            var data = new List<(TEdgeKey key, TEdgeData data, TVertexKey target)>();
             var incidentEdges = vertex.IncidentEdges;
+
             foreach (var edge in incidentEdges)
             {
                 data.Add((edge.Key, edge.Data, edge.TargetVertex.Key));
