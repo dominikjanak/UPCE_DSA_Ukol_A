@@ -3,7 +3,7 @@ using System;
 
 namespace GraphService
 {
-    class UniqueKeyException : Exception
+    public class UniqueKeyException : Exception
     {
         public UniqueKeyException(string message) 
             : base(message)

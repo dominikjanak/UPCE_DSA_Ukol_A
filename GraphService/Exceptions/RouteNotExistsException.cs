@@ -3,7 +3,7 @@ using System;
 
 namespace GraphService
 {
-    class RouteNotExistsException : Exception
+    public class RouteNotExistsException : Exception
     {
         public RouteNotExistsException(string message) 
             : base(message)

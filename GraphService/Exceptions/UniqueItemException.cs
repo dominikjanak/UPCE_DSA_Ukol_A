@@ -3,7 +3,7 @@ using System;
 
 namespace GraphService
 {
-    class UniqueItemException : Exception
+    public class UniqueItemException : Exception
     {
         public UniqueItemException(string message) 
             : base(message)

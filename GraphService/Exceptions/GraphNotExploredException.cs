@@ -3,7 +3,7 @@ using System;
 
 namespace GraphService
 {
-    class GraphNotExploredException : Exception
+    public class GraphNotExploredException : Exception
     {
         public GraphNotExploredException(string message) 
             : base(message)

@@ -53,9 +53,9 @@ namespace GraphService.Dijkstra
         // Calculate path from _start vertex to target vertex
         public List<TVertexKey> GetPath(TVertexKey target)
         {
-            if (_invalidated)
+            if (_start == null)
             {
-                throw new InvalidatedDataException(Resources.InvalidCalculations);
+                throw new GraphNotExploredException(Resources.GraphNotExplored);
             }
 
             if (target == null)
@@ -63,9 +63,14 @@ namespace GraphService.Dijkstra
                 throw new ArgumentNullException(Resources.StartKeyNull);
             }
 
-            if(_start.CompareTo(default(TVertexKey)) == 0)
+            if (!_graph.HasVertex(target))
             {
-                throw new GraphNotExploredException(Resources.GraphNotExplored);
+                throw new ItemNotFoundException(Resources.VertexNotExists);
+            }
+
+            if (_invalidated)
+            {
+                throw new InvalidatedDataException(Resources.InvalidCalculations);
             }
 
             List<TVertexKey> route = new List<TVertexKey>();
@@ -79,7 +84,8 @@ namespace GraphService.Dijkstra
 
             if (route.Count == 1 && route[0].CompareTo(target) == 0)
             {
-                return null;
+                route.Clear();
+                return route;
             }
 
             route.Reverse();
@@ -104,7 +110,7 @@ namespace GraphService.Dijkstra
             //    - ignore blocked edges is different in new search
             //    - predefined _start is null
             //    - calculated _start is different from new start
-            if (_invalidated || _ignoreBlocked != ignoreBlocked || _start == null || (_start != null && _start.CompareTo(start) != 0)) 
+            if (_start == null || _invalidated || _ignoreBlocked != ignoreBlocked || (_start != null && _start.CompareTo(start) != 0)) 
             {
                 _start = start;
                 _ignoreBlocked = ignoreBlocked;

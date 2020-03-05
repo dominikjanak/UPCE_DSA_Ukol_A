@@ -3,7 +3,7 @@ using System;
 
 namespace GraphService
 {
-    class InvalidatedDataException : Exception
+    public class InvalidatedDataException : Exception
     {
         public InvalidatedDataException(string message) 
             : base(message)
