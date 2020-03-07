@@ -88,20 +88,7 @@ namespace GraphService.Tests
 
             CollectionAssert.AreEqual(new List<string>() { }, path);
         }
-
-        [TestMethod()]
-        public void InvalidateTest()
-        {
-            var graph = InitGraph();
-            var dijkstra = new DijkstraAlhorithm<string, TestVertexData, string, TestEdgeData>(graph);
         
-            dijkstra.FindPaths("S");
-            dijkstra.Invalidate();
-
-            Assert.IsTrue(dijkstra.IsInvalidated());
-            Assert.ThrowsException<InvalidatedDataException>(() => dijkstra.GetPath("T"));
-        }
-
         [TestMethod()]
         public void IgnoreBlockedTest()
         {
@@ -198,6 +185,36 @@ namespace GraphService.Tests
             dijkstra.FindPaths("T");
             path = dijkstra.GetPath("S");
             CollectionAssert.AreEqual(new List<string>() { "T", "V4", "V3", "S" }, path);
+        }
+
+        [TestMethod()]
+        public void FindPathsInvalidate()
+        {
+            var graph = InitGraph();
+            var dijkstra = new DijkstraAlhorithm<string, TestVertexData, string, TestEdgeData>(graph);
+
+            dijkstra.FindPaths("S");
+            var path = dijkstra.GetPath("T");
+            CollectionAssert.AreEqual(new List<string>() { "S", "V3", "V4", "T" }, path);
+
+            dijkstra.Invalidate();
+            dijkstra.FindPaths("S");
+            path = dijkstra.GetPath("T");
+            CollectionAssert.AreEqual(new List<string>() { "S", "V3", "V4", "T" }, path);
+        }
+
+        [TestMethod()]
+        public void GetPathOnInvalidate()
+        {
+            var graph = InitGraph();
+            var dijkstra = new DijkstraAlhorithm<string, TestVertexData, string, TestEdgeData>(graph);
+
+            dijkstra.FindPaths("S");
+            var path = dijkstra.GetPath("T");
+            CollectionAssert.AreEqual(new List<string>() { "S", "V3", "V4", "T" }, path);
+
+            dijkstra.Invalidate();
+            Assert.ThrowsException<InvalidatedDataException>(() => dijkstra.GetPath("T"));
         }
     }
 }

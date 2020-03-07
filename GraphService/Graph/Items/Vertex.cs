@@ -22,11 +22,6 @@ namespace GraphService
                 Data = data;
                 IncidentEdges = new List<Edge>();
             }
-
-            public override string ToString()
-            {
-                return Key.ToString();
-            }
         }
     }
 }

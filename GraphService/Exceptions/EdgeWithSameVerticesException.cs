@@ -3,9 +3,9 @@ using System;
 
 namespace GraphService
 {
-    public class GraphNotExploredException : Exception
+    public class EdgeWithSameVerticesException : Exception
     {
-        public GraphNotExploredException(string message) 
+        public EdgeWithSameVerticesException(string message) 
             : base(message)
         { }
     }

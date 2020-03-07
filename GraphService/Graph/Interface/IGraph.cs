@@ -115,39 +115,35 @@ namespace GraphService
         TEdgeData RemoveEdge(TVertexKey start, TVertexKey target);
 
         /// <summary>
-        /// Vrátí data všech vrcholů
+        /// Získá iterátor pro všechny vrcholy
         /// </summary>
-        /// <returns>Data o všech vrcholech</returns>
-        List<(TVertexKey key, TVertexData data)> GetAllVertices();
+        IEnumerable<(TVertexKey Key, TVertexData Data)> Vertices { get; }
 
         /// <summary>
-        /// Vrátí data všech hran
+        /// Získá iterátor pro všechny hrany
         /// </summary>
-        /// <returns>Data o všech hranách</returns>
-        List<(TEdgeKey key, TEdgeData data, TVertexKey start, TVertexKey target)> GetAllEdges();
+        IEnumerable<(TEdgeKey Key, TVertexKey Start, TVertexKey Target, TEdgeData Data)> Edges { get; }
 
         /// <summary>
-        /// Vrátí incidentní hrany pro vrchol
+        /// Vrátí iterátor přes incidentní hrany pro vrchol
         /// </summary>
         /// <param name="key">Klíč vrcholu</param>
-        /// <returns>Data o všech incidentních hranách</returns>
-        List<(TEdgeKey key, TEdgeData data, TVertexKey target)> GetVertexIncidents(TVertexKey key);
+        /// <returns>Vrátí iterátor přes incidentní hrany</returns>
+        IEnumerable<(TEdgeKey Key, TEdgeData Data, TVertexKey Target)> VertexIncidents(TVertexKey key);
 
         /// <summary>
-        /// Vrátí incidentní vrcholy pro hranu
+        /// Vrátí iterátor přes incidentní vrcholy pro hranu
         /// </summary>
         /// <param name="key">Klíč vrcholu</param>
-        /// <returns>Data o všech incidentních vrcholech</returns>
-        List<(TVertexKey key, TVertexData data)> GetEdgeIncidents(TEdgeKey key);
+        /// <returns>Vrátí iterátor přes incidentní vrcholy</returns>
+        IEnumerable<(TVertexKey Key, TVertexData Data)> EdgeIncidents(TEdgeKey key);
 
         /// <summary>
-        /// Vrátí incidentní vrcholy pro hranu
+        /// Vrátí iterátor přes incidentní vrcholy pro hranu
         /// </summary>
         /// <param name="start">Klíč počátečního vrcholu</param>
         /// <param name="target">Klíč koncového vrcholu</param>
-        /// <returns>Data o všech incidentních vrcholech</returns>
-        List<(TVertexKey key, TVertexData data)> GetEdgeIncidents(TVertexKey start, TVertexKey target);
-
-
+        /// <returns>Vrátí iterátor přes incidentní vrcholy na hraně</returns>
+        IEnumerable<(TVertexKey Key, TVertexData Data)> EdgeIncidents(TVertexKey start, TVertexKey target);
     }
 }

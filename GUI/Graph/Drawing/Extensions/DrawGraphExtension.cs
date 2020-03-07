@@ -23,7 +23,7 @@ namespace GUI.Graph.Drawing
                 return;
             }
 
-            DrawEdges(drawer, mappedVertices, graph.GetAllEdges());
+            DrawEdges(drawer, mappedVertices, graph.Edges);
             if (path != null) 
             { 
                 DrawPath(drawer, mappedVertices, path);
@@ -46,20 +46,20 @@ namespace GUI.Graph.Drawing
                 return;
             }
 
-            DrawEdges(drawer, mappedVertices, graph.GetAllEdges());
+            DrawEdges(drawer, mappedVertices, graph.Edges);
             DrawVertices(drawer, mappedVertices);
         }
 
         private static Dictionary<string, VertexData> InitDraw(Graph<string, VertexData, string, EdgeData> graph, DrawGraph drawer)
         {
             drawer.ClearCanvas();
-            var vertices = graph.GetAllVertices();
+            var vertices = graph.Vertices;
 
             Dictionary<string, VertexData> mappedVertices = new Dictionary<string, VertexData>();
 
             foreach (var v in vertices)
             {
-                mappedVertices.Add(v.key, v.data);
+                mappedVertices.Add(v.Key, v.Data);
             }
 
             drawer.SetGraphSize(CalculateGraphSize(mappedVertices));
@@ -67,19 +67,17 @@ namespace GUI.Graph.Drawing
             return mappedVertices;
         }
 
-        private static void DrawEdges(DrawGraph drawer, Dictionary<string, VertexData> mappedVertexes, 
-            List<(string key, EdgeData data, string start, string target)> edges)
+        private static void DrawEdges(DrawGraph drawer, Dictionary<string, VertexData> mappedVertexes,
+            IEnumerable<(string Key, string Start, string Target, EdgeData Data)> edges)
         {
-            int edgesCount = edges.Count;
-            for (int i = 0; i < edgesCount; i++)
+            foreach(var edge in edges)
             {
-                var edge = edges[i];
                 VertexData vertexA = null;
                 VertexData vertexB = null;
 
-                if (mappedVertexes.TryGetValue(edge.start, out vertexA) && mappedVertexes.TryGetValue(edge.target, out vertexB))
+                if (mappedVertexes.TryGetValue(edge.Start, out vertexA) && mappedVertexes.TryGetValue(edge.Target, out vertexB))
                 {
-                    drawer.DrawEdge(vertexA.Location, vertexB.Location, edge.data.EdgeType, edge.data.Distance.ToString());
+                    drawer.DrawEdge(vertexA.Location, vertexB.Location, edge.Data.EdgeType, edge.Data.Distance.ToString());
                 }
             }
         }

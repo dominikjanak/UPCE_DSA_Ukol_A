@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -47,10 +47,10 @@
   <ItemGroup>
     <Compile Include="Dijkstra algorithm\DijkstraAlhorithm.cs" />
     <Compile Include="Exceptions\InvalidatedDataException.cs" />
-    <Compile Include="Exceptions\RouteNotExistsException.cs" />
     <Compile Include="Exceptions\ItemNotFoundException.cs" />
     <Compile Include="Exceptions\UniqueItemException.cs" />
     <Compile Include="Exceptions\GraphNotExploredException.cs" />
+    <Compile Include="Exceptions\EdgeWithSameVerticesException.cs" />
     <Compile Include="Exceptions\UniqueKeyException.cs" />
     <Compile Include="Graph\Graph.cs" />
     <Compile Include="DataInterface\IVertexData.cs" />

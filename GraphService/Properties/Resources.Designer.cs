@@ -79,6 +79,15 @@ namespace GraphService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Oba vrcholy hrany jsou stejné! Nejsou povoleny smyčky!.
+        /// </summary>
+        internal static string EdgeWithSameVertices {
+            get {
+                return ResourceManager.GetString("EdgeWithSameVertices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nelze získat cestu, neboť graf není prozkoumán!.
         /// </summary>
         internal static string GraphNotExplored {
@@ -111,15 +120,6 @@ namespace GraphService.Properties {
         internal static string KeyAlreadyExists {
             get {
                 return ResourceManager.GetString("KeyAlreadyExists", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cesta mezi body neexistuje!.
-        /// </summary>
-        internal static string RouteNotExists {
-            get {
-                return ResourceManager.GetString("RouteNotExists", resourceCulture);
             }
         }
         

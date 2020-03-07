@@ -35,11 +35,6 @@ namespace GraphService
                 }
                 return StartVertex;
             }
-
-            public override string ToString()
-            {
-                return Key.ToString();
-            }
         }
     }
 }

@@ -16,5 +16,17 @@ namespace GUI
             this.labelCompanyName.Text = AssemblyData.Company;
             this.textBoxDescription.Text = AssemblyData.Description;
         }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (msg.Msg == 256)
+            {
+                if (keyData == Keys.Escape)
+                {
+                    this.Close();
+                }
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
     }
 }

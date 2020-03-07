@@ -23,7 +23,7 @@ namespace GUI.Graph.Component
             return _rows.Count;
         }
 
-        public TrajectoryMatrix(List<(string key, VertexData data)> vertices)
+        public TrajectoryMatrix(IEnumerable<(string Key, VertexData Data)> vertices)
         {
             InitMatrix(vertices);
         }
@@ -118,30 +118,30 @@ namespace GUI.Graph.Component
             set => SetValue(col+1, row+1, value);
         }
 
-        private void InitMatrix(List<(string key, VertexData data)> vertices)
+        private void InitMatrix(IEnumerable<(string Key, VertexData Data)> vertices)
         {
             List<string> junctions = new List<string>();
 
             // Categorize vertex types
             foreach (var vertex in vertices)
             {
-                switch (vertex.data.VertexType)
+                switch (vertex.Data.VertexType)
                 {
                     case VertexType.Junction:
-                        junctions.Add(vertex.key);
+                        junctions.Add(vertex.Key);
                         break;
                     case VertexType.RestArea:
-                        _restAreas.Add(vertex.key);
+                        _restAreas.Add(vertex.Key);
                         break;
                     case VertexType.Stop:
-                        _stops.Add(vertex.key);
+                        _stops.Add(vertex.Key);
                         break;
                 }
             }
 
             _cols = new Dictionary<string, int>();
             _rows = new Dictionary<string, int>();
-            _matrix = new string[_stops.Count+1, vertices.Count+1]; // With column and row name
+            _matrix = new string[_stops.Count+1, vertices.Count()+1]; // With column and row name
             _matrix[0, 0] = "#"; // Empty cell
 
             // Prepare index and matrix header for columns

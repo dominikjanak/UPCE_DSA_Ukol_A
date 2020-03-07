@@ -8,6 +8,7 @@ namespace GUI.Dialog
     {
         public string StartVertex { get; set; }
         public string TargetVertex { get; set; }
+        public bool Starship { get; set; }
 
         public SelectTwoVerticesDialog(bool findPath = false)
         {
@@ -22,6 +23,12 @@ namespace GUI.Dialog
                 tableLayoutPanel2.ColumnStyles[0].Width = 43;
                 tableLayoutPanel4.ColumnStyles[0].Width = 43;
             }
+            else
+            {
+                tableLayoutPanel5.Dispose();
+                this.Size = new Size(259, 178);
+
+            }
 
             Point position = Properties.Settings.Default.DialogPosition;
             if (!(position.X <= -1000 && position.Y <= -1000))
@@ -35,6 +42,7 @@ namespace GUI.Dialog
         {
             StartVertex = StartTextbox.Text;
             TargetVertex = TargetTextbox.Text;
+            Starship = StarshipCheckbox.Checked;
         }
 
         private void SelectEdgeDialog_FormClosing(object sender, FormClosingEventArgs e)

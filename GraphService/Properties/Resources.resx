@@ -123,6 +123,9 @@
   <data name="EdgeNotFound" xml:space="preserve">
     <value>Hrana nebyla v grafu nalezena!</value>
   </data>
+  <data name="EdgeWithSameVertices" xml:space="preserve">
+    <value>Oba vrcholy hrany jsou stejné! Nejsou povoleny smyčky!</value>
+  </data>
   <data name="GraphNotExplored" xml:space="preserve">
     <value>Nelze získat cestu, neboť graf není prozkoumán!</value>
   </data>
@@ -134,9 +137,6 @@
   </data>
   <data name="KeyAlreadyExists" xml:space="preserve">
     <value>Zadaný klíč v grafu již existuje!</value>
-  </data>
-  <data name="RouteNotExists" xml:space="preserve">
-    <value>Cesta mezi body neexistuje!</value>
   </data>
   <data name="StartKeyNull" xml:space="preserve">
     <value>Null hodnota počátečního bodu!</value>

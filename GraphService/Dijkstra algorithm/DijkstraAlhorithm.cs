@@ -100,17 +100,17 @@ namespace GraphService.Dijkstra
                 throw new ArgumentNullException(Resources.TargetKeyNull);
             }
 
-            if(!_graph.HasVertex(start))
+            if (!_graph.HasVertex(start))
             {
                 throw new ItemNotFoundException(Resources.VertexNotExists);
             }
 
             // Calculate only if:
             //    - data is invalidated
+            //    - calculated _start is different from new start
             //    - ignore blocked edges is different in new search
             //    - predefined _start is null
-            //    - calculated _start is different from new start
-            if (_start == null || _invalidated || _ignoreBlocked != ignoreBlocked || (_start != null && _start.CompareTo(start) != 0)) 
+            if (_start == null || (_start != null && _start.CompareTo(start) != 0) || _invalidated || _ignoreBlocked != ignoreBlocked) 
             {
                 _start = start;
                 _ignoreBlocked = ignoreBlocked;

@@ -121,7 +121,10 @@
     <value>Program lze ovládat skrze základní grafické rozhraní nebo je možné využít klávesových zkratek, jejichž výčet je níže.
 
 V kakždém otevřeném dialogu, který očekává zadání dat dochází k validaci stupních údajů a je možné prostřednictvím klávesy ENTER skákat mezi nezadanými, popřípadě neplatnými hodnotami. 
-POZOR: Při správném zadání všech hodnot dojde pomocí klávesy enter k automatickému potvrzení a odelásní dialogu.</value>
+POZOR: Při správném zadání všech hodnot dojde pomocí klávesy enter k automatickému potvrzení a odelásní dialogu.
+
+V programu je též umožněno omezení průchodnosti některých hran. Tato funkce je vyřešena graficky. Stačí levím tlačítkem myši kliknout do mapy a táhnout. Po uvolnění tlačítka dojde k omezení průchodnosti všech hran u rcholů, které se nacházely v červeném rámečku.
+</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

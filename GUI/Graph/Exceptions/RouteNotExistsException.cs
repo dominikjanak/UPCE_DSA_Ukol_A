@@ -1,7 +1,7 @@
-﻿using GraphService.Properties;
+﻿using GUI.Properties;
 using System;
 
-namespace GraphService
+namespace GUI.Graph
 {
     public class RouteNotExistsException : Exception
     {

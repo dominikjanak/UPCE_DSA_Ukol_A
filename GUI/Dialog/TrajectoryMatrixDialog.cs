@@ -37,7 +37,7 @@ namespace GUI.Dialog
 
         private void CalculateMatrix()
         {
-            var allVerticies = _graph.GetAllVertices();
+            var allVerticies = _graph.Vertices;
             _matrix = new TrajectoryMatrix(allVerticies);
 
             List<string> stops = _matrix.GetAllStops();

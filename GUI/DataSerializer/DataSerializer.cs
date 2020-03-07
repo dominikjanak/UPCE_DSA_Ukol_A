@@ -42,18 +42,16 @@ namespace GUI
             {
                 GraphData data = new GraphData();
 
-                var allVertices = graph.GetAllVertices();
-                foreach (var vertex in allVertices)
+                foreach (var vertex in graph.Vertices)
                 {
-                    VertexSerialize v = new VertexSerialize(vertex.key, vertex.data.Location.X,
-                        vertex.data.Location.Y, vertex.data.VertexType);
+                    VertexSerialize v = new VertexSerialize(vertex.Key, vertex.Data.Location.X,
+                        vertex.Data.Location.Y, vertex.Data.VertexType);
                     data.Vertices.Add(v);
                 }
 
-                var allEdges = graph.GetAllEdges();
-                foreach (var edge in allEdges)
+                foreach (var edge in graph.Edges)
                 {
-                    EdgeSerialize e = new EdgeSerialize(edge.key, edge.start, edge.target, edge.data.Distance);
+                    EdgeSerialize e = new EdgeSerialize(edge.Key, edge.Start, edge.Target, edge.Data.Distance);
                     data.Edges.Add(e);
                 }
 

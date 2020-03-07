@@ -85,23 +85,6 @@ namespace GUI
             }
         }
 
-        private void NewGraphButton_Click(object sender, EventArgs e)
-        {
-            if (DialogResult.Cancel == AskForSave())
-            {
-                return;
-            }
-
-            _dijkstra.Invalidate();
-            _rectangle = new RectangleF(0, 0, 0, 0);
-            _forestGraph.Clear();
-            _graphPath.Clear();
-            _saved = true;
-            graphCanvas.Invalidate();
-            _saveFileName = "";
-            SetTitle();
-        }
-
         private DialogResult AskForSave()
         {
             if (_saved)
@@ -124,8 +107,29 @@ namespace GUI
                     MessageBox.Show(Resources.ExportError + "\n" + ex.Message, Resources.ExportErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-
             return result;
+        }
+
+        private void ShowMessage(string message, MessageBoxIcon icon = MessageBoxIcon.Error, string title = "")
+        {
+            MessageBox.Show(message, String.IsNullOrEmpty(title)?Resources.ErrorLabel : title, MessageBoxButtons.OK, icon);
+        }
+
+        private void NewGraphButton_Click(object sender, EventArgs e)
+        {
+            if (DialogResult.Cancel == AskForSave())
+            {
+                return;
+            }
+
+            _dijkstra.Invalidate();
+            _rectangle = new RectangleF(0, 0, 0, 0);
+            _forestGraph.Clear();
+            _graphPath.Clear();
+            _saved = true;
+            graphCanvas.Invalidate();
+            _saveFileName = "";
+            SetTitle();
         }
 
         private void Autoload_SaveButton_Click(object sender, EventArgs e)
@@ -204,10 +208,18 @@ namespace GUI
 
                     try
                     {
-                        // find and store path
-                        _graphPath.Clear();
-                        _graphPath = _dijkstra.FindPaths(selectPath.StartVertex).GetPath(selectPath.TargetVertex);
-                        graphCanvas.Invalidate();
+                            // find and store path
+                            _graphPath.Clear();
+                            var path = _dijkstra.FindPaths(selectPath.StartVertex).GetPath(selectPath.TargetVertex);
+                            if (path.Count > 0)
+                            {
+                                _graphPath = path;
+                                graphCanvas.Invalidate();
+                            }
+                            else
+                            {
+                                ShowMessage(Resources.PathNotExists, MessageBoxIcon.Warning);
+                            }
                     }
                     catch (Exception ex)
                     {
@@ -367,11 +379,6 @@ namespace GUI
 
             _matrixDialog = new TrajectoryMatrixDialog(_forestGraph, _dijkstra);
             _matrixDialog.Show();
-        }
-
-        private void ShowMessage(string message, MessageBoxIcon icon = MessageBoxIcon.Error)
-        {
-            MessageBox.Show(message, Resources.ErrorLabel, MessageBoxButtons.OK, icon);
         }
 
         private void saveImageButton_Click(object sender, EventArgs e)
@@ -550,20 +557,20 @@ namespace GUI
 
         private void UpdateEdgeType()
         {
-            var edges = _forestGraph.GetAllEdges();
+            var edges = _forestGraph.Edges;
 
             // all edges are free
             foreach (var edge in edges)
             {
-                edge.data.EdgeType = EdgeType.Free;
+                edge.Data.EdgeType = EdgeType.Free;
             }
 
-            var vertices = _forestGraph.GetAllVertices();
+            var vertices = _forestGraph.Vertices;
             
             //Analyse all vertices
             foreach (var vertex in vertices)
             {
-                var loc = vertex.data.Location;
+                var loc = vertex.Data.Location;
                 RectangleF rect = _rectangle;
 
                 // recalculate rectangle if width < 0
@@ -583,12 +590,12 @@ namespace GUI
                 if (loc.X >= rect.Left && loc.X <= rect.Left + rect.Width &&
                     loc.Y >= rect.Top && loc.Y <= rect.Top + rect.Height)
                 {
-                    var incidentEdges = _forestGraph.GetVertexIncidents(vertex.key);
+                    var incidentEdges = _forestGraph.VertexIncidents(vertex.Key);
 
                     // All edges from vertex will be blocked 
                     foreach (var edge in incidentEdges)
                     {
-                        edge.data.EdgeType = EdgeType.Blocked;
+                        edge.Data.EdgeType = EdgeType.Blocked;
                     }
                 }
             }

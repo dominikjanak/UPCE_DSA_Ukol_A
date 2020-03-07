@@ -1,5 +1,4 @@
-﻿using GraphService.Properties;
-using System;
+﻿using System;
 
 namespace GraphService
 {
@@ -7,10 +6,6 @@ namespace GraphService
     {
         public UniqueKeyException(string message) 
             : base(message)
-        { }
-
-        public UniqueKeyException()
-            : base(Resources.KeyAlreadyExists)
         { }
     }
 }
