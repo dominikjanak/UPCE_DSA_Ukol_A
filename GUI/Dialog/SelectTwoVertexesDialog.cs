@@ -26,7 +26,7 @@ namespace GUI.Dialog
             else
             {
                 tableLayoutPanel5.Dispose();
-                this.Size = new Size(259, 178);
+                this.FormBorderStyle = FormBorderStyle.FixedDialog;
 
             }
 

@@ -208,6 +208,14 @@ namespace GUI
 
                     try
                     {
+                        if(selectPath.Starship == true)
+                        {
+                            _graphPath = new List<string>() { selectPath.StartVertex, selectPath.TargetVertex };
+                            graphCanvas.Invalidate();
+                            ShowMessage(Resources.UsingSpaceship, MessageBoxIcon.Warning, "EASTER EGG");
+                        }
+                        else
+                        {
                             // find and store path
                             _graphPath.Clear();
                             var path = _dijkstra.FindPaths(selectPath.StartVertex).GetPath(selectPath.TargetVertex);
@@ -220,6 +228,7 @@ namespace GUI
                             {
                                 ShowMessage(Resources.PathNotExists, MessageBoxIcon.Warning);
                             }
+                        }
                     }
                     catch (Exception ex)
                     {

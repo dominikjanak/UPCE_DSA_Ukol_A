@@ -71,7 +71,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(225, 158);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(225, 129);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // tableLayoutPanel5
@@ -89,7 +89,7 @@
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 1;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(225, 28);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(225, 1);
             this.tableLayoutPanel5.TabIndex = 3;
             // 
             // label1
@@ -97,9 +97,9 @@
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label1.Location = new System.Drawing.Point(3, 6);
+            this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(138, 16);
+            this.label1.Size = new System.Drawing.Size(138, 1);
             this.label1.TabIndex = 0;
             this.label1.Text = "Použít kosmickou loď:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -108,10 +108,10 @@
             // 
             this.StarshipCheckbox.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.StarshipCheckbox.AutoSize = true;
-            this.StarshipCheckbox.Location = new System.Drawing.Point(148, 8);
+            this.StarshipCheckbox.Location = new System.Drawing.Point(148, 5);
             this.StarshipCheckbox.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
             this.StarshipCheckbox.Name = "StarshipCheckbox";
-            this.StarshipCheckbox.Size = new System.Drawing.Size(15, 14);
+            this.StarshipCheckbox.Size = new System.Drawing.Size(15, 1);
             this.StarshipCheckbox.TabIndex = 1;
             this.StarshipCheckbox.UseVisualStyleBackColor = true;
             // 
@@ -125,7 +125,7 @@
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.Controls.Add(this.DialogCancelButton, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.DialogSubmitButton, 1, 0);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 127);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 98);
             this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0, 9, 0, 0);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
@@ -274,12 +274,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(243, 176);
+            this.ClientSize = new System.Drawing.Size(243, 147);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(259, 215);
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(259, 186);
             this.Name = "SelectTwoVerticesDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Odstranit hranu";

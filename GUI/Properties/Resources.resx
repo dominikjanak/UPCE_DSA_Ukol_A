@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -193,5 +193,8 @@
   </data>
   <data name="RouteNotExists" xml:space="preserve">
     <value>Cesta mezi body neexistuje!</value>
+  </data>
+  <data name="UsingSpaceship" xml:space="preserve">
+    <value>EASTER EGG: Pozor přesunuli jste se pomocí vesmírné lodi!</value>
   </data>
 </root>
