@@ -32,6 +32,7 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.TrajectoryMatrixButton = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.MatrixGrid = new GUI.DoubleBufferedDataGridView();
             this.warnLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
@@ -66,6 +67,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel2.Controls.Add(this.TrajectoryMatrixButton, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 116);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -90,6 +92,16 @@
             this.TrajectoryMatrixButton.UseVisualStyleBackColor = false;
             this.TrajectoryMatrixButton.Click += new System.EventHandler(this.TrajectoryMatrixButton_Click);
             // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(190, 26);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Cesty jsou počítány pouze z odpočívadel do všech zastávek.";
+            // 
             // MatrixGrid
             // 
             this.MatrixGrid.AllowUserToAddRows = false;
@@ -104,11 +116,15 @@
             this.MatrixGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.MatrixGrid.Location = new System.Drawing.Point(0, 0);
             this.MatrixGrid.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
+            this.MatrixGrid.MultiSelect = false;
             this.MatrixGrid.Name = "MatrixGrid";
             this.MatrixGrid.ReadOnly = true;
             this.MatrixGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.MatrixGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.MatrixGrid.Size = new System.Drawing.Size(296, 113);
             this.MatrixGrid.TabIndex = 1;
+            this.MatrixGrid.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.MatrixGrid_DataBindingComplete);
+            this.MatrixGrid.Paint += new System.Windows.Forms.PaintEventHandler(this.MatrixGrid_Paint);
             // 
             // warnLabel
             // 
@@ -130,7 +146,7 @@
             this.Controls.Add(this.warnLabel);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(200, 200);
+            this.MinimumSize = new System.Drawing.Size(330, 200);
             this.Name = "TrajectoryMatrixDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Matice směrování";
@@ -138,6 +154,7 @@
             this.Move += new System.EventHandler(this.TrajectoryMatrixDialog_Move);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MatrixGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -151,5 +168,6 @@
         private System.Windows.Forms.Button TrajectoryMatrixButton;
         private DoubleBufferedDataGridView MatrixGrid;
         private System.Windows.Forms.Label warnLabel;
+        private System.Windows.Forms.Label label1;
     }
 }

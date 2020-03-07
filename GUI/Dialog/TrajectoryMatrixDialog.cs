@@ -1,5 +1,6 @@
 ﻿using GraphService;
 using GraphService.Dijkstra;
+using GUI.Drawing;
 using GUI.Graph;
 using GUI.Graph.Component;
 using System.Collections.Generic;
@@ -80,6 +81,7 @@ namespace GUI.Dialog
             for (int col = 0; col < _matrix.ColumnsCount(); col++)
             {
                 MatrixGrid.Columns[col].Name = _matrix.GetColumnKey(col); // print Header
+                MatrixGrid.Columns[col].SortMode = DataGridViewColumnSortMode.NotSortable;
 
                 // for each row
                 for (int row = 0; row < _matrix.RowsCount(); row++)
@@ -88,6 +90,8 @@ namespace GUI.Dialog
                     if (col == 0)
                     {
                         MatrixGrid.Rows[row].HeaderCell.Value = _matrix.GetRowKey(row);
+                        //MatrixGrid.Rows[row].HeaderCell.Style.Font = new Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+                        MatrixGrid.Rows[row].HeaderCell.Style.SelectionBackColor = Colors.Red;
                     }
                     var val = _matrix[col, row]; // get target ID
                     MatrixGrid.Rows[row].Cells[col].Value = val; // set cell value
@@ -126,6 +130,19 @@ namespace GUI.Dialog
         private void TrajectoryMatrixDialog_Move(object sender, System.EventArgs e)
         {
             Properties.Settings.Default.MatrixformPosition = this.Location;
+        }
+
+        private void MatrixGrid_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            MatrixGrid.ClearSelection();
+        }
+
+        private void MatrixGrid_Paint(object sender, PaintEventArgs e)
+        {
+            if(MatrixGrid.CurrentCell != null)
+            {
+                MatrixGrid.CurrentCell.Selected = false;
+            }
         }
     }
 }
