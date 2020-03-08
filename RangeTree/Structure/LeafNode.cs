@@ -15,8 +15,9 @@ namespace RangeTree
             public LeafNode Next { get; internal set; }
             public TValue Data { get; private set; }
 
-            public LeafNode(TValue data, LeafNode prev)
+            public LeafNode(TValue data, NodeBlock parent, LeafNode prev)
             {
+                Parent = parent;
                 Data = data;
                 Prev = prev;
                 if(prev != null)

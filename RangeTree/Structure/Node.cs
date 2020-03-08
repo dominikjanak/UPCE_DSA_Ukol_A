@@ -7,6 +7,8 @@ namespace RangeTree
     {
         internal abstract class Node
         {
+            public NodeBlock Parent { get; set; }
+
             abstract public bool IsLeaf();
         }
     }
