@@ -99,7 +99,7 @@ namespace RangeTree
 
         private NodeBlock CreateNode(List<TValue> values, NodeBlock parent, bool odd)
         {
-            values = values.OrderBy(i => odd ? i.X : i.Y).ToList();
+            values = values.OrderBy(i => odd ? i.X : i.Y).ThenBy(i => odd ? i.Y : i.X).ToList();
 
             TValue minItem = values[0];
             TValue maxItem = values[values.Count - 1];
@@ -130,61 +130,12 @@ namespace RangeTree
             return default(TValue);
         }
 
-        /*public Node FindNode(float x, float y)
-        {
-            if (_root.IsLeaf())
-            {
-                LeafNode leaf = (LeafNode)_root;
-                if(leaf.Data.X == x && leaf.Data.Y == y)
-                {
-                    return leaf;
-                }
-                return null;
-            }
-
-            NodeBlock node = (NodeBlock)_root;
-
-            while (node != null)
-            {
-                // Left descendant
-                if(node.Left.IsLeaf() && ((LeafNode)node.Left).Data.X == x && ((LeafNode)node.Left).Data.Y == y)
-                {
-                    return ((LeafNode)node.Left).Data;
-                }
-
-                // Right descendant
-                if (node.Right.IsLeaf() && ((LeafNode)node.Right).Data.X == x && ((LeafNode)node.Right).Data.Y == y)
-                {
-                    return ((LeafNode)node.Left).Data;
-                }
-
-                // traversing a tree
-                if (node.Left != null && !node.Left.IsLeaf() && ((NodeBlock)node.Left).Min <= x && ((NodeBlock)node.Left).Max > x)
-                {
-                    node = (NodeBlock)node.Left;
-                }
-                else
-                {
-                    if(node.Right != null && (node.Right.IsLeaf() || node.Min > x || node.Max <= x))
-                    {
-                        return default(TValue);
-                    }
-                    if (node.Right != null && !node.Right.IsLeaf())
-                    {
-                        node = (NodeBlock)node.Right;
-                    }
-                }
-            }
-
-            return default(TValue);
-        }*/
-
         
         private Node FindNode(float x, float y)
         {
             if (_root != null && _root.IsLeaf())
             {
-                LeafNode leafRoot = (LeafNode)_root; 
+                LeafNode leafRoot = (LeafNode)_root;
                 if (leafRoot.Data.X == x && leafRoot.Data.Y == y)
                 {
                     return leafRoot;
@@ -194,59 +145,63 @@ namespace RangeTree
 
             NodeBlock node = (NodeBlock)_root;
             LeafNode leaf = null;
+
             while (node != null)
             {
-                if (IsNodeNotNullAndLeaf(node.Left))
+                // Left descendant
+                if(node.Left.IsLeaf() && ((LeafNode)node.Left).Data.X == x)
                 {
                     leaf = (LeafNode)node.Left;
-                    Console.WriteLine("LLeaf: " + leaf.Data.X + "-" + leaf.Data.Y);
-                    if (leaf.Data.X == x)
+
+                    if (leaf.Data.Y == y)
                     {
-                        if (leaf.Data.Y == y)
+                        return leaf;
+                    }
+                    else
+                    {
+                        leaf = FindInLeaves(leaf, x, y);
+                        if (leaf != null)
                         {
                             return leaf;
-                        }
-                        else
-                        {
-                            return FindInLeaves(leaf, x, y);
                         }
                     }
                 }
 
-                if (IsNodeNotNullAndLeaf(node.Right))
+                // Right descendant
+                if (node.Right.IsLeaf() && ((LeafNode)node.Right).Data.X == x)
                 {
                     leaf = (LeafNode)node.Right;
-                    Console.WriteLine("RLeaf: " + leaf.Data.X + "-" + leaf.Data.Y);
-                    if (leaf.Data.X == x)
+
+                    if (leaf.Data.Y == y)
                     {
-                        if (leaf.Data.Y == y)
+                        return leaf;
+                    }
+                    else
+                    {
+                        leaf = FindInLeaves(leaf, x, y);
+                        if (leaf != null)
                         {
                             return leaf;
-                        }
-                        else
-                        {
-                            return FindInLeaves(leaf, x, y);
                         }
                     }
                 }
 
-
-                if (IsNodeNotNullAndNotLeaf(node.Left) && ((NodeBlock)node.Left).From <= x && x <= ((NodeBlock)node.Left).To)
+                // traversing a tree
+                if (node.Left != null && !node.Left.IsLeaf() && ((NodeBlock)node.Left).From <= x && ((NodeBlock)node.Left).To >= x)
                 {
-
-                    Console.WriteLine("Node: " + ((NodeBlock)node.Left).From + "-" + ((NodeBlock)node.Left).To);
                     node = (NodeBlock)node.Left;
                     continue;
                 }
                 else
                 {
-
-                    if (!IsNodeNotNullAndNotLeaf(node.Right) || ((NodeBlock)node.Right).From <= x || x <= ((NodeBlock)node.Right).To)
+                    if(node.Right != null && (node.Right.IsLeaf() || node.From > x || node.To < x))
                     {
-
                         return null;
                     }
-                    node = (NodeBlock)node.Right;
+                    if (node.Right != null && !node.Right.IsLeaf())
+                    {
+                        node = (NodeBlock)node.Right;
+                    }
                 }
             }
 
@@ -255,27 +210,60 @@ namespace RangeTree
 
         private LeafNode FindInLeaves(LeafNode leaf, float x, float y)
         {
+            bool up = false;
 
+            if(leaf.Data.Y < y)
+            {
+                up = true;
+            }
+
+            while(leaf != null)
+            {
+                if (leaf.Data.X != x)
+                {
+                    break;
+                }
+
+                if(leaf.Data.Y == y)
+                {
+                    return leaf;
+                }
+
+                if (up)
+                    leaf = leaf.Next;
+                else
+                    leaf = leaf.Prev;
+            }
 
             return null;
         }
 
         private bool IsNodeNotNullAndNotLeaf(Node node)
         {
-            if (node == null) return false;
-            if (node.IsLeaf()) return false;
+            if (node == null || node.IsLeaf())
+            {
+                return false;
+            }
             return true;
         }
 
         private bool IsNodeNotNullAndLeaf(Node node)
         {
-            if (node == null) return false;
-            if (!node.IsLeaf()) return false;
+            if (node == null || !node.IsLeaf())
+            {
+                return false;
+            }
             return true;
         }
 
-
-
+        private bool IsNodeNotNull(Node node)
+        {
+            if (node == null) 
+            { 
+                return false; 
+            }
+            return true;
+        }
 
         public List<TValue> RangeFind(RectangleF rectangle)
         {
@@ -283,26 +271,6 @@ namespace RangeTree
 
             return new List<TValue>();
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         private (List<TValue> First, List<TValue> Second) SplitList(List<TValue> values)
         {
