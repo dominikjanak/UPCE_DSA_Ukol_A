@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RangeTree;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,29 +7,19 @@ using System.Threading.Tasks;
 
 namespace DebugConsole
 {
-    class RangeTreeData : RangeTree.IData
+    class RangeTreeData : IValue
     {
-        private string _key;
-        private float _from;
-        private float _to;
+        private float _x;
+        private float _y;
 
-        public RangeTreeData(string key, float from, float to)
+        public RangeTreeData(float x, float y)
         {
-            _key = key;
-            _from = from;
-            _to = to;
+            _x = x;
+            _y = y;
         }
 
-        public string Key { get => _key; } 
+        public double X => _x;
 
-        public float GetFrom()
-        {
-            return _from;
-        }
-
-        public float GetTo()
-        {
-            return _to;
-        }
+        public double Y => _y;
     }
 }

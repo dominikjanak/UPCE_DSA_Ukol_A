@@ -1,25 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RangeTree
 {
-    public class Node<TData>
-        where TData : IData
+    public partial class RangeTree<TValue>
+    where TValue : IValue
     {
-        private Node<TData> _left;
-        private Node<TData> _right; 
-        private TData _leaf;
-        //next TREE
-
-        public Node()
+        internal abstract class Node
         {
-            _left = null;
-            _right = null;
-            _leaf = default;
+            abstract public bool IsLeaf();
         }
-
     }
 }
