@@ -10,22 +10,22 @@ namespace RangeTree
         {
             public double Key { get; private set; }
 
-            public double  Min { get; private set; }
-            public double  Max { get; private set; }
+            public double  From { get; private set; }
+            public double  To { get; private set; }
 
             public Node Left { get; set; }
             public Node Right { get; set; }
 
             public Node SecondTree { get; set; }
 
-            public NodeBlock(double key, double min, double max, NodeBlock parent /*, int deep, bool odd*/)
+            public NodeBlock(double key, double from, double to, NodeBlock parent)
             {
                 SecondTree = null;
                 Left = Right = null;
                 Parent = parent;
                 Key = key;
-                Min = min;
-                Max = max;
+                From = from;
+                To = to;
             }
 
             public override bool IsLeaf()

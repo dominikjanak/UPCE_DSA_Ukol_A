@@ -11,11 +11,13 @@ namespace RangeTree
     {
         private Node _root;
         private bool _builded;
+        LeafNode _lastLeaf;
 
         public RangeTree()
         {
             _root = null;
             _builded = false;
+            _lastLeaf = null;
         }
 
         public bool IsEmpty()
@@ -27,6 +29,7 @@ namespace RangeTree
         {
             _builded = false;
             _root = null;
+            _lastLeaf = null;
             Build(data);
         }   
 
@@ -51,6 +54,7 @@ namespace RangeTree
                 return;
             }
 
+            _lastLeaf = null;
             _root = Build(values, null, true);
         }
 
@@ -63,31 +67,37 @@ namespace RangeTree
         /// <param name="level">Deep in tree</param>
         /// <param name="odd">Build X == true or Y == false</param>
         /// <returns></returns>
-        private Node Build(List<TValue> values, NodeBlock parent, bool odd, LeafNode lastLeaf = null)
+        private Node Build(List<TValue> values, NodeBlock parent, bool odd)
         {
             Node newItem = null;
 
             if (values.Count > 1)
             {
-                newItem = CreateNode(values, parent, odd, lastLeaf);
+                newItem = CreateNode(values, parent, odd);
             }
             else
             {
-                lastLeaf = CreateLeaf(values[0], parent, lastLeaf);
-                newItem = lastLeaf;
+                newItem = CreateLeaf(values[0], parent, _lastLeaf);
+                _lastLeaf = (LeafNode)newItem;
             }
 
             if (odd == true && !newItem.IsLeaf())
             {
-
+                LeafNode leaf = _lastLeaf;
+                _lastLeaf = null;
                 ((NodeBlock)newItem).SecondTree = Build(values, null, false);
+                if (newItem.IsLeaf())
+                {
+                    _lastLeaf = (LeafNode)newItem;
+                }
                 ((NodeBlock)newItem).Parent = (NodeBlock)newItem;
+                _lastLeaf = leaf;
             }
 
             return newItem;
         }
 
-        private NodeBlock CreateNode(List<TValue> values, NodeBlock parent, bool odd, LeafNode lastLeaf)
+        private NodeBlock CreateNode(List<TValue> values, NodeBlock parent, bool odd)
         {
             values = values.OrderBy(i => odd ? i.X : i.Y).ToList();
 
@@ -102,36 +112,34 @@ namespace RangeTree
 
             var splited = SplitList(values);
 
-            newItem.Left = Build(splited.First, newItem, odd, lastLeaf);
-            newItem.Right = Build(splited.Second, newItem, odd, lastLeaf);
+            newItem.Left = Build(splited.First, newItem, odd);
+            newItem.Right = Build(splited.Second, newItem, odd);
 
             return newItem;
         }
 
-        /*
-        @Override
-        public T find(K key) {
-            buffer.flushEvent();
+        public TValue Find(float x, float y) 
+        {
+            var node = FindNode(x, y);
 
-            if (!isEmpty()) {
-                buffer.flushDraw();
-                iterate(root, TreeNodeType.ntRoot, 0, SortType.stX);
+            if(node != null && node.IsLeaf()) 
+            {
+                return ((LeafNode)node).Data;
             }
 
-            return findNode(key);
-        } 
-        */
+            return default(TValue);
+        }
 
-        public TValue Find(float x, float y)
+        /*public Node FindNode(float x, float y)
         {
             if (_root.IsLeaf())
             {
                 LeafNode leaf = (LeafNode)_root;
                 if(leaf.Data.X == x && leaf.Data.Y == y)
                 {
-                    return leaf.Data;
+                    return leaf;
                 }
-                return default(TValue);
+                return null;
             }
 
             NodeBlock node = (NodeBlock)_root;
@@ -169,67 +177,105 @@ namespace RangeTree
             }
 
             return default(TValue);
-        }
+        }*/
 
-        /*
-        private T findNode(K key)
+        
+        private Node FindNode(float x, float y)
         {
-            int level = 1;
-            addToEventList(root, TreeNodeType.ntRoot, level++, SortType.stX);
-            if (root != null && root.isLeafNode)
+            if (_root != null && _root.IsLeaf())
             {
-                if (root.getNode().getKey().compareX(key.getX()) == 0 &&
-                        root.getNode().getKey().compareY(key.getY()) == 0)
-                    return root.getNode().getData();
+                LeafNode leafRoot = (LeafNode)_root; 
+                if (leafRoot.Data.X == x && leafRoot.Data.Y == y)
+                {
+                    return leafRoot;
+                }
+                return null;
             }
 
-            RNode<K, T> actualNode = root;
-            while (actualNode != null)
+            NodeBlock node = (NodeBlock)_root;
+            LeafNode leaf = null;
+            while (node != null)
             {
-                if (isNodeNotNullAndLeaf(actualNode.leftSon))
+                if (IsNodeNotNullAndLeaf(node.Left))
                 {
-                    if (actualNode.getLeftSon().getNode().getKey().compareX(key.getX()) == 0 &&
-                            actualNode.getLeftSon().getNode().getKey().compareY(key.getY()) == 0)
+                    leaf = (LeafNode)node.Left;
+                    Console.WriteLine("LLeaf: " + leaf.Data.X + "-" + leaf.Data.Y);
+                    if (leaf.Data.X == x)
                     {
-                        addToEventList(actualNode.getLeftSon(), TreeNodeType.ntLeftSon, level++, SortType.stX);
-                        return actualNode.getLeftSon().getNode().getData();
+                        if (leaf.Data.Y == y)
+                        {
+                            return leaf;
+                        }
+                        else
+                        {
+                            return FindInLeaves(leaf, x, y);
+                        }
                     }
                 }
 
-                if (isNodeNotNullAndLeaf(actualNode.rightSon))
+                if (IsNodeNotNullAndLeaf(node.Right))
                 {
-                    if (actualNode.getRightSon().getNode().getKey().compareX(key.getX()) == 0 &&
-                            actualNode.getRightSon().getNode().getKey().compareY(key.getY()) == 0)
+                    leaf = (LeafNode)node.Right;
+                    Console.WriteLine("RLeaf: " + leaf.Data.X + "-" + leaf.Data.Y);
+                    if (leaf.Data.X == x)
                     {
-                        addToEventList(actualNode.getRightSon(), TreeNodeType.ntRightSon, level++, SortType.stX);
-                        return actualNode.getRightSon().getNode().getData();
+                        if (leaf.Data.Y == y)
+                        {
+                            return leaf;
+                        }
+                        else
+                        {
+                            return FindInLeaves(leaf, x, y);
+                        }
                     }
                 }
 
-                if (isNodeNotNullAndNotLeaf(actualNode.leftSon) &&
-                        (actualNode.getLeftSon().getNode().getKey().getX() <= key.getX()) &&
-                        (key.getX() <= actualNode.getLeftSon().getNode().getKey().getY()))
+
+                if (IsNodeNotNullAndNotLeaf(node.Left) && ((NodeBlock)node.Left).From <= x && x <= ((NodeBlock)node.Left).To)
                 {
-                    actualNode = actualNode.leftSon;
-                    addToEventList(actualNode, TreeNodeType.ntLeftSon, level++, SortType.stX);
+
+                    Console.WriteLine("Node: " + ((NodeBlock)node.Left).From + "-" + ((NodeBlock)node.Left).To);
+                    node = (NodeBlock)node.Left;
                     continue;
                 }
                 else
                 {
 
-                    if (!isNodeNotNullAndNotLeaf(actualNode.rightSon) ||
-                            (!(actualNode.getRightSon().getNode().getKey().getX() <= key.getX())) ||
-                            (!(key.getX() <= actualNode.getRightSon().getNode().getKey().getY())))
+                    if (!IsNodeNotNullAndNotLeaf(node.Right) || ((NodeBlock)node.Right).From <= x || x <= ((NodeBlock)node.Right).To)
                     {
+
                         return null;
                     }
-                    actualNode = actualNode.rightSon;
-                    addToEventList(actualNode, TreeNodeType.ntRightSon, level++, SortType.stX);
+                    node = (NodeBlock)node.Right;
                 }
             }
 
             return null;
-        }*/
+        }
+
+        private LeafNode FindInLeaves(LeafNode leaf, float x, float y)
+        {
+
+
+            return null;
+        }
+
+        private bool IsNodeNotNullAndNotLeaf(Node node)
+        {
+            if (node == null) return false;
+            if (node.IsLeaf()) return false;
+            return true;
+        }
+
+        private bool IsNodeNotNullAndLeaf(Node node)
+        {
+            if (node == null) return false;
+            if (!node.IsLeaf()) return false;
+            return true;
+        }
+
+
+
 
         public List<TValue> RangeFind(RectangleF rectangle)
         {
@@ -295,16 +341,16 @@ namespace RangeTree
             return (float)Math.Ceiling(median);
         }
 
-        public void Print(bool printSecond = false)
+        public void Print(bool printSecond = false, bool showLeafRef = false)
         {
             Console.WriteLine("Vysvětlika:");
             Console.WriteLine("  - Bíle:  hlavní strom");
             Console.WriteLine("  - Modře: sekundární strom");
             Console.WriteLine("\nStom:");
-            PrintTree(_root, "", true, false, printSecond);
+            PrintTree(_root, "", true, false, printSecond, showLeafRef);
         }
 
-        private void PrintTree(Node node, String indent, bool last, bool second, bool printSecond)
+        private void PrintTree(Node node, String indent, bool last, bool second, bool printSecond, bool showLeafRef)
         {
             if (!node.IsLeaf())
             {
@@ -315,7 +361,7 @@ namespace RangeTree
                     Console.ForegroundColor = ConsoleColor.Blue;
                 }                    
 
-                Console.WriteLine(indent + "+- " + n.Key + " <" + n.Min + " ; " +n.Max + ">");
+                Console.WriteLine(indent + "+- " + n.Key + " <" + n.From + " ; " +n.To + ">");
 
                 if (second)
                 {
@@ -323,7 +369,7 @@ namespace RangeTree
                 }
 
                 if (n.SecondTree != null && printSecond)
-                    PrintTree(n.SecondTree, indent + "   ", true, true, false);
+                    PrintTree(n.SecondTree, indent + "   ", true, true, false, showLeafRef);
             }
             else
             {
@@ -334,7 +380,16 @@ namespace RangeTree
                     Console.ForegroundColor = ConsoleColor.Blue;
                 }
 
-                Console.WriteLine(indent + "+- X[" + n.Data.X + " ; " + n.Data.Y + "]");
+                if (showLeafRef)
+                {
+                    Console.WriteLine(indent + "+- X[" + n.Data.X + " ; " + n.Data.Y + "]");
+                    Console.WriteLine(indent + "      PrevRef(" + (n.Prev == null ? "nil" : "[" + n.Prev.Data.X + "-" + n.Prev.Data.Y + "]") + ")");
+                    Console.WriteLine(indent + "      NextRef(" + (n.Next == null ? "nil" : "[" + n.Next.Data.X + "-" + n.Next.Data.Y + "]") + ")");
+                }
+                else
+                {
+                    Console.WriteLine(indent + "+- X[" + n.Data.X + " ; " + n.Data.Y + "]" );
+                }
 
                 if (second)
                 {
@@ -348,9 +403,9 @@ namespace RangeTree
             {
                 NodeBlock n = (NodeBlock)node;
                 if(n.Left != null)
-                    PrintTree(n.Left, indent, false, second, printSecond);
+                    PrintTree(n.Left, indent, false, second, printSecond, showLeafRef);
                 if (n.Right != null)
-                    PrintTree(n.Right, indent, true, second, printSecond);
+                    PrintTree(n.Right, indent, true, second, printSecond, showLeafRef);
             }
         }
     }
