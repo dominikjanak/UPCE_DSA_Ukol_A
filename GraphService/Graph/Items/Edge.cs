@@ -2,22 +2,22 @@
 
 namespace GraphService
 {
-    public partial class Graph<TVertexKey, TVertexData, TEdgeKey, TEdgeData>
-        : IGraph<TVertexKey, TVertexData, TEdgeKey, TEdgeData>
+    public partial class Graph<TVertexKey, TVertexValue, TEdgeKey, TEdgeValue>
+        : IGraph<TVertexKey, TVertexValue, TEdgeKey, TEdgeValue>
         where TVertexKey : IComparable<TVertexKey>
         where TEdgeKey : IComparable<TEdgeKey>
-        where TVertexData : IVertexData
-        where TEdgeData : IEdgeData
+        where TVertexValue : IVertexData
+        where TEdgeValue : IEdgeData
     {
         internal class Edge : IEdge
         {
             public TEdgeKey Key { get; }
-            public TEdgeData Data { get; set; }
+            public TEdgeValue Data { get; set; }
 
             public Vertex StartVertex { get; set; }
             public Vertex TargetVertex { get; set; }
 
-            public Edge(TEdgeKey edgeKey, TEdgeData edgeData, 
+            public Edge(TEdgeKey edgeKey, TEdgeValue edgeData, 
                 Vertex source, 
                 Vertex destination)
             {

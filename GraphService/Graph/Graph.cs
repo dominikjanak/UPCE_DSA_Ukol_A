@@ -5,12 +5,12 @@ using System.Linq;
 
 namespace GraphService
 {
-    public partial class Graph<TVertexKey, TVertexData, TEdgeKey, TEdgeData> 
-        : IGraph<TVertexKey, TVertexData, TEdgeKey, TEdgeData>
+    public partial class Graph<TVertexKey, TVertexValue, TEdgeKey, TEdgeValue> 
+        : IGraph<TVertexKey, TVertexValue, TEdgeKey, TEdgeValue>
         where TVertexKey : IComparable<TVertexKey>
         where TEdgeKey : IComparable<TEdgeKey>
-        where TVertexData : IVertexData
-        where TEdgeData : IEdgeData
+        where TVertexValue : IVertexData
+        where TEdgeValue : IEdgeData
     {
         private Dictionary<TVertexKey, Vertex> _vertices;
         private Dictionary<TEdgeKey, Edge> _edges;
@@ -41,7 +41,7 @@ namespace GraphService
             return _edges.Count;
         }
 
-        public void AddVertex(TVertexKey key, TVertexData data)
+        public void AddVertex(TVertexKey key, TVertexValue data)
         {
             var vertex = new Vertex(key, data);
             AddVertex(vertex);
@@ -62,13 +62,13 @@ namespace GraphService
             _vertices.Add(vertex.Key, vertex);
         }
 
-        public TVertexData RemoveVertex(TVertexKey key)
+        public TVertexValue RemoveVertex(TVertexKey key)
         {
             var vertex = GetVertex(key); 
             return RemoveVertex(vertex);            
         }
 
-        internal TVertexData RemoveVertex(Vertex vertex)
+        internal TVertexValue RemoveVertex(Vertex vertex)
         {
             if (vertex == null)
             {
@@ -101,17 +101,17 @@ namespace GraphService
             return null;
         }
 
-        public TVertexData FindVertex(TVertexKey key)
+        public TVertexValue FindVertex(TVertexKey key)
         {
             var vertex = GetVertex(key);
             if (vertex != null)
             {
                 return vertex.Data;
             }
-            return default(TVertexData);
+            return default(TVertexValue);
         }
 
-        public void AddEdge(TEdgeKey key, TVertexKey start, TVertexKey target, TEdgeData data)
+        public void AddEdge(TEdgeKey key, TVertexKey start, TVertexKey target, TEdgeValue data)
         {
             var vertexStart = GetVertex(start);
             var vertexTarget = GetVertex(target);
@@ -155,19 +155,19 @@ namespace GraphService
             targetVertex.IncidentEdges.Add(edge);
         }
 
-        public TEdgeData RemoveEdge(TEdgeKey key)
+        public TEdgeValue RemoveEdge(TEdgeKey key)
         {
             var edge = GetEdge(key);
             return RemoveEdge(edge);
         }
 
-        public TEdgeData RemoveEdge(TVertexKey start, TVertexKey target)
+        public TEdgeValue RemoveEdge(TVertexKey start, TVertexKey target)
         {
             var edge = GetEdge(start, target);
             return RemoveEdge(edge);
         }
 
-        internal TEdgeData RemoveEdge(Edge edge)
+        internal TEdgeValue RemoveEdge(Edge edge)
         {
             if (edge == null)
             {
@@ -225,37 +225,37 @@ namespace GraphService
             return start.IncidentEdges.FirstOrDefault(edge => edge.GetOpositeVertex(start) == target);
         }
 
-        public TEdgeData FindEdge(TEdgeKey key)
+        public TEdgeValue FindEdge(TEdgeKey key)
         {
             var edge = GetEdge(key);
             return FindEdge(edge);
         }
 
-        public TEdgeData FindEdge(TVertexKey start, TVertexKey target)
+        public TEdgeValue FindEdge(TVertexKey start, TVertexKey target)
         {
             var edge = GetEdge(start, target);
             return FindEdge(edge);
         }
 
-        internal TEdgeData FindEdge(Edge edge)
+        internal TEdgeValue FindEdge(Edge edge)
         {
             if (edge != null)
             {
                 return edge.Data;
             }
-            return default(TEdgeData);
+            return default(TEdgeValue);
         }
 
         // Vertices Enumerator
-        public IEnumerable<(TVertexKey Key, TVertexData Data)> Vertices
+        public IEnumerable<(TVertexKey Key, TVertexValue Data)> Vertices
             => _vertices.Select(v => (v.Key, v.Value.Data));
 
         // Edges Enumerator
-        public IEnumerable<(TEdgeKey Key, TVertexKey Start, TVertexKey Target, TEdgeData Data)> Edges
+        public IEnumerable<(TEdgeKey Key, TVertexKey Start, TVertexKey Target, TEdgeValue Data)> Edges
             => _edges.Select(v => (v.Key, v.Value.StartVertex.Key, v.Value.TargetVertex.Key, v.Value.Data));
 
         // Vertices Incident enumerator
-        public IEnumerable<(TEdgeKey Key, TEdgeData Data, TVertexKey Target)> VertexIncidents(TVertexKey key)
+        public IEnumerable<(TEdgeKey Key, TEdgeValue Data, TVertexKey Target)> VertexIncidents(TVertexKey key)
         {
             var vertex = GetVertex(key);
             if (vertex == null)
@@ -267,28 +267,28 @@ namespace GraphService
         }
 
         // Edge incidents enumerator
-        public IEnumerable<(TVertexKey Key, TVertexData Data)> EdgeIncidents(TEdgeKey key)
+        public IEnumerable<(TVertexKey Key, TVertexValue Data)> EdgeIncidents(TEdgeKey key)
         {
             var edge = GetEdge(key);
             return GetEdgeIncidents(edge);
         }
 
         // Edge incidents enumerator
-        public IEnumerable<(TVertexKey Key, TVertexData Data)> EdgeIncidents(TVertexKey start, TVertexKey target)
+        public IEnumerable<(TVertexKey Key, TVertexValue Data)> EdgeIncidents(TVertexKey start, TVertexKey target)
         {
             var edge = GetEdge(start, target);
             return GetEdgeIncidents(edge);
         }
 
         // Edge incidents enumerator
-        internal IEnumerable<(TVertexKey Key, TVertexData Data)> GetEdgeIncidents(Edge edge)
+        internal IEnumerable<(TVertexKey Key, TVertexValue Data)> GetEdgeIncidents(Edge edge)
         {
             if (edge == null)
             {
                 throw new ItemNotFoundException(Resources.EdgeNotFound);
             }
 
-            var data = new List<(TVertexKey Key, TVertexData Data)>();
+            var data = new List<(TVertexKey Key, TVertexValue Data)>();
 
             data.Add((edge.StartVertex.Key, edge.StartVertex.Data));
             data.Add((edge.TargetVertex.Key, edge.TargetVertex.Data));

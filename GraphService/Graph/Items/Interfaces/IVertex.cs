@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace GraphService
 {
-    public partial class Graph<TVertexKey, TVertexData, TEdgeKey, TEdgeData>
-        : IGraph<TVertexKey, TVertexData, TEdgeKey, TEdgeData>
+    public partial class Graph<TVertexKey, TVertexValue, TEdgeKey, TEdgeValue>
+        : IGraph<TVertexKey, TVertexValue, TEdgeKey, TEdgeValue>
         where TVertexKey : IComparable<TVertexKey>
         where TEdgeKey : IComparable<TEdgeKey>
-        where TVertexData : IVertexData
-        where TEdgeData : IEdgeData
+        where TVertexValue : IVertexData
+        where TEdgeValue : IEdgeData
     { 
         internal interface IVertex
         {
@@ -20,7 +20,7 @@ namespace GraphService
             /// <summary>
             /// Data object
             /// </summary>
-            TVertexData Data { get; set; }
+            TVertexValue Data { get; set; }
 
             /// <summary>
             /// List of incident edges

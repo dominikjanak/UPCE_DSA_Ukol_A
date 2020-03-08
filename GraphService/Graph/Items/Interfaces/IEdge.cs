@@ -2,12 +2,12 @@
 
 namespace GraphService
 {
-    public partial class Graph<TVertexKey, TVertexData, TEdgeKey, TEdgeData>
-        : IGraph<TVertexKey, TVertexData, TEdgeKey, TEdgeData>
+    public partial class Graph<TVertexKey, TVertexValue, TEdgeKey, TEdgeValue>
+        : IGraph<TVertexKey, TVertexValue, TEdgeKey, TEdgeValue>
         where TVertexKey : IComparable<TVertexKey>
         where TEdgeKey : IComparable<TEdgeKey>
-        where TVertexData : IVertexData
-        where TEdgeData : IEdgeData
+        where TVertexValue : IVertexData
+        where TEdgeValue : IEdgeData
     { 
         internal interface IEdge
         {
@@ -19,7 +19,7 @@ namespace GraphService
             /// <summary>
             /// Edge data object
             /// </summary>
-            TEdgeData Data { get; set; }
+            TEdgeValue Data { get; set; }
 
             /// <summary>
             /// Edge start vertex

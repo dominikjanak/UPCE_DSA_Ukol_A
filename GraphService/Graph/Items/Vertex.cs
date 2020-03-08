@@ -3,20 +3,20 @@ using System.Collections.Generic;
 
 namespace GraphService
 {
-    public partial class Graph<TVertexKey, TVertexData, TEdgeKey, TEdgeData>
-        : IGraph<TVertexKey, TVertexData, TEdgeKey, TEdgeData>
+    public partial class Graph<TVertexKey, TVertexValue, TEdgeKey, TEdgeValue>
+        : IGraph<TVertexKey, TVertexValue, TEdgeKey, TEdgeValue>
         where TVertexKey : IComparable<TVertexKey>
         where TEdgeKey : IComparable<TEdgeKey>
-        where TVertexData : IVertexData
-        where TEdgeData : IEdgeData
+        where TVertexValue : IVertexData
+        where TEdgeValue : IEdgeData
     {
         internal class Vertex : IVertex
         {
             public TVertexKey Key { get; }
-            public TVertexData Data { get; set; }
+            public TVertexValue Data { get; set; }
             public List<Edge> IncidentEdges { get; }
             
-            public Vertex(TVertexKey key, TVertexData data)
+            public Vertex(TVertexKey key, TVertexValue data)
             {
                 Key = key;
                 Data = data;
