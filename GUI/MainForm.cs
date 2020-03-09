@@ -29,6 +29,7 @@ namespace GUI
         private string _saveFileName;
         TrajectoryMatrix _trajectoryMatrix;
         bool _trajectoryMatrixReady;
+        Thread _matrixGeneration;
 
         public MainForm()
         {
@@ -43,6 +44,7 @@ namespace GUI
             _dijkstra = new DijkstraAlhorithm<string, VertexData, string, EdgeData>(_forestGraph);
             _trajectoryMatrix = new TrajectoryMatrix();
             _trajectoryMatrixReady = false;
+            _matrixGeneration = null;
             _saveFileName = "";
             SetTitle();
 
@@ -93,7 +95,13 @@ namespace GUI
 
         private void RegenerateTrajectoryMatrix()
         {
-            new Thread(() =>
+            // Creating instance for mythread() method 
+            if(_matrixGeneration != null)
+            {
+                _matrixGeneration.Abort();
+            }
+
+            _matrixGeneration = new Thread(() =>
             {
                 Thread.CurrentThread.IsBackground = true;
                 _trajectoryMatrixReady = false;
@@ -126,8 +134,10 @@ namespace GUI
                     }
                 }
 
+                _matrixGeneration = null;
                 _trajectoryMatrixReady = true;
-            }).Start();
+            });
+            _matrixGeneration.Start();
         }
 
         private DialogResult AskForSave()
