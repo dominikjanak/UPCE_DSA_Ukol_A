@@ -121,6 +121,7 @@
     </Compile>
     <Compile Include="Graph\Drawing\DrawGraph.cs" />
     <Compile Include="Graph\Drawing\Extensions\DrawGraphExtension.cs" />
+    <Compile Include="Graph\Exceptions\NotGenerated.cs" />
     <Compile Include="Graph\Exceptions\RouteNotExistsException.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>

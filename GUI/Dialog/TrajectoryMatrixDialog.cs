@@ -15,12 +15,11 @@ namespace GUI.Dialog
         Graph<string, VertexData, string, EdgeData> _graph;
         DijkstraAlhorithm<string, VertexData, string, EdgeData> _dijkstra;
 
-        public TrajectoryMatrixDialog(Graph<string, VertexData, string, EdgeData> graph, DijkstraAlhorithm<string, VertexData, string, EdgeData> dijkstra)
+        public TrajectoryMatrixDialog(TrajectoryMatrix matrix)
         {
             InitializeComponent();
-            _graph = graph;
-            _dijkstra = dijkstra;
-            CalculateMatrix();
+            _matrix = matrix;
+            DrawMatrix();
 
             Size size = Properties.Settings.Default.MatrixformSize;
             if (size.Width >= 330 && size.Height >= 200)
@@ -36,70 +35,38 @@ namespace GUI.Dialog
             }
         }
 
-        private void CalculateMatrix()
-        {
-            var allVerticies = _graph.Vertices;
-            _matrix = new TrajectoryMatrix(allVerticies);
-
-            List<string> stops = _matrix.GetAllStops();
-            List<string> restAreas = _matrix.GetAllRestAreas();
-            
-            if (stops.Count >= 1 && restAreas.Count >= 1)
-            {
-                warnLabel.Visible = false;
-
-                for (int restIdx = 0; restIdx < restAreas.Count; restIdx++)
-                {
-                    _dijkstra.FindPaths(restAreas[restIdx], true); // Generate all paths from start
-
-                    for (int stopIdx = 0; stopIdx < stops.Count; stopIdx++)
-                    {
-                        var targetStop = stops[stopIdx];
-                        List<string> path = _dijkstra.GetPath(targetStop);
-
-                        if (path != null)
-                        {
-                            // add path to matrix
-                            for (int v = 1; v < path.Count; v++)
-                            {
-                                _matrix[targetStop, path[v - 1]] = path[v];
-                            }
-                        }
-
-                    }
-                }
-                DrawMatrix();
-            }
-        }
-
         private void DrawMatrix()
         {
             MatrixGrid.ColumnCount = _matrix.ColumnsCount();
             MatrixGrid.Rows.Add(_matrix.RowsCount());
 
-            // for each column
-            for (int col = 0; col < _matrix.ColumnsCount(); col++)
+            if(_matrix.ColumnsCount() > 0 && _matrix.RowsCount() >= 0)
             {
-                MatrixGrid.Columns[col].Name = _matrix.GetColumnKey(col); // print Header
-                MatrixGrid.Columns[col].SortMode = DataGridViewColumnSortMode.NotSortable;
-
-                // for each row
-                for (int row = 0; row < _matrix.RowsCount(); row++)
+                warnLabel.Visible = false;
+                // for each column
+                for (int col = 0; col < _matrix.ColumnsCount(); col++)
                 {
-                    // print Header
-                    if (col == 0)
-                    {
-                        MatrixGrid.Rows[row].HeaderCell.Value = _matrix.GetRowKey(row);
-                        //MatrixGrid.Rows[row].HeaderCell.Style.Font = new Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-                        MatrixGrid.Rows[row].HeaderCell.Style.SelectionBackColor = Colors.Red;
-                    }
-                    var val = _matrix[col, row]; // get target ID
-                    MatrixGrid.Rows[row].Cells[col].Value = val; // set cell value
+                    MatrixGrid.Columns[col].Name = _matrix.GetColumnKey(col); // print Header
+                    MatrixGrid.Columns[col].SortMode = DataGridViewColumnSortMode.NotSortable;
 
-                    // if value in cell is same with column name
-                    if (val == MatrixGrid.Columns[col].Name)
+                    // for each row
+                    for (int row = 0; row < _matrix.RowsCount(); row++)
                     {
-                        MatrixGrid.Rows[row].Cells[col].Style.BackColor = Color.FromArgb(220, 255, 220);
+                        // print Header
+                        if (col == 0)
+                        {
+                            MatrixGrid.Rows[row].HeaderCell.Value = _matrix.GetRowKey(row);
+                            //MatrixGrid.Rows[row].HeaderCell.Style.Font = new Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+                            MatrixGrid.Rows[row].HeaderCell.Style.SelectionBackColor = Colors.Red;
+                        }
+                        var val = _matrix[col, row]; // get target ID
+                        MatrixGrid.Rows[row].Cells[col].Value = val; // set cell value
+
+                        // if value in cell is same with column name
+                        if (val == MatrixGrid.Columns[col].Name)
+                        {
+                            MatrixGrid.Rows[row].Cells[col].Style.BackColor = Color.FromArgb(220, 255, 220);
+                        }
                     }
                 }
             }

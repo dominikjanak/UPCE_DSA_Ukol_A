@@ -201,6 +201,33 @@ namespace GUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Matice se práve počítá a není připravená k zobrazení, zkuste to prosím znovu zachvilku!.
+        /// </summary>
+        internal static string MatrixNotReady {
+            get {
+                return ResourceManager.GetString("MatrixNotReady", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Výpočet matice probíhá.
+        /// </summary>
+        internal static string MatrixNotReadyTitle {
+            get {
+                return ResourceManager.GetString("MatrixNotReadyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Není vygenerováno.
+        /// </summary>
+        internal static string NotGenerated {
+            get {
+                return ResourceManager.GetString("NotGenerated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Chcete otevřít soubor s uloženými daty?.
         /// </summary>
         internal static string OpenDataFile {

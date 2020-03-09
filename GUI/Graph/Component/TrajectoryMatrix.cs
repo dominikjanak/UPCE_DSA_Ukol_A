@@ -4,33 +4,71 @@ using System.Linq;
 
 namespace GUI.Graph.Component
 {
-    class TrajectoryMatrix
+    public class TrajectoryMatrix
     {
+        private bool _init;
         private Dictionary<string, int> _cols; // Vertex keys of indexes into matrix
         private Dictionary<string,int> _rows; // Vertex keys of indexes into matrix
         private string[,] _matrix; // matrix with titles (c+1)(r+1)
 
-        List<string> _restAreas = new List<string>();
-        List<string> _stops = new List<string>();
+        List<string> _restAreas;
+        List<string> _stops;
+
+        private void IsInitExceptionCheck()
+        {
+            if(_init == false)
+            {
+                throw new NotGenerated();
+            }
+        }
 
         public int ColumnsCount()
         {
+            IsInitExceptionCheck();
             return _cols.Count;
         }
 
         public int RowsCount()
         {
+            IsInitExceptionCheck();
             return _rows.Count;
+        }
+
+        public TrajectoryMatrix()
+        {
+            Construct();
+            _init = false;
         }
 
         public TrajectoryMatrix(IEnumerable<(string Key, VertexData Data)> vertices)
         {
+            Construct();
+            Regenerate(vertices);
+        }
+
+        private void Construct()
+        {
+            _cols = new Dictionary<string, int>();
+            _rows = new Dictionary<string, int>();
+            _matrix = new string[0, 0];
+            _restAreas = new List<string>();
+            _stops = new List<string>();
+        }
+
+        public void Regenerate(IEnumerable<(string Key, VertexData Data)> vertices)
+        {
+            _init = false;
+            _cols.Clear();
+            _rows.Clear();
+            _restAreas.Clear();
+            _stops.Clear();
             InitMatrix(vertices);
         }
 
         public string GetColumnKey(int index)
         {
-            if(index < 0 || index >= _cols.Count)
+            IsInitExceptionCheck();
+            if (index < 0 || index >= _cols.Count)
             {
                 throw new ArgumentOutOfRangeException();
             }
@@ -40,6 +78,7 @@ namespace GUI.Graph.Component
 
         public string GetRowKey(int index)
         {
+            IsInitExceptionCheck();
             if (index < 0 || index >= _rows.Count)
             {
                 throw new ArgumentOutOfRangeException();
@@ -50,16 +89,19 @@ namespace GUI.Graph.Component
 
         public List<string> GetAllRestAreas()
         {
+            IsInitExceptionCheck();
             return _restAreas;
         }
 
         public List<string> GetAllStops()
         {
+            IsInitExceptionCheck();
             return _stops;
         }
 
         public string GetValue(string col, string row)
         {
+            IsInitExceptionCheck();
             int colIdx, rowIdx;
             FindIndexes(col, row, out colIdx, out rowIdx);
 
@@ -68,6 +110,7 @@ namespace GUI.Graph.Component
 
         public bool SetValue(string col, string row, string value)
         {
+            IsInitExceptionCheck();
             int colIdx, rowIdx;
             FindIndexes(col, row, out colIdx, out rowIdx);
 
@@ -88,6 +131,7 @@ namespace GUI.Graph.Component
 
         public string GetValue(int colIdx, int rowIdx)
         {
+            IsInitExceptionCheck();
             if (colIdx <= 0 || rowIdx <= 0 || colIdx > ColumnsCount() || rowIdx > RowsCount())
             {
                 throw new ArgumentOutOfRangeException();
@@ -98,6 +142,7 @@ namespace GUI.Graph.Component
 
         public bool SetValue(int colIdx, int rowIdx, string value)
         {
+            IsInitExceptionCheck();
             if (colIdx <= 0 || rowIdx <= 0 || colIdx > ColumnsCount() || rowIdx > RowsCount())
             {
                 throw new ArgumentOutOfRangeException();
@@ -139,8 +184,6 @@ namespace GUI.Graph.Component
                 }
             }
 
-            _cols = new Dictionary<string, int>();
-            _rows = new Dictionary<string, int>();
             _matrix = new string[_stops.Count+1, vertices.Count()+1]; // With column and row name
             _matrix[0, 0] = "#"; // Empty cell
 
@@ -186,10 +229,13 @@ namespace GUI.Graph.Component
                 }
             }
 
+            _init = true;
+
         }
 
         private void FindIndexes(string col, string row, out int colIdx, out int rowIdx)
         {
+            IsInitExceptionCheck();
             if (!_cols.TryGetValue(col, out colIdx) || !_rows.TryGetValue(row, out rowIdx))
             {
                 throw new ArgumentOutOfRangeException();

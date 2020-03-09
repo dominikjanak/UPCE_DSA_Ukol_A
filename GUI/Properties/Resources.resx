@@ -197,4 +197,13 @@
   <data name="UsingSpaceship" xml:space="preserve">
     <value>EASTER EGG: Pozor přesunuli jste se pomocí vesmírné lodi!</value>
   </data>
+  <data name="MatrixNotReady" xml:space="preserve">
+    <value>Matice se práve počítá a není připravená k zobrazení, zkuste to prosím znovu zachvilku!</value>
+  </data>
+  <data name="MatrixNotReadyTitle" xml:space="preserve">
+    <value>Výpočet matice probíhá</value>
+  </data>
+  <data name="NotGenerated" xml:space="preserve">
+    <value>Není vygenerováno</value>
+  </data>
 </root>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 using GraphService;
 using GraphService.Dijkstra;
@@ -26,6 +27,8 @@ namespace GUI
         private DijkstraAlhorithm<string, VertexData, string, EdgeData> _dijkstra;
         TrajectoryMatrixDialog _matrixDialog;
         private string _saveFileName;
+        TrajectoryMatrix _trajectoryMatrix;
+        bool _trajectoryMatrixReady;
 
         public MainForm()
         {
@@ -38,6 +41,8 @@ namespace GUI
             _saved = true;
             _graphPath = new List<string>();
             _dijkstra = new DijkstraAlhorithm<string, VertexData, string, EdgeData>(_forestGraph);
+            _trajectoryMatrix = new TrajectoryMatrix();
+            _trajectoryMatrixReady = false;
             _saveFileName = "";
             SetTitle();
 
@@ -55,6 +60,7 @@ namespace GUI
                 {
                     DataSerializer.LoadData(_forestGraph, _autoloadPath);
                     graphCanvas.Invalidate();
+                    RegenerateTrajectoryMatrix();
                 }
                 catch(Exception ex)
                 {
@@ -83,6 +89,45 @@ namespace GUI
             {
                 Text += " ["+file+"]";
             }
+        }
+
+        private void RegenerateTrajectoryMatrix()
+        {
+            new Thread(() =>
+            {
+                Thread.CurrentThread.IsBackground = true;
+                _trajectoryMatrixReady = false;
+                _trajectoryMatrix.Regenerate(_forestGraph.Vertices);
+
+                List<string> stops = _trajectoryMatrix.GetAllStops();
+                List<string> restAreas = _trajectoryMatrix.GetAllRestAreas();
+
+                if (stops.Count >= 1 && restAreas.Count >= 1)
+                {
+                    for (int restIdx = 0; restIdx < restAreas.Count; restIdx++)
+                    {
+                        _dijkstra.FindPaths(restAreas[restIdx], true); // Generate all paths from start
+
+                        for (int stopIdx = 0; stopIdx < stops.Count; stopIdx++)
+                        {
+                            var targetStop = stops[stopIdx];
+                            List<string> path = _dijkstra.GetPath(targetStop);
+
+                            if (path != null)
+                            {
+                                // add path to matrix
+                                for (int v = 1; v < path.Count; v++)
+                                {
+                                    _trajectoryMatrix[targetStop, path[v - 1]] = path[v];
+                                }
+                            }
+
+                        }
+                    }
+                }
+
+                _trajectoryMatrixReady = true;
+            }).Start();
         }
 
         private DialogResult AskForSave()
@@ -168,6 +213,7 @@ namespace GUI
                     DataSerializer.LoadData(_forestGraph, _autoloadPath);
                     graphCanvas.Invalidate();
                     _dijkstra.Invalidate();
+                    RegenerateTrajectoryMatrix();
                 }
                 catch(Exception ex)
                 {
@@ -261,6 +307,7 @@ namespace GUI
                         _forestGraph.AddVertex(newVertex.Key, data);
                         _saved = false;
                         _dijkstra.Invalidate();
+                        RegenerateTrajectoryMatrix();
                     }
                     catch (Exception ex)
                     {
@@ -291,6 +338,7 @@ namespace GUI
                         _graphPath.Clear();
                         _saved = false;
                         _dijkstra.Invalidate();
+                        RegenerateTrajectoryMatrix();
                     }
                     catch (Exception ex)
                     {
@@ -323,6 +371,7 @@ namespace GUI
                         _graphPath.Clear();
                         _saved = false;
                         _dijkstra.Invalidate();
+                        RegenerateTrajectoryMatrix();
                     }
                     catch (Exception ex)
                     {
@@ -353,6 +402,7 @@ namespace GUI
                         _graphPath.Clear();
                         _saved = false;
                         _dijkstra.Invalidate();
+                        RegenerateTrajectoryMatrix();
                     }
                     catch (Exception ex)
                     {
@@ -386,7 +436,12 @@ namespace GUI
                 _matrixDialog.Close();
             }
 
-            _matrixDialog = new TrajectoryMatrixDialog(_forestGraph, _dijkstra);
+            if(_trajectoryMatrixReady == false)
+            {
+                ShowMessage(Resources.MatrixNotReady, MessageBoxIcon.Warning, Resources.MatrixNotReadyTitle);
+            }
+
+            _matrixDialog = new TrajectoryMatrixDialog(_trajectoryMatrix);
             _matrixDialog.Show();
         }
 
@@ -471,6 +526,7 @@ namespace GUI
                     _saveFileName = path;
                     _saved = true;
                     SetTitle(Path.GetFileName(_saveFileName));
+                    RegenerateTrajectoryMatrix();
                 }
             }
             catch(Exception ex)
