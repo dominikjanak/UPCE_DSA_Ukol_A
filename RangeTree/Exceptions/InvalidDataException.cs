@@ -2,9 +2,9 @@
 
 namespace RangeTree.Exceptions
 {
-    public class TreeIsAleadyBuilded : Exception
+    public class InvalidDataException : Exception
     {
-        public TreeIsAleadyBuilded(string message) 
+        public InvalidDataException(string message) 
             : base(message)
         { }
     }

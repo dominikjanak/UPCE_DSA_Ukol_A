@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GraphData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Vertices>
+    <Vertex>
+      <ID>Divoké vrchy</ID>
+      <X>250</X>
+      <Y>250</Y>
+      <Type>RestArea</Type>
+    </Vertex>
+    <Vertex>
+      <ID>K1</ID>
+      <X>300</X>
+      <Y>150</Y>
+      <Type>Junction</Type>
+    </Vertex>
+    <Vertex>
+      <ID>Zastávka autobusu</ID>
+      <X>300</X>
+      <Y>270</Y>
+      <Type>Stop</Type>
+    </Vertex>
+    <Vertex>
+      <ID>Zastávka vlaku</ID>
+      <X>200</X>
+      <Y>193</Y>
+      <Type>Stop</Type>
+    </Vertex>
+    <Vertex>
+      <ID>K2</ID>
+      <X>250</X>
+      <Y>180</Y>
+      <Type>Junction</Type>
+    </Vertex>
+    <Vertex>
+      <ID>K3</ID>
+      <X>310</X>
+      <Y>240</Y>
+      <Type>Junction</Type>
+    </Vertex>
+    <Vertex>
+      <ID>K4</ID>
+      <X>274</X>
+      <Y>200</Y>
+      <Type>Junction</Type>
+    </Vertex>
+    <Vertex>
+      <ID>Říční údolí</ID>
+      <X>320</X>
+      <Y>180</Y>
+      <Type>RestArea</Type>
+    </Vertex>
+  </Vertices>
+  <Edges>
+    <Edge>
+      <ID>Zastávka vlaku_K2</ID>
+      <Start>Zastávka vlaku</Start>
+      <Target>K2</Target>
+      <Size>35</Size>
+    </Edge>
+    <Edge>
+      <ID>K4_Divoké vrchy</ID>
+      <Start>K4</Start>
+      <Target>Divoké vrchy</Target>
+      <Size>30</Size>
+    </Edge>
+    <Edge>
+      <ID>K4_K1</ID>
+      <Start>K4</Start>
+      <Target>K1</Target>
+      <Size>30</Size>
+    </Edge>
+    <Edge>
+      <ID>K4_Říční údolí</ID>
+      <Start>K4</Start>
+      <Target>Říční údolí</Target>
+      <Size>32</Size>
+    </Edge>
+    <Edge>
+      <ID>K3_Zastávka autobusu</ID>
+      <Start>K3</Start>
+      <Target>Zastávka autobusu</Target>
+      <Size>7</Size>
+    </Edge>
+    <Edge>
+      <ID>K2_K1</ID>
+      <Start>K2</Start>
+      <Target>K1</Target>
+      <Size>15</Size>
+    </Edge>
+    <Edge>
+      <ID>K1_Říční údolí</ID>
+      <Start>K1</Start>
+      <Target>Říční údolí</Target>
+      <Size>64</Size>
+    </Edge>
+    <Edge>
+      <ID>Říční údolí_K3</ID>
+      <Start>Říční údolí</Start>
+      <Target>K3</Target>
+      <Size>20</Size>
+    </Edge>
+  </Edges>
+</GraphData>

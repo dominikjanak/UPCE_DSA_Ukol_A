@@ -1,4 +1,5 @@
 ﻿using RangeTree.Exceptions;
+using RangeTree.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -11,7 +12,7 @@ namespace RangeTree
     {
         private Node _root;
         private bool _builded;
-        LeafNode _lastLeaf;
+        private LeafNode _lastLeaf;
 
         public RangeTree()
         {
@@ -23,6 +24,11 @@ namespace RangeTree
         public bool IsEmpty()
         {
             return _root == null;
+        }
+
+        public bool IsBuilded()
+        {
+            return _builded;
         }
 
         public void Rebuild(List<TValue> data)
@@ -37,14 +43,17 @@ namespace RangeTree
         {
             if (values == null)
             {
-                // TODO: message
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(Resources.ArgumentNull);
+            }
+
+            if(values.Select(x=>x.X).Distinct().Count() != values.Count())
+            {
+                throw new InvalidDataException(Resources.SameXValue);
             }
 
             if (!IsEmpty())
             {
-                // TODO: message
-                throw new TreeIsAleadyBuilded("");
+                throw new TreeIsAleadyBuildedException(Resources.TreeAlreadyBuilded);
             }
 
             if (values.Count == 0)
@@ -58,13 +67,12 @@ namespace RangeTree
             _root = Build(values, null, true);
         }
 
+
         /// <summary>
         /// Build range tree
         /// </summary>
         /// <param name="values">List ordered by X</param>
-        /// <param name="orderedY">List ordered by Y</param>
         /// <param name="parent">Reference to previous node (parent)</param>
-        /// <param name="level">Deep in tree</param>
         /// <param name="odd">Build X == true or Y == false</param>
         /// <returns></returns>
         private Node Build(List<TValue> values, NodeBlock parent, bool odd)
@@ -236,6 +244,63 @@ namespace RangeTree
             }
 
             return null;
+        }
+
+        public List<TValue> RangeFind(PointF from, PointF to)
+        {
+            float xFrom, xTo, yTop, yBottom;
+
+            xFrom = from.X;
+            xTo = to.X;
+
+            yTop = from.Y;
+            yBottom = to.Y;
+
+
+            if (xFrom > xTo)
+            {
+                Swap(ref xFrom, ref xTo);
+            }
+            
+            if(yTop > yBottom)
+            {
+                Swap(ref yTop, ref yBottom);
+            }
+
+            return RangeFind(xFrom, yTop, xTo, yBottom);
+        }
+
+        private List<TValue> RangeFind(float fromX, float fromY, float toX, float toY)
+        {
+            Node block = (Node)_root;
+            LeafNode leaf;
+            var data = new List<TValue>();
+
+            while (block != null)
+            {
+                if(block.IsLeaf())
+                {
+                    leaf = (LeafNode)block;
+                    if(leaf.Data.X >= fromX && leaf.Data.X <= toX
+                        && leaf.Data.Y >= fromY && leaf.Data.Y <= toY)
+                    {
+                        data.Add(leaf.Data);
+                    }
+                }
+                else
+                {
+
+                }
+            }
+
+            return data;
+        }
+
+        private void Swap(ref float x, ref float y)
+        {
+            float tmp = x;
+            x = y;
+            y = tmp;
         }
 
         private bool IsNodeNotNullAndNotLeaf(Node node)
