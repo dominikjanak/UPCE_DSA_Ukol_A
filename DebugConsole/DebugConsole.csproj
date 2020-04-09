@@ -52,10 +52,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GraphService\GraphService.csproj">
-      <Project>{3246cdaa-425b-4f9b-b7ad-3f1c2e9400b0}</Project>
-      <Name>GraphService</Name>
-    </ProjectReference>
     <ProjectReference Include="..\RangeTree\RangeTree.csproj">
       <Project>{d4823c0f-828f-48a3-b590-d76e10b85a97}</Project>
       <Name>RangeTree</Name>

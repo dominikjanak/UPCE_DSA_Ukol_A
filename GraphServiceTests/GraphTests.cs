@@ -172,16 +172,6 @@ namespace GraphService.Tests
         }
 
         [TestMethod()]
-        public void RemoveNullTest()
-        {
-            var graph = InitGraph();
-
-            Assert.AreEqual(6, graph.VerticesCount());
-            Assert.ThrowsException<ArgumentNullException>(() => graph.RemoveVertex(null));
-            Assert.AreEqual(6, graph.VerticesCount());
-        }
-
-        [TestMethod()]
         public void RemoveValidateDataTest()
         {
             var graph = InitGraph();
@@ -553,16 +543,6 @@ namespace GraphService.Tests
         }
 
         [TestMethod()]
-        public void RemoveEdgeKeyNullTest()
-        {
-            var graph = InitGraph();
-
-            Assert.AreEqual(7, graph.EdgesCount());
-            Assert.ThrowsException<ArgumentNullException>(() => graph.RemoveEdge(null));
-            Assert.AreEqual(7, graph.EdgesCount());
-        }
-
-        [TestMethod()]
         public void RemoveEdgeStartNullTest()
         {
             var graph = InitGraph();
@@ -792,14 +772,6 @@ namespace GraphService.Tests
 
             res = graph.FindEdge("E1");
             Assert.IsNull(res);
-        }
-
-        [TestMethod()]
-        public void FindEdgeKeyNullTest()
-        {
-            var graph = InitGraph();
-
-            Assert.ThrowsException<ArgumentNullException>(() => graph.FindEdge(null));
         }
 
         [TestMethod()]

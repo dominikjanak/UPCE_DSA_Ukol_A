@@ -1,6 +1,7 @@
 ﻿using RangeTree;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace DebugConsole
 {
@@ -8,37 +9,53 @@ namespace DebugConsole
     {
         static void Main(string[] args)
         {
-            /*List<RangeTreeData> data = new List<RangeTreeData>()
-            {
-                new RangeTreeData(50, 5),
-                new RangeTreeData(50, 45),
-                new RangeTreeData(50, 60),
-                new RangeTreeData(50, 50),
-                new RangeTreeData(50, 63),
-                new RangeTreeData(50, 52),
-                new RangeTreeData(50, 65),
-                new RangeTreeData(50, 35)
-            };*/
 
             List<RangeTreeData> data = new List<RangeTreeData>()
             {
-                new RangeTreeData(5, 5),
-                new RangeTreeData(15, 45),
-                new RangeTreeData(22, 60),
-                new RangeTreeData(30, 50),
-                new RangeTreeData(30, 63),
-                new RangeTreeData(38, 52),
-                new RangeTreeData(42, 65),
-                new RangeTreeData(47, 35)
+                new RangeTreeData(5, 5), // A
+                new RangeTreeData(15, 45), // B
+                new RangeTreeData(22, 60),  // C
+                new RangeTreeData(28, 50), // D
+                new RangeTreeData(33, 63), // E
+                new RangeTreeData(38, 52), // F
+                new RangeTreeData(42, 65), // G
+                new RangeTreeData(47, 35) // H
+
             };
 
             RangeTree<RangeTreeData> tree = new RangeTree<RangeTreeData>();
 
             tree.Build(data);
 
-            tree.Print(false, true);
+            PointF start = new PointF(21, 61);
+            PointF stop = new PointF(40, 47);
+            //PointF start = new PointF(35, 50);
+            //PointF stop = new PointF(45, 70);
+            List<RangeTreeData> find = tree.RangeFind(start, stop);
 
-            bool res = (tree.Find(5, 5) != null);
+            if(find.Count == 0)
+            {
+                Console.WriteLine("NIC NENALEZENO!");
+            }
+            else
+            {
+                Console.WriteLine("Nalezeny " + (find.Count) + " body!");
+
+                foreach (var bod in find)
+                {
+                    Console.WriteLine("  Bod [" + bod.X + " ; " + bod.Y + "]"); ;
+                }
+            }
+
+            
+
+
+
+            //tree.Print(false, false);
+
+
+
+            /*bool res = (tree.Find(5, 5) != null);
             res &= (tree.Find(15, 45) != null);
             res &= (tree.Find(22, 60) != null);
             res &= (tree.Find(30, 50) != null);
@@ -54,7 +71,7 @@ namespace DebugConsole
             else
             {
                 Console.WriteLine("Any item not found!");
-            }
+            }*/
 
             Console.ReadLine();
         }
