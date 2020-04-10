@@ -59,9 +59,56 @@ namespace RangeTree
                 throw new ArgumentNullException(Resources.ArgumentNull);
             }
 
-            if(values.Select(x=>x.X).Distinct().Count() != values.Count())
+            if (values.Select(x=>x.X).Distinct().Count() != values.Count())
             {
-                throw new InvalidDataException(Resources.SameXValue);
+                TValue item = default;
+
+                foreach (var f in values)
+                {
+                    bool find = false;
+                    foreach (var v in values)
+                    {
+                        if(f.X == v.X && f.Y != v.Y)
+                        {
+                            find = true;
+                            break;
+                        }
+                    }
+
+                    if (find)
+                    {
+                        item = f;
+                        break;
+                    }
+                }
+
+                throw new InvalidDataException(String.Format(Resources.SameValue, "X", item.X));
+            }
+
+            if (values.Select(y => y.Y).Distinct().Count() != values.Count())
+            {
+                TValue item = default;
+
+                foreach (var f in values)
+                {
+                    bool find = false;
+                    foreach (var v in values)
+                    {
+                        if (f.Y == v.Y && f.X != v.X)
+                        {
+                            find = true;
+                            break;
+                        }
+                    }
+
+                    if (find)
+                    {
+                        item = f;
+                        break;
+                    }
+                }
+
+                throw new InvalidDataException(String.Format(Resources.SameValue, "Y", item.Y));
             }
 
             if (IsBuilded())

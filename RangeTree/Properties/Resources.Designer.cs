@@ -70,11 +70,11 @@ namespace RangeTree.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Existuje více schodných souřadnic na ose X!.
+        ///   Looks up a localized string similar to Existuje více schodných souřadnic ({1}) na ose {0}!.
         /// </summary>
-        internal static string SameXValue {
+        internal static string SameValue {
             get {
-                return ResourceManager.GetString("SameXValue", resourceCulture);
+                return ResourceManager.GetString("SameValue", resourceCulture);
             }
         }
         

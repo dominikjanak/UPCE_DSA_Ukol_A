@@ -120,8 +120,8 @@
   <data name="ArgumentNull" xml:space="preserve">
     <value>V argumentu funkce byla očekávána hodnota. Přijato Null.</value>
   </data>
-  <data name="SameXValue" xml:space="preserve">
-    <value>Existuje více schodných souřadnic na ose X!</value>
+  <data name="SameValue" xml:space="preserve">
+    <value>Existuje více schodných souřadnic ({1}) na ose {0}!</value>
   </data>
   <data name="TreeAlreadyBuilded" xml:space="preserve">
     <value>Strom je již vybudovám!</value>
