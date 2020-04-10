@@ -9,15 +9,15 @@ namespace GUI
     public class EdgeSerialize
     {
         public EdgeSerialize() { }
-        public EdgeSerialize(string id, string start, string target, float size)
+        public EdgeSerialize(string key, string start, string target, float size)
         {
-            ID = id;
+            Key = key;
             Start = start;
             Target = target;
             Size = size;
         }
 
-        public string ID { get; set; }
+        public string Key { get; set; }
         public string Start { get; set; }
         public string Target { get; set; }
         public float Size { get; set; }

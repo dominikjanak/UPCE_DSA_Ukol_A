@@ -311,7 +311,7 @@ namespace GUI
             {
                 if (DialogResult.OK == newVertex.ShowDialog())
                 {
-                    VertexData data = new VertexData(new PointF(newVertex.X, newVertex.Y), newVertex.Type);
+                    VertexData data = new VertexData(newVertex.Key, new PointF(newVertex.X, newVertex.Y), newVertex.Type);
                     _graphPath.Clear();
 
                     try
@@ -632,16 +632,10 @@ namespace GUI
 
         private void RangeScan()
         {
-            List<VertexData> vertices = _forestGraph.Vertices.Select(i => i.Data).ToList();
-
-            RangeTree<VertexData> tree = new RangeTree<VertexData>(vertices);
-
-            PointF start = new PointF(_rectangle.X, _rectangle.Y);
-            PointF target = new PointF(_rectangle.X + _rectangle.Width, _rectangle.Y + _rectangle.Height);
-
-            List<VertexData> result = tree.RangeFind(start, target);
+            List<VertexData> result = DoRangeScan();
             StringBuilder output = new StringBuilder(Resources.RangeTreeRangeScan + "\n");
-            output.AppendLine(String.Format("X: <{0:0.##}, {1:0.##}>\nY: <{2:0.##}, {3:0.##}>\n", start.X, target.X, start.Y, target.Y));
+            output.AppendLine(String.Format("X: <{0:0.##}, {1:0.##}>\nY: <{2:0.##}, {3:0.##}>\n", _rectangle.X, 
+                _rectangle.X + _rectangle.Width, _rectangle.Y, _rectangle.Y + _rectangle.Height));
             output.AppendLine(Resources.RangeScanResult);
 
             if (result.Count > 0)
@@ -657,6 +651,28 @@ namespace GUI
             }            
 
             MessageBox.Show(output.ToString(), Resources.RangeScanResultTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private List<VertexData> DoRangeScan()
+        {
+            PointF from = new PointF(_rectangle.X, _rectangle.Y);
+            PointF to = new PointF(_rectangle.X + _rectangle.Width, _rectangle.Y + _rectangle.Height);
+            RangeTree<VertexData> tree = new RangeTree<VertexData>();
+            List<VertexData> data = new List<VertexData>();
+
+            try
+            {
+                List<VertexData> vertices = _forestGraph.Vertices.Select(i => i.Data).ToList();
+                tree.Build(vertices);
+
+                data = tree.RangeFind(from, to);
+            }
+            catch(Exception ex)
+            {
+                ShowMessage(ex.Message, MessageBoxIcon.Error, Resources.RangeTreeBuildError);
+            }
+
+            return data;
         }
 
         private void RangeTreeButton_Click(object sender, EventArgs e)
@@ -702,38 +718,18 @@ namespace GUI
                 edge.Data.EdgeType = EdgeType.Free;
             }
 
-            var vertices = _forestGraph.Vertices;
-            
+            // Find Exges by RangeScan
+            List<VertexData> searchResult = DoRangeScan();
+
             //Analyse all vertices
-            foreach (var vertex in vertices)
+            foreach (var vertex in searchResult)
             {
-                var loc = vertex.Data.Location;
-                RectangleF rect = _rectangle;
+                var incidentEdges = _forestGraph.VertexIncidents(vertex.Key);
 
-                // recalculate rectangle if width < 0
-                if (rect.Width < 0)
+                // All edges from vertex will be blocked 
+                foreach (var edge in incidentEdges)
                 {
-                    rect.Width = -rect.Width;
-                    rect.X -= rect.Width;
-                }
-                // recalculate rectangle if height < 0
-                if (_rectangle.Height < 0)
-                {
-                    rect.Height = -rect.Height;
-                    rect.Y -= rect.Height;
-                }
-
-                // if vertex is in restangle
-                if (loc.X >= rect.Left && loc.X <= rect.Left + rect.Width &&
-                    loc.Y >= rect.Top && loc.Y <= rect.Top + rect.Height)
-                {
-                    var incidentEdges = _forestGraph.VertexIncidents(vertex.Key);
-
-                    // All edges from vertex will be blocked 
-                    foreach (var edge in incidentEdges)
-                    {
-                        edge.Data.EdgeType = EdgeType.Blocked;
-                    }
+                    edge.Data.EdgeType = EdgeType.Blocked;
                 }
             }
         }

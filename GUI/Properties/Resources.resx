@@ -224,4 +224,7 @@
   <data name="RangeScanPointNotFound" xml:space="preserve">
     <value>Bod {0} nebyl nalezen!</value>
   </data>
+  <data name="RangeTreeBuildError" xml:space="preserve">
+    <value>RangeTree Chyba</value>
+  </data>
 </root>

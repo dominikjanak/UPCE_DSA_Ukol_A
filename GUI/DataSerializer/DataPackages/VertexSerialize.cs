@@ -6,15 +6,15 @@ namespace GUI
     {
         public VertexSerialize() { }
 
-        public VertexSerialize(string id, float x, float y, VertexType type)
+        public VertexSerialize(string key, float x, float y, VertexType type)
         {
-            ID = id;
+            Key = key;
             X = x;
             Y = y;
             Type = type;
         }
 
-        public string ID { get; set; }
+        public string Key { get; set; }
         public float X { get; set; }
         public float Y { get; set; }
         public VertexType Type { get; set; }

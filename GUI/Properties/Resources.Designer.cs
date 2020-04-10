@@ -318,6 +318,15 @@ namespace GUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RangeTree Chyba.
+        /// </summary>
+        internal static string RangeTreeBuildError {
+            get {
+                return ResourceManager.GetString("RangeTreeBuildError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hledaný rozsah:.
         /// </summary>
         internal static string RangeTreeRangeScan {

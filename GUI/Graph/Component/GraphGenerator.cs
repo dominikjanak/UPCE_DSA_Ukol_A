@@ -74,7 +74,7 @@ namespace GUI.Graph.Component
                 }
 
                 Point p = new Point(x, y);
-                VertexData data = new VertexData(p, type);
+                VertexData data = new VertexData(vertexKey, p, type);
 
                 // Add new vertex into graph
                 _graph.AddVertex(vertexKey, data);

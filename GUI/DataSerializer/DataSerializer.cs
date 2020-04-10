@@ -115,14 +115,14 @@ namespace GUI
 
                 foreach (var v in data.Vertices)
                 {
-                    VertexData vertexData = new VertexData(new PointF(v.X, v.Y), v.Type);
-                    graph.AddVertex(v.ID, vertexData);
+                    VertexData vertexData = new VertexData(v.Key, new PointF(v.X, v.Y), v.Type);
+                    graph.AddVertex(v.Key, vertexData);
                 }
 
                 foreach (var e in data.Edges)
                 {
                     EdgeData edgeData = new EdgeData(e.Size, EdgeType.Free);
-                    graph.AddEdge(e.ID, e.Start, e.Target, edgeData);
+                    graph.AddEdge(e.Key, e.Start, e.Target, edgeData);
                 }
                 return true;
             }
