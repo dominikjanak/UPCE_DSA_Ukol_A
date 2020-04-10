@@ -32,6 +32,7 @@ namespace GUI
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.graphCanvas = new GUI.DoubleBufferedPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.CloseButton = new System.Windows.Forms.Button();
             this.RemoveEdgeButton = new System.Windows.Forms.Button();
@@ -68,7 +69,7 @@ namespace GUI
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
             this.ostatníToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GenerateGraphStrip = new System.Windows.Forms.ToolStripMenuItem();
-            this.graphCanvas = new GUI.DoubleBufferedPanel();
+            this.RangeTreeButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -91,22 +92,40 @@ namespace GUI
             this.tableLayoutPanel1.Size = new System.Drawing.Size(563, 380);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
+            // graphCanvas
+            // 
+            this.graphCanvas.BackColor = System.Drawing.Color.White;
+            this.graphCanvas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.graphCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.graphCanvas.Location = new System.Drawing.Point(3, 2);
+            this.graphCanvas.Margin = new System.Windows.Forms.Padding(3, 2, 0, 3);
+            this.graphCanvas.Name = "graphCanvas";
+            this.graphCanvas.Size = new System.Drawing.Size(430, 375);
+            this.graphCanvas.TabIndex = 0;
+            this.graphCanvas.Paint += new System.Windows.Forms.PaintEventHandler(this.graphCanvas_Paint);
+            this.graphCanvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.graphCanvas_MouseDown);
+            this.graphCanvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.graphCanvas_MouseMove);
+            this.graphCanvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.graphCanvas_MouseUp);
+            this.graphCanvas.Resize += new System.EventHandler(this.graphCanvas_Resize);
+            // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 1;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Controls.Add(this.CloseButton, 0, 8);
+            this.tableLayoutPanel2.Controls.Add(this.CloseButton, 0, 9);
             this.tableLayoutPanel2.Controls.Add(this.RemoveEdgeButton, 0, 3);
             this.tableLayoutPanel2.Controls.Add(this.RemoveVertexButton, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.AddEdgeButton, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.AddVertexButton, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.TrajectoryMatrixButton, 0, 5);
             this.tableLayoutPanel2.Controls.Add(this.FindRouteButton, 0, 6);
+            this.tableLayoutPanel2.Controls.Add(this.RangeTreeButton, 0, 7);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(436, 2);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(3, 2, 0, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 9;
+            this.tableLayoutPanel2.RowCount = 10;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
@@ -441,21 +460,20 @@ namespace GUI
             this.GenerateGraphStrip.Text = "Generuj graf";
             this.GenerateGraphStrip.Click += new System.EventHandler(this.GenerateGraphStrip_Click);
             // 
-            // graphCanvas
+            // RangeTreeButton
             // 
-            this.graphCanvas.BackColor = System.Drawing.Color.White;
-            this.graphCanvas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.graphCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.graphCanvas.Location = new System.Drawing.Point(3, 2);
-            this.graphCanvas.Margin = new System.Windows.Forms.Padding(3, 2, 0, 3);
-            this.graphCanvas.Name = "graphCanvas";
-            this.graphCanvas.Size = new System.Drawing.Size(430, 375);
-            this.graphCanvas.TabIndex = 0;
-            this.graphCanvas.Paint += new System.Windows.Forms.PaintEventHandler(this.graphCanvas_Paint);
-            this.graphCanvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.graphCanvas_MouseDown);
-            this.graphCanvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.graphCanvas_MouseMove);
-            this.graphCanvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.graphCanvas_MouseUp);
-            this.graphCanvas.Resize += new System.EventHandler(this.graphCanvas_Resize);
+            this.RangeTreeButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.RangeTreeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.RangeTreeButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.RangeTreeButton.ForeColor = System.Drawing.SystemColors.Desktop;
+            this.RangeTreeButton.Location = new System.Drawing.Point(0, 245);
+            this.RangeTreeButton.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
+            this.RangeTreeButton.Name = "RangeTreeButton";
+            this.RangeTreeButton.Size = new System.Drawing.Size(127, 32);
+            this.RangeTreeButton.TabIndex = 6;
+            this.RangeTreeButton.Text = "Najít bod";
+            this.RangeTreeButton.UseVisualStyleBackColor = false;
+            this.RangeTreeButton.Click += new System.EventHandler(this.RangeTreeButton_Click);
             // 
             // MainForm
             // 
@@ -522,6 +540,7 @@ namespace GUI
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
         private System.Windows.Forms.ToolStripMenuItem ostatníToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem GenerateGraphStrip;
+        private System.Windows.Forms.Button RangeTreeButton;
     }
 }
 

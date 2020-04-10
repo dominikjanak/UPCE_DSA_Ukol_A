@@ -52,6 +52,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyData.cs" />
+    <Compile Include="Dialog\SelectActionDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\SelectActionDialog.Designer.cs">
+      <DependentUpon>SelectActionDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialog\PointDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\PointDialog.Designer.cs">
+      <DependentUpon>PointDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Enums\ActionSelectedEnum.cs" />
     <Compile Include="Graph\Component\TrajectoryMatrix.cs" />
     <Compile Include="Dialog\AboutBox.cs">
       <SubType>Form</SubType>
@@ -135,6 +148,9 @@
     <EmbeddedResource Include="Dialog\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Dialog\SelectActionDialog.resx">
+      <DependentUpon>SelectActionDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dialog\SelectTwoVertexesDialog.resx">
       <DependentUpon>SelectTwoVertexesDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -152,6 +168,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dialog\GenerateDialog.resx">
       <DependentUpon>GenerateDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialog\PointDialog.resx">
+      <DependentUpon>PointDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialog\VertexDialog.resx">
       <DependentUpon>VertexDialog.cs</DependentUpon>

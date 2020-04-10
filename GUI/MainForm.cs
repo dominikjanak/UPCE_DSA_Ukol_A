@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using GraphService;
@@ -12,6 +14,7 @@ using GUI.Graph;
 using GUI.Graph.Component;
 using GUI.Graph.Drawing;
 using GUI.Properties;
+using RangeTree;
 
 namespace GUI
 {
@@ -608,10 +611,69 @@ namespace GUI
             if (e.Button == MouseButtons.Left)
             {
                 _rectangleDrawing = false;
-                UpdateEdgeType();
-                _graphPath.Clear();
+                SelectActionDialog action = new SelectActionDialog();
+                DialogResult result = action.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    if (action.Selection == ActionSelected.BlockEdges)
+                    {
+                        UpdateEdgeType();
+                        _graphPath.Clear();
+                        _dijkstra.Invalidate();
+                    }
+                    else if (action.Selection == ActionSelected.RangeScan)
+                    {
+                        RangeScan();
+                    }
+                }
                 graphCanvas.Invalidate();
-                _dijkstra.Invalidate();
+            }
+        }
+
+        private void RangeScan()
+        {
+            List<VertexData> vertices = _forestGraph.Vertices.Select(i => i.Data).ToList();
+
+            RangeTree<VertexData> tree = new RangeTree<VertexData>(vertices);
+
+            PointF start = new PointF(_rectangle.X, _rectangle.Y);
+            PointF target = new PointF(_rectangle.X + _rectangle.Width, _rectangle.Y + _rectangle.Height);
+
+            List<VertexData> result = tree.RangeFind(start, target);
+            StringBuilder output = new StringBuilder(Resources.RangeTreeRangeScan + "\n");
+            output.AppendLine(String.Format("X: <{0:0.##}, {1:0.##}>\nY: <{2:0.##}, {3:0.##}>\n", start.X, target.X, start.Y, target.Y));
+            output.AppendLine(Resources.RangeScanResult);
+
+            if (result.Count > 0)
+            {
+                foreach (VertexData v in result)
+                {
+                    output.AppendLine(String.Format("[{0}; {1}]", v.X, v.Y));
+                }
+            }
+            else
+            {
+                output.AppendLine(Resources.RangeScanNoPointFound);
+            }            
+
+            MessageBox.Show(output.ToString(), Resources.RangeScanResultTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void RangeTreeButton_Click(object sender, EventArgs e)
+        {
+            List<VertexData> vertices = _forestGraph.Vertices.Select(i => i.Data).ToList();
+            RangeTree<VertexData> tree = new RangeTree<VertexData>(vertices);
+
+            PointDialog point = new PointDialog();
+
+            if(point.ShowDialog() == DialogResult.OK)
+            {
+                var result = tree.Find(point.X, point.Y);
+
+                string pointS = "[" + point.X + " ; " + point.Y + "]";
+                string output = String.Format(result == null ? Resources.RangeScanPointNotFound : Resources.RangeScanPointFound, pointS);
+
+                MessageBox.Show(output, Resources.RangeScanResultTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 

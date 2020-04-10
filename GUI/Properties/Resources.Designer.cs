@@ -273,6 +273,60 @@ namespace GUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nenalezen žádný bod!.
+        /// </summary>
+        internal static string RangeScanNoPointFound {
+            get {
+                return ResourceManager.GetString("RangeScanNoPointFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bod {0} byl nalezen!.
+        /// </summary>
+        internal static string RangeScanPointFound {
+            get {
+                return ResourceManager.GetString("RangeScanPointFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bod {0} nebyl nalezen!.
+        /// </summary>
+        internal static string RangeScanPointNotFound {
+            get {
+                return ResourceManager.GetString("RangeScanPointNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nalezené body:.
+        /// </summary>
+        internal static string RangeScanResult {
+            get {
+                return ResourceManager.GetString("RangeScanResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hledání pomocí RangeTree.
+        /// </summary>
+        internal static string RangeScanResultTitle {
+            get {
+                return ResourceManager.GetString("RangeScanResultTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hledaný rozsah:.
+        /// </summary>
+        internal static string RangeTreeRangeScan {
+            get {
+                return ResourceManager.GetString("RangeTreeRangeScan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cesta mezi body neexistuje!.
         /// </summary>
         internal static string RouteNotExists {

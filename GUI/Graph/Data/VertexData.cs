@@ -3,7 +3,7 @@
 namespace GUI.Graph
 {
     public class VertexData 
-        : GraphService.IVertexData
+        : GraphService.IVertexData, RangeTree.IValue
     {
         public VertexType VertexType { get; set; }
         public PointF Location { get; set; }
@@ -13,5 +13,9 @@ namespace GUI.Graph
             Location = location;
             VertexType = type;
         }
+
+        public float X => Location.X;
+
+        public float Y => Location.Y;
     }
 }
