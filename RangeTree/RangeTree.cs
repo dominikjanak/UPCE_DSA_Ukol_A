@@ -20,6 +20,15 @@ namespace RangeTree
         }
 
         /// <summary>
+        /// Build RangeTree
+        /// </summary>
+        /// <param name="values">List of values</param>
+        public RangeTree(List<TValue> values) : this()
+        {
+            Build(values);
+        }
+
+        /// <summary>
         /// Is tree builded
         /// </summary>
         /// <returns>true when tree is builded</returns>

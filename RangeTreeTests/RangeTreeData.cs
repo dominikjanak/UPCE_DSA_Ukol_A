@@ -15,8 +15,8 @@
             _y = y;
         }
 
-        public double X => _x;
+        public float X => _x;
 
-        public double Y => _y;
+        public float Y => _y;
     }
 }

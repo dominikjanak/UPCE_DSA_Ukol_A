@@ -8,7 +8,7 @@ namespace RangeTree
 {
     public interface IValue
     {
-        double X { get; }
-        double Y { get; }
+        float X { get; }
+        float Y { get; }
     }
 }
