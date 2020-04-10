@@ -1,10 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RangeTree;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Drawing;
 
 namespace RangeTree.Tests
 {
@@ -14,7 +10,7 @@ namespace RangeTree.Tests
         private RangeTree<RangeTreeData> InitRangeTree()
         {
             var tree = new RangeTree<RangeTreeData>();
-            var data = new List<RangeTreeData>()
+            List<RangeTreeData> data = new List<RangeTreeData>()
             {
                 new RangeTreeData(47, 35),
                 new RangeTreeData(42, 65),
@@ -67,6 +63,123 @@ namespace RangeTree.Tests
                 }
             }
 
+        }
+
+        [TestMethod()]
+        public void RangeScanTestLeft()
+        {
+            var tree = InitRangeTree();
+
+            List<RangeTreeData> expected = new List<RangeTreeData>()
+            {
+                new RangeTreeData(22, 60),
+                new RangeTreeData(28, 50)
+            };
+
+            List<RangeTreeData> result = tree.RangeFind(new PointF(20, 50), new PointF(30, 60));
+
+            Assert.AreEqual(expected.Count, result.Count);
+            Assert.IsTrue(ListContainSameValues(expected, result));
+        }
+
+        [TestMethod()]
+        public void RangeScanTestRight()
+        {
+            var tree = InitRangeTree();
+
+            List<RangeTreeData> expected = new List<RangeTreeData>()
+            {
+                new RangeTreeData(38, 52),
+                new RangeTreeData(42, 65)
+            };
+
+            List<RangeTreeData> result = tree.RangeFind(new PointF(35, 45), new PointF(50, 70));
+
+            Assert.AreEqual(expected.Count, result.Count);
+            Assert.IsTrue(ListContainSameValues(expected, result));
+        }
+
+        [TestMethod()]
+        public void RangeScanTestThree()
+        {
+            var tree = InitRangeTree();
+
+            List<RangeTreeData> expected = new List<RangeTreeData>()
+            {
+                new RangeTreeData(22, 60),
+                new RangeTreeData(28, 50),
+                new RangeTreeData(38, 52)
+            };
+
+            List<RangeTreeData> result = tree.RangeFind(new PointF(19, 61), new PointF(40, 49));
+
+            Assert.AreEqual(expected.Count, result.Count);
+            Assert.IsTrue(ListContainSameValues(expected, result));
+        }
+
+        [TestMethod()]
+        public void RangeScanTestFour()
+        {
+            var tree = InitRangeTree();
+
+            List<RangeTreeData> expected = new List<RangeTreeData>()
+            {
+                new RangeTreeData(38, 52)
+            };
+
+            List<RangeTreeData> result = tree.RangeFind(new PointF(31, 61), new PointF(40, 49));
+
+            Assert.AreEqual(expected.Count, result.Count);
+            Assert.IsTrue(ListContainSameValues(expected, result));
+        }
+
+        [TestMethod()]
+        public void RangeScanTestFive()
+        {
+            var tree = InitRangeTree();
+
+            List<RangeTreeData> expected = new List<RangeTreeData>()
+            {
+                new RangeTreeData(47, 35)
+            };
+
+            List<RangeTreeData> result = tree.RangeFind(new PointF(40, 43), new PointF(54, 26));
+
+            Assert.AreEqual(expected.Count, result.Count);
+            Assert.IsTrue(ListContainSameValues(expected, result));
+        }
+
+        /////////////////////////////////////////////////////////////////
+        private bool ListContainSameValues(List<RangeTreeData> expected, List<RangeTreeData> actual)
+        {
+            if (expected.Count != actual.Count)
+            {
+                return false;
+            }
+            bool cont = false;
+
+            foreach (var e in expected)
+            {
+
+                foreach (var a in actual)
+                {
+
+                    if (e.X == a.X && e.Y == a.Y)
+                    {
+                        cont = true;
+                        break;
+                    }
+                }
+
+                if (cont)
+                {
+                    cont = false;
+                    continue;
+                }
+                return false;
+            }
+
+            return true;
         }
     }
 }
