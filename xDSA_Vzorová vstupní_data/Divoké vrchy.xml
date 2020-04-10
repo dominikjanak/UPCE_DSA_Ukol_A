@@ -2,99 +2,99 @@
 <GraphData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Vertices>
     <Vertex>
-      <ID>Divoké vrchy</ID>
-      <X>250</X>
+      <Key>Divoké vrchy</Key>
+      <X>251</X>
       <Y>250</Y>
       <Type>RestArea</Type>
     </Vertex>
     <Vertex>
-      <ID>K1</ID>
+      <Key>K1</Key>
       <X>300</X>
       <Y>150</Y>
       <Type>Junction</Type>
     </Vertex>
     <Vertex>
-      <ID>Zastávka autobusu</ID>
-      <X>300</X>
+      <Key>Zastávka autobusu</Key>
+      <X>301</X>
       <Y>270</Y>
       <Type>Stop</Type>
     </Vertex>
     <Vertex>
-      <ID>Zastávka vlaku</ID>
+      <Key>Zastávka vlaku</Key>
       <X>200</X>
       <Y>193</Y>
       <Type>Stop</Type>
     </Vertex>
     <Vertex>
-      <ID>K2</ID>
+      <Key>K2</Key>
       <X>250</X>
       <Y>180</Y>
       <Type>Junction</Type>
     </Vertex>
     <Vertex>
-      <ID>K3</ID>
+      <Key>K3</Key>
       <X>310</X>
       <Y>240</Y>
       <Type>Junction</Type>
     </Vertex>
     <Vertex>
-      <ID>K4</ID>
+      <Key>K4</Key>
       <X>274</X>
       <Y>200</Y>
       <Type>Junction</Type>
     </Vertex>
     <Vertex>
-      <ID>Říční údolí</ID>
+      <Key>Říční údolí</Key>
       <X>320</X>
-      <Y>180</Y>
+      <Y>181</Y>
       <Type>RestArea</Type>
     </Vertex>
   </Vertices>
   <Edges>
     <Edge>
-      <ID>Zastávka vlaku_K2</ID>
+      <Key>Zastávka vlaku_K2</Key>
       <Start>Zastávka vlaku</Start>
       <Target>K2</Target>
       <Size>35</Size>
     </Edge>
     <Edge>
-      <ID>K4_Divoké vrchy</ID>
+      <Key>K4_Divoké vrchy</Key>
       <Start>K4</Start>
       <Target>Divoké vrchy</Target>
       <Size>30</Size>
     </Edge>
     <Edge>
-      <ID>K4_K1</ID>
+      <Key>K4_K1</Key>
       <Start>K4</Start>
       <Target>K1</Target>
       <Size>30</Size>
     </Edge>
     <Edge>
-      <ID>K4_Říční údolí</ID>
+      <Key>K4_Říční údolí</Key>
       <Start>K4</Start>
       <Target>Říční údolí</Target>
       <Size>32</Size>
     </Edge>
     <Edge>
-      <ID>K3_Zastávka autobusu</ID>
+      <Key>K3_Zastávka autobusu</Key>
       <Start>K3</Start>
       <Target>Zastávka autobusu</Target>
       <Size>7</Size>
     </Edge>
     <Edge>
-      <ID>K2_K1</ID>
+      <Key>K2_K1</Key>
       <Start>K2</Start>
       <Target>K1</Target>
       <Size>15</Size>
     </Edge>
     <Edge>
-      <ID>K1_Říční údolí</ID>
+      <Key>K1_Říční údolí</Key>
       <Start>K1</Start>
       <Target>Říční údolí</Target>
       <Size>64</Size>
     </Edge>
     <Edge>
-      <ID>Říční údolí_K3</ID>
+      <Key>Říční údolí_K3</Key>
       <Start>Říční údolí</Start>
       <Target>K3</Target>
       <Size>20</Size>
