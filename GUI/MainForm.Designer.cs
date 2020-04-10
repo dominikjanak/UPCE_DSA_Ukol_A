@@ -32,7 +32,6 @@ namespace GUI
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.graphCanvas = new GUI.DoubleBufferedPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.CloseButton = new System.Windows.Forms.Button();
             this.RemoveEdgeButton = new System.Windows.Forms.Button();
@@ -44,31 +43,32 @@ namespace GUI
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.programToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.NewGraphStrip = new System.Windows.Forms.ToolStripMenuItem();
-            this.SaveImageStrip = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.LoadDataStrip = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveDataStrip = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveAsDataStrip = new System.Windows.Forms.ToolStripMenuItem();
             this.AutoloadStrip = new System.Windows.Forms.ToolStripMenuItem();
             this.AutoloadSaveStrip = new System.Windows.Forms.ToolStripMenuItem();
             this.AutoloadLoadStrip = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.SaveImageStrip = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.CloseStrip = new System.Windows.Forms.ToolStripMenuItem();
             this.AboutProgramButton = new System.Windows.Forms.ToolStripMenuItem();
             this.ProgramHelpButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.grafToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddVertexStrip = new System.Windows.Forms.ToolStripMenuItem();
             this.odeberVrcholToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.přidatHranuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.odebratHranuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
             this.najítCestuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zobrazitMaticiTrajektoriíToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
             this.ostatníToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GenerateGraphStrip = new System.Windows.Forms.ToolStripMenuItem();
+            this.graphCanvas = new GUI.DoubleBufferedPanel();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -90,22 +90,6 @@ namespace GUI
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(563, 380);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // graphCanvas
-            // 
-            this.graphCanvas.BackColor = System.Drawing.Color.White;
-            this.graphCanvas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.graphCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.graphCanvas.Location = new System.Drawing.Point(3, 2);
-            this.graphCanvas.Margin = new System.Windows.Forms.Padding(3, 2, 0, 3);
-            this.graphCanvas.Name = "graphCanvas";
-            this.graphCanvas.Size = new System.Drawing.Size(430, 375);
-            this.graphCanvas.TabIndex = 0;
-            this.graphCanvas.Paint += new System.Windows.Forms.PaintEventHandler(this.graphCanvas_Paint);
-            this.graphCanvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.graphCanvas_MouseDown);
-            this.graphCanvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.graphCanvas_MouseMove);
-            this.graphCanvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.graphCanvas_MouseUp);
-            this.graphCanvas.Resize += new System.EventHandler(this.graphCanvas_Resize);
             // 
             // tableLayoutPanel2
             // 
@@ -132,6 +116,7 @@ namespace GUI
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(127, 378);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
@@ -273,35 +258,33 @@ namespace GUI
             // NewGraphStrip
             // 
             this.NewGraphStrip.Name = "NewGraphStrip";
-            this.NewGraphStrip.Size = new System.Drawing.Size(180, 22);
+            this.NewGraphStrip.Size = new System.Drawing.Size(148, 22);
             this.NewGraphStrip.Text = "Nový";
             this.NewGraphStrip.Click += new System.EventHandler(this.NewGraphButton_Click);
             // 
-            // SaveImageStrip
+            // toolStripMenuItem3
             // 
-            this.SaveImageStrip.Name = "SaveImageStrip";
-            this.SaveImageStrip.Size = new System.Drawing.Size(180, 22);
-            this.SaveImageStrip.Text = "Uložit obrázek";
-            this.SaveImageStrip.Click += new System.EventHandler(this.saveImageButton_Click);
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(145, 6);
             // 
             // LoadDataStrip
             // 
             this.LoadDataStrip.Name = "LoadDataStrip";
-            this.LoadDataStrip.Size = new System.Drawing.Size(180, 22);
+            this.LoadDataStrip.Size = new System.Drawing.Size(148, 22);
             this.LoadDataStrip.Text = "Načíst";
             this.LoadDataStrip.Click += new System.EventHandler(this.LoadButton_Click);
             // 
             // SaveDataStrip
             // 
             this.SaveDataStrip.Name = "SaveDataStrip";
-            this.SaveDataStrip.Size = new System.Drawing.Size(180, 22);
+            this.SaveDataStrip.Size = new System.Drawing.Size(148, 22);
             this.SaveDataStrip.Text = "Uložit";
             this.SaveDataStrip.Click += new System.EventHandler(this.SaveButton_Click);
             // 
             // SaveAsDataStrip
             // 
             this.SaveAsDataStrip.Name = "SaveAsDataStrip";
-            this.SaveAsDataStrip.Size = new System.Drawing.Size(180, 22);
+            this.SaveAsDataStrip.Size = new System.Drawing.Size(148, 22);
             this.SaveAsDataStrip.Text = "Uložit jako...";
             this.SaveAsDataStrip.Click += new System.EventHandler(this.SaveAsButton_Click);
             // 
@@ -311,27 +294,44 @@ namespace GUI
             this.AutoloadSaveStrip,
             this.AutoloadLoadStrip});
             this.AutoloadStrip.Name = "AutoloadStrip";
-            this.AutoloadStrip.Size = new System.Drawing.Size(180, 22);
+            this.AutoloadStrip.Size = new System.Drawing.Size(148, 22);
             this.AutoloadStrip.Text = "Autoload";
             // 
             // AutoloadSaveStrip
             // 
             this.AutoloadSaveStrip.Name = "AutoloadSaveStrip";
-            this.AutoloadSaveStrip.Size = new System.Drawing.Size(180, 22);
+            this.AutoloadSaveStrip.Size = new System.Drawing.Size(107, 22);
             this.AutoloadSaveStrip.Text = "Uložit";
             this.AutoloadSaveStrip.Click += new System.EventHandler(this.Autoload_SaveButton_Click);
             // 
             // AutoloadLoadStrip
             // 
             this.AutoloadLoadStrip.Name = "AutoloadLoadStrip";
-            this.AutoloadLoadStrip.Size = new System.Drawing.Size(180, 22);
+            this.AutoloadLoadStrip.Size = new System.Drawing.Size(107, 22);
             this.AutoloadLoadStrip.Text = "Načíst";
             this.AutoloadLoadStrip.Click += new System.EventHandler(this.Autoload_LoadButton_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(145, 6);
+            // 
+            // SaveImageStrip
+            // 
+            this.SaveImageStrip.Name = "SaveImageStrip";
+            this.SaveImageStrip.Size = new System.Drawing.Size(148, 22);
+            this.SaveImageStrip.Text = "Uložit obrázek";
+            this.SaveImageStrip.Click += new System.EventHandler(this.saveImageButton_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(145, 6);
             // 
             // CloseStrip
             // 
             this.CloseStrip.Name = "CloseStrip";
-            this.CloseStrip.Size = new System.Drawing.Size(180, 22);
+            this.CloseStrip.Size = new System.Drawing.Size(148, 22);
             this.CloseStrip.Text = "Ukončit";
             this.CloseStrip.Click += new System.EventHandler(this.CloseButton_Click);
             // 
@@ -351,21 +351,6 @@ namespace GUI
             this.ProgramHelpButton.Size = new System.Drawing.Size(73, 20);
             this.ProgramHelpButton.Text = "Nápověda";
             this.ProgramHelpButton.Click += new System.EventHandler(this.ProgramHelpButton_Click);
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(177, 6);
             // 
             // grafToolStripMenuItem
             // 
@@ -398,6 +383,11 @@ namespace GUI
             this.odeberVrcholToolStripMenuItem.Text = "Odebrat vrchol";
             this.odeberVrcholToolStripMenuItem.Click += new System.EventHandler(this.RemoveVertexButton_Click);
             // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(203, 6);
+            // 
             // přidatHranuToolStripMenuItem
             // 
             this.přidatHranuToolStripMenuItem.Name = "přidatHranuToolStripMenuItem";
@@ -412,6 +402,11 @@ namespace GUI
             this.odebratHranuToolStripMenuItem.Text = "Odebrat hranu";
             this.odebratHranuToolStripMenuItem.Click += new System.EventHandler(this.RemoveEdgeButton_Click);
             // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(203, 6);
+            // 
             // najítCestuToolStripMenuItem
             // 
             this.najítCestuToolStripMenuItem.Name = "najítCestuToolStripMenuItem";
@@ -425,16 +420,6 @@ namespace GUI
             this.zobrazitMaticiTrajektoriíToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.zobrazitMaticiTrajektoriíToolStripMenuItem.Text = "Zobrazit matici trajektorií";
             this.zobrazitMaticiTrajektoriíToolStripMenuItem.Click += new System.EventHandler(this.TrajectoryMatrixButton_Click);
-            // 
-            // toolStripMenuItem4
-            // 
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(203, 6);
-            // 
-            // toolStripMenuItem5
-            // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(203, 6);
             // 
             // toolStripMenuItem6
             // 
@@ -452,9 +437,25 @@ namespace GUI
             // GenerateGraphStrip
             // 
             this.GenerateGraphStrip.Name = "GenerateGraphStrip";
-            this.GenerateGraphStrip.Size = new System.Drawing.Size(180, 22);
+            this.GenerateGraphStrip.Size = new System.Drawing.Size(139, 22);
             this.GenerateGraphStrip.Text = "Generuj graf";
             this.GenerateGraphStrip.Click += new System.EventHandler(this.GenerateGraphStrip_Click);
+            // 
+            // graphCanvas
+            // 
+            this.graphCanvas.BackColor = System.Drawing.Color.White;
+            this.graphCanvas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.graphCanvas.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.graphCanvas.Location = new System.Drawing.Point(3, 2);
+            this.graphCanvas.Margin = new System.Windows.Forms.Padding(3, 2, 0, 3);
+            this.graphCanvas.Name = "graphCanvas";
+            this.graphCanvas.Size = new System.Drawing.Size(430, 375);
+            this.graphCanvas.TabIndex = 0;
+            this.graphCanvas.Paint += new System.Windows.Forms.PaintEventHandler(this.graphCanvas_Paint);
+            this.graphCanvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.graphCanvas_MouseDown);
+            this.graphCanvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.graphCanvas_MouseMove);
+            this.graphCanvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.graphCanvas_MouseUp);
+            this.graphCanvas.Resize += new System.EventHandler(this.graphCanvas_Resize);
             // 
             // MainForm
             // 
