@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace RangeTree
 {
@@ -7,7 +7,7 @@ namespace RangeTree
     {
         internal abstract class Node
         {
-            public NodeBlock Parent { get; set; }
+            public BlockNode Parent { get; set; }
 
             abstract public bool IsLeaf();
         }

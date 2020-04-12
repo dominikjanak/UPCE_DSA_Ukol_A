@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +15,7 @@ namespace RangeTree
             public LeafNode Next { get; internal set; }
             public TValue Data { get; private set; }
 
-            public LeafNode(TValue data, NodeBlock parent, LeafNode prev)
+            public LeafNode(TValue data, BlockNode parent, LeafNode prev)
             {
                 Parent = parent;
                 Data = data;

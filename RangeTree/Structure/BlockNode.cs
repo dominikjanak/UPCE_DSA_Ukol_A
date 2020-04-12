@@ -1,29 +1,28 @@
-﻿
-using System;
+﻿using System;
 
 namespace RangeTree
 {
     public partial class RangeTree<TValue>
     where TValue : IValue
     {
-        internal class NodeBlock : Node
+        internal class BlockNode : Node
         {
-            public double Key { get; private set; }
+            public float Median { get; private set; }
 
-            public double  From { get; private set; }
-            public double  To { get; private set; }
+            public float From { get; private set; }
+            public float To { get; private set; }
 
             public Node Left { get; set; }
             public Node Right { get; set; }
 
             public Node SecondTree { get; set; }
 
-            public NodeBlock(double key, double from, double to, NodeBlock parent)
+            public BlockNode(float median, float from, float to, BlockNode parent)
             {
                 SecondTree = null;
                 Left = Right = null;
                 Parent = parent;
-                Key = key;
+                Median = median;
                 From = from;
                 To = to;
             }

@@ -655,8 +655,6 @@ namespace GUI
 
         private List<VertexData> DoRangeScan()
         {
-            PointF from = new PointF(_rectangle.X, _rectangle.Y);
-            PointF to = new PointF(_rectangle.X + _rectangle.Width, _rectangle.Y + _rectangle.Height);
             RangeTree<VertexData> tree = new RangeTree<VertexData>();
             List<VertexData> data = new List<VertexData>();
 
@@ -665,7 +663,7 @@ namespace GUI
                 List<VertexData> vertices = _forestGraph.Vertices.Select(i => i.Data).ToList();
                 tree.Build(vertices);
 
-                data = tree.RangeFind(from, to);
+                data = tree.RangeFind(_rectangle.X, _rectangle.Y, _rectangle.X + _rectangle.Width, _rectangle.Y + _rectangle.Height);
             }
             catch(Exception ex)
             {

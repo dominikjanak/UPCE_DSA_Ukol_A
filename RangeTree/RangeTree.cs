@@ -1,4 +1,4 @@
-﻿using RangeTree.Exceptions;
+using RangeTree.Exceptions;
 using RangeTree.Properties;
 using System;
 using System.Collections.Generic;
@@ -134,7 +134,7 @@ namespace RangeTree
         /// <param name="parent">Reference to previous node (parent)</param>
         /// <param name="odd">Build X == true or Y == false</param>
         /// <returns></returns>
-        private Node Build(List<TValue> values, NodeBlock parent, bool odd)
+        private Node Build(List<TValue> values, BlockNode parent, bool odd)
         {
             Node newItem = null;
 
@@ -152,12 +152,12 @@ namespace RangeTree
             {
                 LeafNode leaf = _lastLeaf;
                 _lastLeaf = null;
-                ((NodeBlock)newItem).SecondTree = Build(values, null, false);
+                ((BlockNode)newItem).SecondTree = Build(values, null, false);
                 if (newItem.IsLeaf())
                 {
                     _lastLeaf = (LeafNode)newItem;
                 }
-                ((NodeBlock)newItem).Parent = (NodeBlock)newItem;
+                ((BlockNode)newItem).Parent = (BlockNode)newItem;
                 _lastLeaf = leaf;
             }
 
@@ -201,7 +201,7 @@ namespace RangeTree
                 return null;
             }
 
-            NodeBlock node = (NodeBlock)_root;
+            BlockNode node = (BlockNode)_root;
             LeafNode leaf = null;
 
             while (node != null)
@@ -249,9 +249,9 @@ namespace RangeTree
                 }
 
                 // traversing a tree
-                if (node.Left != null && !node.Left.IsLeaf() && ((NodeBlock)node.Left).From <= x && ((NodeBlock)node.Left).To >= x)
+                if (node.Left != null && !node.Left.IsLeaf() && ((BlockNode)node.Left).From <= x && ((BlockNode)node.Left).To >= x)
                 {
-                    node = (NodeBlock)node.Left;
+                    node = (BlockNode)node.Left;
                     continue;
                 }
                 else
@@ -262,7 +262,7 @@ namespace RangeTree
                     }
                     if (node.Right != null && !node.Right.IsLeaf())
                     {
-                        node = (NodeBlock)node.Right;
+                        node = (BlockNode)node.Right;
                     }
                 }
             }
@@ -313,19 +313,13 @@ namespace RangeTree
         /// <summary>
         /// Find values by range search 
         /// </summary>
-        /// <param name="from">Point from</param>
-        /// <param name="to">point to</param>
+        /// <param name="xFrom">X from</param>
+        /// <param name="yFrom">Y from</param>
+        /// <param name="xTo">X to</param>
+        /// <param name="yTo">Y to</param>
         /// <returns>List of values</returns>
-        public List<TValue> RangeFind(PointF from, PointF to)
+        public List<TValue> RangeFind(float xFrom, float yFrom, float xTo, float yTo)
         {
-            float xFrom, xTo, yTop, yBottom;
-
-            xFrom = from.X;
-            xTo = to.X;
-
-            yTop = from.Y;
-            yBottom = to.Y;
-
             // normalize X range 
             if (xFrom > xTo)
             {
@@ -333,13 +327,13 @@ namespace RangeTree
             }
 
             // normalize Y range 
-            if (yTop > yBottom)
+            if (yFrom > yTo)
             {
-                Swap(ref yTop, ref yBottom);
+                Swap(ref yFrom, ref yTo);
             }
 
             var data = new List<TValue>(); // Output data init
-            RangeFind(data, xFrom, yTop, xTo, yBottom, _root, true); // find data
+            RangeFind(data, xFrom, yFrom, xTo, yTo, _root, true); // find data
 
             return data;
         }
@@ -348,22 +342,22 @@ namespace RangeTree
         /// Fin in range of actual Node
         /// </summary>
         /// <param name="data">Reference to list with output data</param>
-        /// <param name="fromX">X from</param>
-        /// <param name="fromY">Y from</param>
-        /// <param name="toX">X to</param>
-        /// <param name="toY">Y to</param>
+        /// <param name="xFrom">X from</param>
+        /// <param name="yFrom">Y from</param>
+        /// <param name="xTo">X to</param>
+        /// <param name="yTo">Y to</param>
         /// <param name="node">Node for explore</param>
         /// <param name="dim">Dimension (true = primary)</param>
-        private void RangeFind(List<TValue> data, float fromX, float fromY, float toX, float toY, Node node, bool dim)
+        private void RangeFind(List<TValue> data, float xFrom, float yFrom, float xTo, float yTo, Node node, bool dim)
         {
             LeafNode leaf;
-            NodeBlock block;
+            BlockNode block;
 
             if(node.IsLeaf())
             {
                 // IS LEAF
                 leaf = (LeafNode)node;
-                if (leaf.Data.X >= fromX && leaf.Data.X <= toX && leaf.Data.Y >= fromY && leaf.Data.Y <= toY)
+                if (leaf.Data.X >= xFrom && leaf.Data.X <= xTo && leaf.Data.Y >= yFrom && leaf.Data.Y <= yTo)
                 {
                     // Valid value
                     data.Add(leaf.Data);
@@ -372,28 +366,28 @@ namespace RangeTree
             else
             {
                 // IS NOT LEAF
-                block = (NodeBlock)node;
+                block = (BlockNode)node;
 
-                float min = dim ? fromX : fromY;
-                float max = dim ? toX : toY;
+                float min = dim ? xFrom : yFrom;
+                float max = dim ? xTo : yTo;
 
-                if (min <= block.Key && block.Key < max && dim == true)
+                if (min <= block.Median && block.Median < max && dim == true)
                 {
                     // Can go both substrees in primary tree
-                    RangeFind(data, fromX, fromY, toX, toY, block.SecondTree, !dim);
+                    RangeFind(data, xFrom, yFrom, xTo, yTo, block.SecondTree, !dim);
                 }
                 else
                 {
-                    if (min <= block.Key)
+                    if (min <= block.Median)
                     {
                         // Go Left subtree
-                        RangeFind(data, fromX, fromY, toX, toY, block.Left, dim); // find in Left subtree
+                        RangeFind(data, xFrom, yFrom, xTo, yTo, block.Left, dim); // find in Left subtree
                     }
 
-                    if (block.Key < max)
+                    if (block.Median < max)
                     {
                         // Go Right subtree
-                        RangeFind(data, fromX, fromY, toX, toY, block.Right, dim); // find in Right subtree
+                        RangeFind(data, xFrom, yFrom, xTo, yTo, block.Right, dim); // find in Right subtree
                     }
                 }
             }
@@ -476,7 +470,7 @@ namespace RangeTree
         /// <param name="parent">Refefence to parent</param>
         /// <param name="lastLeaf">Reference to previous generated leaf</param>
         /// <returns>New leaf</returns>
-        private LeafNode CreateLeaf(TValue value, NodeBlock parent, LeafNode lastLeaf = null)
+        private LeafNode CreateLeaf(TValue value, BlockNode parent, LeafNode lastLeaf = null)
         {
             return new LeafNode(value, parent, lastLeaf);
         }
@@ -488,18 +482,18 @@ namespace RangeTree
         /// <param name="parent">Reference to parent</param>
         /// <param name="dimension">Dimension (true = primary)</param>
         /// <returns>New NodeBlock</returns>
-        private NodeBlock CreateNodeBlock(List<TValue> values, NodeBlock parent, bool dimension)
+        private BlockNode CreateNodeBlock(List<TValue> values, BlockNode parent, bool dimension)
         {
             values = values.OrderBy(i => dimension ? i.X : i.Y).ThenBy(i => dimension ? i.Y : i.X).ToList();
 
             TValue minItem = values[0];
             TValue maxItem = values[values.Count - 1];
 
-            float minValue = (float)(dimension ? minItem.X : minItem.Y);
-            float maxValue = (float)(dimension ? maxItem.X : maxItem.Y);
+            float minValue = (dimension ? minItem.X : minItem.Y);
+            float maxValue = (dimension ? maxItem.X : maxItem.Y);
             float median = GetMedian(values, dimension);
 
-            NodeBlock newItem = new NodeBlock(median, minValue, maxValue, parent);
+            BlockNode newItem = new BlockNode(median, minValue, maxValue, parent);
 
             var splited = SplitList(values);
 
@@ -526,12 +520,12 @@ namespace RangeTree
                 var val1 = values.ElementAt(half);
                 var val2 = values.ElementAt(half-1);
 
-                median = (float)((fromX ? val1.X : val1.Y) + (fromX ? val2.X : val2.Y)) / 2;
+                median = ((fromX ? val1.X : val1.Y) + (fromX ? val2.X : val2.Y)) / 2;
             }
             else
             {
                 var val = values.ElementAt(half);
-                median = (float)(fromX ? val.X : val.Y); 
+                median = (fromX ? val.X : val.Y); 
             }
 
             return (float)Math.Ceiling(median);
@@ -553,14 +547,14 @@ namespace RangeTree
         {
             if (!node.IsLeaf())
             {
-                NodeBlock n = (NodeBlock)node;
+                BlockNode n = (BlockNode)node;
 
                 if (second)
                 {
                     Console.ForegroundColor = ConsoleColor.Blue;
                 }                    
 
-                Console.WriteLine(indent + "+- " + n.Key + " <" + n.From + " ; " +n.To + ">");
+                Console.WriteLine(indent + "+- " + n.Median + " <" + n.From + " ; " +n.To + ">");
 
                 if (second)
                 {
@@ -600,7 +594,7 @@ namespace RangeTree
 
             if (!node.IsLeaf())
             {
-                NodeBlock n = (NodeBlock)node;
+                BlockNode n = (BlockNode)node;
                 if(n.Left != null)
                     PrintTree(n.Left, indent, false, second, printSecond, showLeafRef);
                 if (n.Right != null)
