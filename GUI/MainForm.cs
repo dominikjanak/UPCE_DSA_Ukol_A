@@ -33,6 +33,7 @@ namespace GUI
         TrajectoryMatrix _trajectoryMatrix;
         bool _trajectoryMatrixReady;
         Thread _matrixGeneration;
+        RangeTree<VertexData> _rangeTree;
 
         public MainForm()
         {
@@ -49,6 +50,7 @@ namespace GUI
             _trajectoryMatrixReady = false;
             _matrixGeneration = null;
             _saveFileName = "";
+            _rangeTree = new RangeTree<VertexData>();
             SetTitle();
 
 #if DEBUG
@@ -66,6 +68,7 @@ namespace GUI
                     DataSerializer.LoadData(_forestGraph, _autoloadPath);
                     graphCanvas.Invalidate();
                     RegenerateTrajectoryMatrix();
+                    BuildRangeTree();
                 }
                 catch(Exception ex)
                 {
@@ -187,6 +190,7 @@ namespace GUI
             _saved = true;
             graphCanvas.Invalidate();
             _saveFileName = "";
+            BuildRangeTree();
             SetTitle();
         }
 
@@ -227,6 +231,7 @@ namespace GUI
                     graphCanvas.Invalidate();
                     _dijkstra.Invalidate();
                     RegenerateTrajectoryMatrix();
+                    BuildRangeTree();
                 }
                 catch(Exception ex)
                 {
@@ -321,6 +326,7 @@ namespace GUI
                         _saved = false;
                         _dijkstra.Invalidate();
                         RegenerateTrajectoryMatrix();
+                        BuildRangeTree();
                     }
                     catch (Exception ex)
                     {
@@ -352,6 +358,7 @@ namespace GUI
                         _saved = false;
                         _dijkstra.Invalidate();
                         RegenerateTrajectoryMatrix();
+                        BuildRangeTree();
                     }
                     catch (Exception ex)
                     {
@@ -540,6 +547,7 @@ namespace GUI
                     _saved = true;
                     SetTitle(Path.GetFileName(_saveFileName));
                     RegenerateTrajectoryMatrix();
+                    BuildRangeTree();
                 }
             }
             catch(Exception ex)
@@ -573,6 +581,7 @@ namespace GUI
                 _graphPath.Clear();
                 _saved = true;
                 graphCanvas.Invalidate();
+                BuildRangeTree();
             }
         }
 
@@ -632,7 +641,7 @@ namespace GUI
 
         private void RangeScan()
         {
-            List<VertexData> result = DoRangeScan();
+            List<VertexData> result = _rangeTree.RangeScan(_rectangle.X, _rectangle.Y, _rectangle.X + _rectangle.Width, _rectangle.Y + _rectangle.Height);
             StringBuilder output = new StringBuilder(Resources.RangeTreeRangeScan + "\n");
             output.AppendLine(String.Format("X: <{0:0.##}, {1:0.##}>\nY: <{2:0.##}, {3:0.##}>\n", _rectangle.X, 
                 _rectangle.X + _rectangle.Width, _rectangle.Y, _rectangle.Y + _rectangle.Height));
@@ -642,7 +651,7 @@ namespace GUI
             {
                 foreach (VertexData v in result)
                 {
-                    output.AppendLine(String.Format("[{0}; {1}]", v.X, v.Y));
+                    output.AppendLine(String.Format("{0} [{1}; {2}]", v.Key, v.X, v.Y));
                 }
             }
             else
@@ -653,36 +662,32 @@ namespace GUI
             MessageBox.Show(output.ToString(), Resources.RangeScanResultTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private List<VertexData> DoRangeScan()
+        private void BuildRangeTree()
         {
-            RangeTree<VertexData> tree = new RangeTree<VertexData>();
-            List<VertexData> data = new List<VertexData>();
-
             try
             {
                 List<VertexData> vertices = _forestGraph.Vertices.Select(i => i.Data).ToList();
-                tree.Build(vertices);
-
-                data = tree.RangeScan(_rectangle.X, _rectangle.Y, _rectangle.X + _rectangle.Width, _rectangle.Y + _rectangle.Height);
+                if (_rangeTree.IsBuilded())
+                {
+                    _rangeTree.Rebuild(vertices);
+                }
+                else
+                {
+                    _rangeTree.Build(vertices);
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ShowMessage(ex.Message, MessageBoxIcon.Error, Resources.RangeTreeBuildError);
             }
-
-            return data;
         }
 
         private void RangeTreeButton_Click(object sender, EventArgs e)
         {
-            List<VertexData> vertices = _forestGraph.Vertices.Select(i => i.Data).ToList();
-            RangeTree<VertexData> tree = new RangeTree<VertexData>(vertices);
-
             PointDialog point = new PointDialog();
-
             if(point.ShowDialog() == DialogResult.OK)
             {
-                var result = tree.Find(point.X, point.Y);
+                var result = _rangeTree.Find(point.X, point.Y);
 
                 string pointS = "[" + point.X + " ; " + point.Y + "]";
                 string output = String.Format(result == null ? Resources.RangeScanPointNotFound : Resources.RangeScanPointFound, pointS);
@@ -717,7 +722,7 @@ namespace GUI
             }
 
             // Find Exges by RangeScan
-            List<VertexData> searchResult = DoRangeScan();
+            List<VertexData> searchResult = _rangeTree.RangeScan(_rectangle.X, _rectangle.Y, _rectangle.X + _rectangle.Width, _rectangle.Y + _rectangle.Height);
 
             //Analyse all vertices
             foreach (var vertex in searchResult)

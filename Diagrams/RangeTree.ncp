@@ -99,6 +99,60 @@
         <Member type="Property">float X { get; }</Member>
         <Member type="Property">float Y { get; }</Member>
       </Entity>
+      <Entity type="Class">
+        <Name>MainForm</Name>
+        <Access>Public</Access>
+        <Location left="1108" top="473" />
+        <Size width="393" height="281" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public MainForm()</Member>
+        <Member type="Method">private void graphCanvas_MouseUp(object sender, MouseEventArgs e)</Member>
+        <Member type="Method">private void RangeScan()</Member>
+        <Member type="Method">private void RangeTreeButton_Click(object sender, EventArgs e)</Member>
+        <Member type="Method">private void UpdateEdgeType()</Member>
+        <Member type="Method">private void NewGraphButton_Click(object sender, EventArgs e)</Member>
+        <Member type="Method">private void Autoload_LoadButton_Click(object sender, EventArgs e)</Member>
+        <Member type="Method">private void AddVertexButton_Click(object sender, EventArgs e)</Member>
+        <Member type="Method">private void RemoveVertexButton_Click(object sender, EventArgs e)</Member>
+        <Member type="Method">private void LoadButton_Click(object sender, EventArgs e)</Member>
+        <Member type="Method">private void GenerateGraphStrip_Click(object sender, EventArgs e)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Graph</Name>
+        <Access>Public</Access>
+        <Location left="1209" top="119" />
+        <Size width="365" height="122" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public IEnumerable&lt;Tuple&lt;TVertexKey, TVertexValue&gt;&gt; Vertices { get; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>VertexData</Name>
+        <Access>Public</Access>
+        <Location left="1526" top="365" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public float X { get; }</Member>
+        <Member type="Property">public float Y { get; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Comment">
+        <Text>TValue must implement IValue</Text>
+        <Location left="72" top="480" />
+        <Size width="187" height="50" />
+      </Entity>
+      <Entity type="Comment">
+        <Text>Některé Vlastnosti jsou private, jiné 
+a internal (bohužel je žádný systém neumí správně zobrazit)</Text>
+        <Location left="213" top="937" />
+        <Size width="236" height="70" />
+      </Entity>
+      <Entity type="Comment">
+        <Text>Zbrazuji pouze metody, které RangeTree nějak používají.</Text>
+        <Location left="1527" top="629" />
+        <Size width="160" height="75" />
+      </Entity>
     </Entities>
     <Relationships>
       <Relationship type="Generalization" first="1" second="0">
@@ -125,35 +179,61 @@
           <Y>701</Y>
         </BendPoint>
       </Relationship>
-      <Relationship type="Dependency" first="6" second="3">
-        <Label>
-        </Label>
-        <StartOrientation>Horizontal</StartOrientation>
-        <EndOrientation>Horizontal</EndOrientation>
-      </Relationship>
       <Relationship type="Association" first="3" second="0">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Composition</AssociationType>
       </Relationship>
       <Relationship type="Association" first="4" second="3">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Association</AssociationType>
       </Relationship>
       <Relationship type="Association" first="5" second="3">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="8" second="7">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="3" second="7">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>611</X>
+          <Y>519</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Realization" first="9" second="6">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="9" second="7">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Dependency" first="6" second="3">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
       </Relationship>
     </Relationships>
   </ProjectItem>
