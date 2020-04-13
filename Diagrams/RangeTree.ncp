@@ -1,0 +1,160 @@
+<Project>
+  <Name>Untitled</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Untitled</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>Node</Name>
+        <Access>Public</Access>
+        <Location left="354" top="548" />
+        <Size width="193" height="128" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public BlockNode Parent { get; set; }</Member>
+        <Member type="Method">public abstract bool IsLeaf()</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>LeafNode</Name>
+        <Access>Public</Access>
+        <Location left="131" top="754" />
+        <Size width="330" height="166" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public LeafNode Prev { get; internal set; }</Member>
+        <Member type="Property">public LeafNode Next { get; set; }</Member>
+        <Member type="Property">public TValue Data { get; private set; }</Member>
+        <Member type="Constructor">public LeafNode(TValue data, BlockNode parent, LeafNode prev)</Member>
+        <Member type="Method">public override bool IsLeaf()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>BlockNode</Name>
+        <Access>Public</Access>
+        <Location left="487" top="740" />
+        <Size width="352" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public float Median { get; private set; }</Member>
+        <Member type="Property">public float From { get; private set; }</Member>
+        <Member type="Property">public float To { get; private set; }</Member>
+        <Member type="Property">public Node Left { get; set; }</Member>
+        <Member type="Property">public Node Right { get; set; }</Member>
+        <Member type="Property">public int SecondTree { get; set; }</Member>
+        <Member type="Constructor">public BlockNode(float median, float from, float to, BlockNode parent)</Member>
+        <Member type="Method">public override bool IsLeaf()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>RangeTree&lt;TValue&gt;</Name>
+        <Access>Public</Access>
+        <Location left="72" top="34" />
+        <Size width="617" height="436" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private LeafNode _lastLeaf</Member>
+        <Member type="Field">private Node _root</Member>
+        <Member type="Constructor">public RangeTree()</Member>
+        <Member type="Constructor">public RangeTree(List&lt;TValue&gt; values)</Member>
+        <Member type="Method">public void IsBuilded()</Member>
+        <Member type="Method">public void Build(List&lt;TValue&gt; values)</Member>
+        <Member type="Method">public void Rebuild()</Member>
+        <Member type="Method">public TValue Find(float x, float y)</Member>
+        <Member type="Method">public List&lt;TValue&gt; RangeScan(float xFrom, float yFrom, float xTo, float yTo)</Member>
+        <Member type="Method">private Node Build(List&lt;TValue&gt; values, BlockNode parent, bool odd)</Member>
+        <Member type="Method">private Node FindNode(float x, float y)</Member>
+        <Member type="Method">private LeafNode FindInLeaves(LeafNode leaf, float x, float y)</Member>
+        <Member type="Method">private void RangeFind(List&lt;TValue&gt; outData, float xFrom, float yFrom, float xTo, float yTo, Node node, bool dim)</Member>
+        <Member type="Method">private float GetMedian(List&lt;TValue&gt; values, bool fromX)</Member>
+        <Member type="Method">private LeafNode CreateLeaf(TValue value, BlockNode parent, LeafNode lastLeaf = null)</Member>
+        <Member type="Method">private BlockNode CreateNodeBlock(List&lt;TValue&gt; values, BlockNode parent, bool dimension)</Member>
+        <Member type="Method">private Tuple&lt;List&lt;TValue&gt;, List&lt;TValue&gt;&gt; SplitList(List&lt;TValue&gt; values)</Member>
+        <Member type="Method">private void Swap(ref float x, ref float y)</Member>
+        <Member type="Method">private bool IsNodeNotNull(Node node)</Member>
+        <Member type="Method">private bool IsNodeNotNullAndLeaf(Node node)</Member>
+        <Member type="Method">private bool IsNodeNotNullAndNotLeaf(Node node)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>InvalidDataException</Name>
+        <Access>Public</Access>
+        <Location left="875" top="102" />
+        <Size width="223" height="111" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public InvalidDataException(string message)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>TreeIsAleadyBuildedException</Name>
+        <Access>Public</Access>
+        <Location left="875" top="222" />
+        <Size width="261" height="100" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public TreeIsAleadyBuildedException(string message)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IValue</Name>
+        <Access>Public</Access>
+        <Location left="875" top="341" />
+        <Size width="162" height="109" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">float X { get; }</Member>
+        <Member type="Property">float Y { get; }</Member>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Generalization" first="1" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>284</X>
+          <Y>720</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>461</X>
+          <Y>699</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="2" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>688</X>
+          <Y>715</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>461</X>
+          <Y>701</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Dependency" first="6" second="3">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="3" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="4" second="3">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="5" second="3">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>

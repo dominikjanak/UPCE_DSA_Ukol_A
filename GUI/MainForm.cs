@@ -663,7 +663,7 @@ namespace GUI
                 List<VertexData> vertices = _forestGraph.Vertices.Select(i => i.Data).ToList();
                 tree.Build(vertices);
 
-                data = tree.RangeFind(_rectangle.X, _rectangle.Y, _rectangle.X + _rectangle.Width, _rectangle.Y + _rectangle.Height);
+                data = tree.RangeScan(_rectangle.X, _rectangle.Y, _rectangle.X + _rectangle.Width, _rectangle.Y + _rectangle.Height);
             }
             catch(Exception ex)
             {

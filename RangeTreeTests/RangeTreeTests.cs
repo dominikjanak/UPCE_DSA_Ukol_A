@@ -76,7 +76,7 @@ namespace RangeTree.Tests
                 new RangeTreeData(28, 50)
             };
 
-            List<RangeTreeData> result = tree.RangeFind(20, 50, 30, 60);
+            List<RangeTreeData> result = tree.RangeScan(20, 50, 30, 60);
 
             Assert.AreEqual(expected.Count, result.Count);
             Assert.IsTrue(ListContainSameValues(expected, result));
@@ -93,7 +93,7 @@ namespace RangeTree.Tests
                 new RangeTreeData(42, 65)
             };
 
-            List<RangeTreeData> result = tree.RangeFind(35, 45, 50, 70);
+            List<RangeTreeData> result = tree.RangeScan(35, 45, 50, 70);
 
             Assert.AreEqual(expected.Count, result.Count);
             Assert.IsTrue(ListContainSameValues(expected, result));
@@ -111,7 +111,7 @@ namespace RangeTree.Tests
                 new RangeTreeData(38, 52)
             };
 
-            List<RangeTreeData> result = tree.RangeFind(19, 61, 40, 49);
+            List<RangeTreeData> result = tree.RangeScan(19, 61, 40, 49);
 
             Assert.AreEqual(expected.Count, result.Count);
             Assert.IsTrue(ListContainSameValues(expected, result));
@@ -127,7 +127,7 @@ namespace RangeTree.Tests
                 new RangeTreeData(38, 52)
             };
 
-            List<RangeTreeData> result = tree.RangeFind(31, 61, 40, 49);
+            List<RangeTreeData> result = tree.RangeScan(31, 61, 40, 49);
 
             Assert.AreEqual(expected.Count, result.Count);
             Assert.IsTrue(ListContainSameValues(expected, result));
@@ -143,7 +143,7 @@ namespace RangeTree.Tests
                 new RangeTreeData(47, 35)
             };
 
-            List<RangeTreeData> result = tree.RangeFind(40, 43, 54, 26);
+            List<RangeTreeData> result = tree.RangeScan(40, 43, 54, 26);
 
             Assert.AreEqual(expected.Count, result.Count);
             Assert.IsTrue(ListContainSameValues(expected, result));

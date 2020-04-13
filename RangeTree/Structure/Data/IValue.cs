@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace RangeTree
 {
+    /// <summary>
+    /// Interface for data objects represented by TValue
+    /// </summary>
     public interface IValue
     {
         float X { get; }

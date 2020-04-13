@@ -27,11 +27,7 @@ namespace DebugConsole
 
             tree.Build(data);
 
-            PointF start = new PointF(21, 61);
-            PointF stop = new PointF(40, 47);
-            //PointF start = new PointF(35, 50);
-            //PointF stop = new PointF(45, 70);
-            List<RangeTreeData> find = tree.RangeFind(start, stop);
+            List<RangeTreeData> find = tree.RangeScan(21, 61, 40, 47);
 
             if(find.Count == 0)
             {

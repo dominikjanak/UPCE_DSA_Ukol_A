@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 
 namespace RangeTree
 {
+    // vnitřní třída (partial)
     public partial class RangeTree<TValue>
     where TValue : IValue
     {
