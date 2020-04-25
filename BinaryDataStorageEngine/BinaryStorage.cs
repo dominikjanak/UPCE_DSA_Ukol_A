@@ -22,6 +22,14 @@ namespace BinaryDataStorageEngine
             _file = null;
         }
 
+        ~BinaryStorage()
+        {
+            if(_file != null)
+            {
+                _file.Close();
+            }
+        }
+
         /// <summary>
         /// Get File stream
         /// </summary>
@@ -60,12 +68,17 @@ namespace BinaryDataStorageEngine
                 throw new ArgumentNullException("Data for serialize not Added");
             }
 
+            if(input.Count <= 0)
+            {
+                throw new NoDataException("Input list does not contain any data!");
+            }
+
             FileStream file = GetFileStream(FileMode.Create);
 
             FileMeta init = new FileMeta();
             init.NumberOfBlocks = (int)Math.Ceiling(((double)input.Count / _itemsForBlock)); // Calculate number of blocks
             init.BlockSize = 0;
-            init.ValuesCount = input.Count;
+            init.ActualValuesCount = input.Count;
 
             List<byte[]> blocksData = new List<byte[]>();
             List<DataItem> data = new List<DataItem>();
@@ -78,8 +91,8 @@ namespace BinaryDataStorageEngine
 
             data = data.OrderBy(k => k.HashKey).ToList(); // Order values by HASH
 
-            init.Min = data[0].HashKey;
-            init.Max = data[data.Count - 1].HashKey;
+            init.ActualMin = data[0].HashKey;
+            init.ActualMax = data[data.Count - 1].HashKey;
 
             for (int i = 0; i < init.NumberOfBlocks; i++)
             {
@@ -103,6 +116,7 @@ namespace BinaryDataStorageEngine
             foreach(var block in blocksData)
             {
                 offset += WriteBlock(file, block, offset, init.BlockSize);
+                file.Flush();
             }
 
             file.Close();
@@ -224,30 +238,32 @@ namespace BinaryDataStorageEngine
                     throw new ApplicationException("Invalid number of bytes has been written!");
                 }
 
-                metadata.ValuesCount -= (cntBefore - newData.Length);
+                metadata.ActualValuesCount -= (cntBefore - newData.Length);
 
                 if (newData.Length > 0)
                 {
-                    if (keyHash == metadata.Min)
+                    if (keyHash == metadata.ActualMin)
                     {
-                        metadata.Min = newData[0].HashKey;
+                        metadata.ActualMin = newData[0].HashKey;
                     }
 
-                    if (keyHash == metadata.Max)
+                    if (keyHash == metadata.ActualMax)
                     {
-                        metadata.Max = newData[newData.Length - 1].HashKey;
+                        metadata.ActualMax = newData[newData.Length - 1].HashKey;
                     }
                 }
                 else
                 {
-                    metadata.Min = metadata.Max = keyHash;
+                    metadata.ActualMin = metadata.ActualMax = keyHash;
                 }
 
                 WriteMetaHeader(file, metadata);
 
+                file.Close();
                 return true;
             }
 
+            file.Close();
             return false;
         }
 
@@ -332,10 +348,10 @@ namespace BinaryDataStorageEngine
         private (int blockID, DataItem[] blockData) FindBlockData(FileStream stream, FileMeta metadata, int keyHash, int headerLength, SearchMethod method)
         {
             int left = 0;
-            int right = (metadata.ValuesCount - 1);
+            int right = (metadata.BuildValuesCount - 1);
             int mid;
-            int maxVal = metadata.Max;
-            int minVal = metadata.Min;
+            int maxVal = metadata.BuildMax;
+            int minVal = metadata.BuildMin;
 
             // While until search interval is valid
             while (left <= right && keyHash >= minVal && keyHash <= maxVal)
@@ -345,7 +361,7 @@ namespace BinaryDataStorageEngine
                 // Get blockID with item with middle index
                 int blockId = mid / _itemsForBlock;
 
-                if (mid < 0 && mid > metadata.ValuesCount)
+                if (mid < 0 && mid > metadata.ActualValuesCount)
                 {
                     throw new ApplicationException("Invalid operation! Out of range!");
                 }

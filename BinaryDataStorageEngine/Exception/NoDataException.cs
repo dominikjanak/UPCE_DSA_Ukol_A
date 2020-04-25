@@ -2,9 +2,9 @@
 
 namespace BinaryDataStorageEngine
 {
-    public class InitializationException : Exception
+    public class NoDataException : Exception
     {
-        public InitializationException(string message)
+        public NoDataException(string message)
             : base(message)
         { }
     }

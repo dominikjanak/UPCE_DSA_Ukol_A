@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BinaryStorage.cs" />
+    <Compile Include="Exception\NoDataException.cs" />
     <Compile Include="Exception\IncompatibleSerializationVersionException.cs" />
     <Compile Include="Exception\AlreadyInitializedException.cs" />
     <Compile Include="Exception\InitializationException.cs" />
