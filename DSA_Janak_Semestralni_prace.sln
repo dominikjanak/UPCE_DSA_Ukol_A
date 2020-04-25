@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphServiceTests", "GraphS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RangeTreeTests", "RangeTreeTests\RangeTreeTests.csproj", "{515C82D6-0BDF-4A64-BC79-0E14F95D8CB7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinaryDataStorageEngine", "BinaryDataStorageEngine\BinaryDataStorageEngine.csproj", "{C4F9589B-26DD-49BE-98AC-7FDE84D0ADE0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinaryDataStorageEngineTests", "BinaryDataStorageEngineTests\BinaryDataStorageEngineTests.csproj", "{1DB7BCA7-C0F7-44ED-94CC-761FEBF41185}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{515C82D6-0BDF-4A64-BC79-0E14F95D8CB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{515C82D6-0BDF-4A64-BC79-0E14F95D8CB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{515C82D6-0BDF-4A64-BC79-0E14F95D8CB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4F9589B-26DD-49BE-98AC-7FDE84D0ADE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4F9589B-26DD-49BE-98AC-7FDE84D0ADE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4F9589B-26DD-49BE-98AC-7FDE84D0ADE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4F9589B-26DD-49BE-98AC-7FDE84D0ADE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DB7BCA7-C0F7-44ED-94CC-761FEBF41185}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DB7BCA7-C0F7-44ED-94CC-761FEBF41185}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DB7BCA7-C0F7-44ED-94CC-761FEBF41185}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DB7BCA7-C0F7-44ED-94CC-761FEBF41185}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
