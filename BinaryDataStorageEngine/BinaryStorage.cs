@@ -64,7 +64,7 @@ namespace BinaryDataStorageEngine
 
             FileMeta init = new FileMeta();
             init.NumberOfBlocks = (int)Math.Ceiling(((double)input.Count / _itemsForBlock)); // Calculate number of blocks
-            init.BlockSize = 10;
+            init.BlockSize = 0;
             init.ValuesCount = input.Count;
 
             List<byte[]> blocksData = new List<byte[]>();
@@ -84,7 +84,7 @@ namespace BinaryDataStorageEngine
             for (int i = 0; i < init.NumberOfBlocks; i++)
             {
                 // Take values for store into block
-                IEnumerable<DataItem> part = data.Skip(i * _itemsForBlock).Take(_itemsForBlock);
+                DataItem[] part = data.Skip(i * _itemsForBlock).Take(_itemsForBlock).ToArray();
 
                 // Build data block
                 byte[] blockBytes = BuildBlock(part);
@@ -151,7 +151,7 @@ namespace BinaryDataStorageEngine
         /// <param name="key">Searching key</param>
         /// <param name="method">Searching method</param>
         /// <returns>Found key or null</returns>
-        public T Find(string key, SearchMethod method = SearchMethod.Binary)
+        public T Find(string key, SearchMethod method = SearchMethod.Interpolation)
         {
             // Get searched hash
             int keyHash = GetHash(key);
@@ -168,7 +168,7 @@ namespace BinaryDataStorageEngine
             }
 
             // Find block data with valid range
-            DataItem[] values = FindBlockData(file, metadata, keyHash, headerLength, method);
+            DataItem[] values = FindBlockData(file, metadata, keyHash, headerLength, method).blockData;
             T value = default;
 
             if (values != null && values.Length > 0)
@@ -179,6 +179,76 @@ namespace BinaryDataStorageEngine
 
             file.Close();
             return value;
+        }
+
+        public bool RemoveItem(string key, SearchMethod method = SearchMethod.Interpolation)
+        {
+            // Get searched hash
+            int keyHash = GetHash(key);
+            FileStream file = GetFileStream(FileMode.Open);
+
+            FileMeta metadata;
+            int headerLength;
+
+            {
+                // Read file meta block
+                (int offset, FileMeta data) header = ReadMetaHeader(file);
+                metadata = header.data;
+                headerLength = header.offset;
+            }
+
+            int cntBefore = -1;
+            DataItem[] newData = null;
+
+            var block = FindBlockData(file, metadata, keyHash, headerLength, method);
+
+            if(block.blockData != null && block.blockID >= 0)
+            {
+                cntBefore = block.blockData.Length;
+                newData = block.blockData.Where(k => k.Data.Key != key).ToArray();
+            }
+
+            if (block.blockData != null && block.blockID >= 0 && cntBefore != newData.Length)
+            {
+                int? min = null, max = null;
+                if(newData.Length == 0)
+                {
+                    min = max = block.blockData[block.blockData.Length - 1].HashKey;
+                }
+
+                byte[] blockBytes = BuildBlock(newData, min, max);
+                int written = WriteBlock(file, blockBytes, headerLength + block.blockID * metadata.BlockSize, metadata.BlockSize);
+
+                if (written != metadata.BlockSize)
+                {
+                    throw new ApplicationException("Invalid number of bytes has been written!");
+                }
+
+                metadata.ValuesCount -= (cntBefore - newData.Length);
+
+                if (newData.Length > 0)
+                {
+                    if (keyHash == metadata.Min)
+                    {
+                        metadata.Min = newData[0].HashKey;
+                    }
+
+                    if (keyHash == metadata.Max)
+                    {
+                        metadata.Max = newData[newData.Length - 1].HashKey;
+                    }
+                }
+                else
+                {
+                    metadata.Min = metadata.Max = keyHash;
+                }
+
+                WriteMetaHeader(file, metadata);
+
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -259,7 +329,7 @@ namespace BinaryDataStorageEngine
         /// <param name="headerLength">File header size (offset for first block)</param>
         /// <param name="method">Searching method</param>
         /// <returns>Data array of appropriate block</returns>
-        private DataItem[] FindBlockData(FileStream stream, FileMeta metadata, int keyHash, int headerLength, SearchMethod method)
+        private (int blockID, DataItem[] blockData) FindBlockData(FileStream stream, FileMeta metadata, int keyHash, int headerLength, SearchMethod method)
         {
             int left = 0;
             int right = (metadata.ValuesCount - 1);
@@ -287,7 +357,7 @@ namespace BinaryDataStorageEngine
                 {
                     // Read block data for search value (value is in this range)
                     DataItem[] data = ReadBlock(stream, blockId, headerLength, metadata.BlockSize).blockdata;
-                    return data;
+                    return (blockId, data);
                 }
 
                 if (block.Max < keyHash)
@@ -303,7 +373,7 @@ namespace BinaryDataStorageEngine
             }
 
             // Valid block not found
-            return null;
+            return (-1, null);
         }
 
         /// <summary>
@@ -337,6 +407,11 @@ namespace BinaryDataStorageEngine
         /// <returns>Middle index</returns>
         private static int CalculateMiddle(int left, int right, int min, int max, int value, SearchMethod method)
         {
+            if(left == right)
+            {
+                return left;
+            }
+
             if (method == SearchMethod.Binary)
             {
                 return left + (right - left) / 2;
@@ -537,14 +612,15 @@ namespace BinaryDataStorageEngine
         /// </summary>
         /// <param name="data">Data to serialize for block</param>
         /// <returns>Block bytes</returns>
-        private static byte[] BuildBlock(IEnumerable<DataItem> data)
+        private static byte[] BuildBlock(DataItem[] data, int? minVal = null, int? maxVal = null)
         {
             int offset = 0;
 
             // Prepare block meta data
             BlockMeta meta = new BlockMeta();
-            meta.Min = data.ElementAt(0).HashKey;
-            meta.Max = data.ElementAt(data.Count() - 1).HashKey;
+
+            meta.Min = (int)(minVal == null ? data[0].HashKey : minVal);
+            meta.Max = (int)(maxVal == null ? data[data.Count() - 1].HashKey : maxVal);
 
             // Serialize objects
             byte[] metaBytes = ObjectToBytes(meta);
