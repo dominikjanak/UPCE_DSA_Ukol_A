@@ -1,75 +1,70 @@
-﻿using RangeTree;
+﻿using BinaryDataStorageEngine;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Security.Cryptography.X509Certificates;
 
 namespace DebugConsole
 {
     class Program
     {
+        private static List<Item> Random(int rand)
+        {
+            List<Item> items = new List<Item>();
+
+            for(int i = 1; i <= rand; i++)
+            {
+                items.Add(new Item("K_" + i));
+            }
+
+            return items;
+        }
+
         static void Main(string[] args)
         {
+            int cnt = 1;
+            List<Item> data = Random(cnt);
 
-            List<RangeTreeData> data = new List<RangeTreeData>()
+            BinaryStorage<Item> bw = new BinaryStorage<Item>("./data.bin");
+
+            bw.WriteBinaryFile(data);
+
+            bw.Find("K_1");
+
+            bool res = bw.RemoveItem("K_1");
+
+            bw.Find("K_1");
+
+
+            List<Item> output = bw.ReadBinaryFile();
+
+            foreach(var i in output)
             {
-                new RangeTreeData(5, 5), // A
-                new RangeTreeData(15, 45), // B
-                new RangeTreeData(22, 60),  // C
-                new RangeTreeData(28, 50), // D
-                new RangeTreeData(33, 63), // E
-                new RangeTreeData(38, 52), // F
-                new RangeTreeData(42, 65), // G
-                new RangeTreeData(47, 35) // H
-
-            };
-
-            RangeTree<RangeTreeData> tree = new RangeTree<RangeTreeData>();
-
-            tree.Build(data);
-
-            List<RangeTreeData> find = tree.RangeScan(21, 61, 40, 47);
-
-            if(find.Count == 0)
-            {
-                Console.WriteLine("NIC NENALEZENO!");
+                Console.WriteLine(i.Key);
             }
-            else
-            {
-                Console.WriteLine("Nalezeny " + (find.Count) + " body!");
 
-                foreach (var bod in find)
+            /*for(int i = 1; i <= cnt; i++)
+            {
+                string search = "K_" + i;
+                Item val = bw.Find(search, SearchMethod.Interpolation);
+                if(val == null || val.Key != search)
                 {
-                    Console.WriteLine("  Bod [" + bod.X + " ; " + bod.Y + "]"); ;
+                    break;
                 }
-            }
-
-            
-
-
-
-            //tree.Print(false, false);
-
-
-
-            /*bool res = (tree.Find(5, 5) != null);
-            res &= (tree.Find(15, 45) != null);
-            res &= (tree.Find(22, 60) != null);
-            res &= (tree.Find(30, 50) != null);
-            res &= (tree.Find(30, 63) != null);
-            res &= (tree.Find(38, 52) != null);
-            res &= (tree.Find(42, 65) != null);
-            res &= (tree.Find(47, 35) != null);
-
-            if (res)
-            {
-                Console.WriteLine("All item found!");
-            }
-            else
-            {
-                Console.WriteLine("Any item not found!");
             }*/
 
             Console.ReadLine();
+        }
+    }
+
+    [Serializable]
+    public class Item : IValue
+    {
+        private string _key;
+        public string Key => _key;
+
+        public Item(string key) {
+            _key = key;
         }
     }
 }

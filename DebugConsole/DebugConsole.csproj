@@ -44,17 +44,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GenerateRndomData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RangeTreeData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RangeTree\RangeTree.csproj">
-      <Project>{d4823c0f-828f-48a3-b590-d76e10b85a97}</Project>
-      <Name>RangeTree</Name>
+    <ProjectReference Include="..\BinaryDataStorageEngine\BinaryDataStorageEngine.csproj">
+      <Project>{c4f9589b-26dd-49be-98ac-7fde84d0ade0}</Project>
+      <Name>BinaryDataStorageEngine</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
