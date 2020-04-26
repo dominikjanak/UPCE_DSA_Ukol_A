@@ -1,9 +1,12 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
+using System.Runtime.Serialization;
 
 namespace GUI.Graph
 {
+    [Serializable]
     public class VertexData 
-        : GraphService.IVertexData, RangeTree.IValue
+        : GraphService.IVertexData, RangeTree.IValue, BinaryDataStorageEngine.IValue
     {
         public string Key { get; private set; }
         public VertexType VertexType { get; set; }

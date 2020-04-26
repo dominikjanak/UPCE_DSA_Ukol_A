@@ -52,6 +52,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyData.cs" />
+    <Compile Include="Dialog\BinaryFindRemoveDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\BinaryFindRemoveDialog.Designer.cs">
+      <DependentUpon>BinaryFindRemoveDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialog\SelectActionDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,6 +69,12 @@
     </Compile>
     <Compile Include="Dialog\PointDialog.Designer.cs">
       <DependentUpon>PointDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialog\BinaryGenerateDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\BinaryGenerateDialog.Designer.cs">
+      <DependentUpon>BinaryGenerateDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Enums\ActionSelectedEnum.cs" />
     <Compile Include="Graph\Component\TrajectoryMatrix.cs" />
@@ -148,6 +160,9 @@
     <EmbeddedResource Include="Dialog\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Dialog\BinaryFindRemoveDialog.resx">
+      <DependentUpon>BinaryFindRemoveDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dialog\SelectActionDialog.resx">
       <DependentUpon>SelectActionDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -171,6 +186,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dialog\PointDialog.resx">
       <DependentUpon>PointDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialog\BinaryGenerateDialog.resx">
+      <DependentUpon>BinaryGenerateDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialog\VertexDialog.resx">
       <DependentUpon>VertexDialog.cs</DependentUpon>
@@ -214,6 +232,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BinaryDataStorageEngine\BinaryDataStorageEngine.csproj">
+      <Project>{c4f9589b-26dd-49be-98ac-7fde84d0ade0}</Project>
+      <Name>BinaryDataStorageEngine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GraphService\GraphService.csproj">
       <Project>{3246cdaa-425b-4f9b-b7ad-3f1c2e9400b0}</Project>
       <Name>GraphService</Name>

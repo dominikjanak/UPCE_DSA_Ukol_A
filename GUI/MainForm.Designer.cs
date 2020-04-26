@@ -41,6 +41,8 @@ namespace GUI
             this.AddVertexButton = new System.Windows.Forms.Button();
             this.TrajectoryMatrixButton = new System.Windows.Forms.Button();
             this.FindRouteButton = new System.Windows.Forms.Button();
+            this.RangeTreeButton = new System.Windows.Forms.Button();
+            this.BinarySearchButton = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.programToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.NewGraphStrip = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,7 +71,12 @@ namespace GUI
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
             this.ostatníToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GenerateGraphStrip = new System.Windows.Forms.ToolStripMenuItem();
-            this.RangeTreeButton = new System.Windows.Forms.Button();
+            this.binaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.BinaryInitButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.BinaryInitFromGraphButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.BinaryInitRandomButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.BinaryFindItemButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.BinaryRemoveItemButton = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -89,7 +96,7 @@ namespace GUI
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(563, 380);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(563, 547);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // graphCanvas
@@ -100,7 +107,7 @@ namespace GUI
             this.graphCanvas.Location = new System.Drawing.Point(3, 2);
             this.graphCanvas.Margin = new System.Windows.Forms.Padding(3, 2, 0, 3);
             this.graphCanvas.Name = "graphCanvas";
-            this.graphCanvas.Size = new System.Drawing.Size(430, 375);
+            this.graphCanvas.Size = new System.Drawing.Size(430, 542);
             this.graphCanvas.TabIndex = 0;
             this.graphCanvas.Paint += new System.Windows.Forms.PaintEventHandler(this.graphCanvas_Paint);
             this.graphCanvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.graphCanvas_MouseDown);
@@ -112,7 +119,7 @@ namespace GUI
             // 
             this.tableLayoutPanel2.ColumnCount = 1;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Controls.Add(this.CloseButton, 0, 9);
+            this.tableLayoutPanel2.Controls.Add(this.CloseButton, 0, 10);
             this.tableLayoutPanel2.Controls.Add(this.RemoveEdgeButton, 0, 3);
             this.tableLayoutPanel2.Controls.Add(this.RemoveVertexButton, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.AddEdgeButton, 0, 1);
@@ -120,11 +127,13 @@ namespace GUI
             this.tableLayoutPanel2.Controls.Add(this.TrajectoryMatrixButton, 0, 5);
             this.tableLayoutPanel2.Controls.Add(this.FindRouteButton, 0, 6);
             this.tableLayoutPanel2.Controls.Add(this.RangeTreeButton, 0, 7);
+            this.tableLayoutPanel2.Controls.Add(this.BinarySearchButton, 0, 8);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(436, 2);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(3, 2, 0, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 10;
+            this.tableLayoutPanel2.RowCount = 11;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
@@ -136,7 +145,7 @@ namespace GUI
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(127, 378);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(127, 545);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // CloseButton
@@ -145,7 +154,7 @@ namespace GUI
             this.CloseButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CloseButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.CloseButton.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.CloseButton.Location = new System.Drawing.Point(0, 343);
+            this.CloseButton.Location = new System.Drawing.Point(0, 510);
             this.CloseButton.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
             this.CloseButton.Name = "CloseButton";
             this.CloseButton.Size = new System.Drawing.Size(127, 32);
@@ -244,13 +253,44 @@ namespace GUI
             this.FindRouteButton.UseVisualStyleBackColor = false;
             this.FindRouteButton.Click += new System.EventHandler(this.FindRouteButton_Click);
             // 
+            // RangeTreeButton
+            // 
+            this.RangeTreeButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.RangeTreeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.RangeTreeButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.RangeTreeButton.ForeColor = System.Drawing.SystemColors.Desktop;
+            this.RangeTreeButton.Location = new System.Drawing.Point(0, 245);
+            this.RangeTreeButton.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
+            this.RangeTreeButton.Name = "RangeTreeButton";
+            this.RangeTreeButton.Size = new System.Drawing.Size(127, 32);
+            this.RangeTreeButton.TabIndex = 6;
+            this.RangeTreeButton.Text = "Range - Najít bod";
+            this.RangeTreeButton.UseVisualStyleBackColor = false;
+            this.RangeTreeButton.Click += new System.EventHandler(this.RangeTreeButton_Click);
+            // 
+            // BinarySearchButton
+            // 
+            this.BinarySearchButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.BinarySearchButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BinarySearchButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.BinarySearchButton.ForeColor = System.Drawing.SystemColors.Desktop;
+            this.BinarySearchButton.Location = new System.Drawing.Point(0, 280);
+            this.BinarySearchButton.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
+            this.BinarySearchButton.Name = "BinarySearchButton";
+            this.BinarySearchButton.Size = new System.Drawing.Size(127, 32);
+            this.BinarySearchButton.TabIndex = 6;
+            this.BinarySearchButton.Text = "BInary - Najít bod";
+            this.BinarySearchButton.UseVisualStyleBackColor = false;
+            this.BinarySearchButton.Click += new System.EventHandler(this.BinarySearchButton_Click);
+            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.programToolStripMenuItem,
             this.AboutProgramButton,
             this.ProgramHelpButton,
-            this.grafToolStripMenuItem});
+            this.grafToolStripMenuItem,
+            this.binaryToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(587, 24);
@@ -460,26 +500,58 @@ namespace GUI
             this.GenerateGraphStrip.Text = "Generuj graf";
             this.GenerateGraphStrip.Click += new System.EventHandler(this.GenerateGraphStrip_Click);
             // 
-            // RangeTreeButton
+            // binaryToolStripMenuItem
             // 
-            this.RangeTreeButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-            this.RangeTreeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.RangeTreeButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.RangeTreeButton.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.RangeTreeButton.Location = new System.Drawing.Point(0, 245);
-            this.RangeTreeButton.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
-            this.RangeTreeButton.Name = "RangeTreeButton";
-            this.RangeTreeButton.Size = new System.Drawing.Size(127, 32);
-            this.RangeTreeButton.TabIndex = 6;
-            this.RangeTreeButton.Text = "Najít bod";
-            this.RangeTreeButton.UseVisualStyleBackColor = false;
-            this.RangeTreeButton.Click += new System.EventHandler(this.RangeTreeButton_Click);
+            this.binaryToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.BinaryInitButton,
+            this.BinaryFindItemButton,
+            this.BinaryRemoveItemButton});
+            this.binaryToolStripMenuItem.Name = "binaryToolStripMenuItem";
+            this.binaryToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.binaryToolStripMenuItem.Text = "Binary";
+            // 
+            // BinaryInitButton
+            // 
+            this.BinaryInitButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.BinaryInitFromGraphButton,
+            this.BinaryInitRandomButton});
+            this.BinaryInitButton.Name = "BinaryInitButton";
+            this.BinaryInitButton.Size = new System.Drawing.Size(180, 22);
+            this.BinaryInitButton.Text = "Inicializovat";
+            // 
+            // BinaryInitFromGraphButton
+            // 
+            this.BinaryInitFromGraphButton.Name = "BinaryInitFromGraphButton";
+            this.BinaryInitFromGraphButton.Size = new System.Drawing.Size(180, 22);
+            this.BinaryInitFromGraphButton.Text = "Daty z grafu";
+            this.BinaryInitFromGraphButton.Click += new System.EventHandler(this.BinaryInitializationButton_Click);
+            // 
+            // BinaryInitRandomButton
+            // 
+            this.BinaryInitRandomButton.Name = "BinaryInitRandomButton";
+            this.BinaryInitRandomButton.Size = new System.Drawing.Size(180, 22);
+            this.BinaryInitRandomButton.Text = "Náhodnými daty";
+            this.BinaryInitRandomButton.Click += new System.EventHandler(this.BinaryInitializationButton_Click);
+            // 
+            // BinaryFindItemButton
+            // 
+            this.BinaryFindItemButton.Name = "BinaryFindItemButton";
+            this.BinaryFindItemButton.Size = new System.Drawing.Size(180, 22);
+            this.BinaryFindItemButton.Text = "Vyhledat";
+            this.BinaryFindItemButton.Click += new System.EventHandler(this.BinarySearchButton_Click);
+            // 
+            // BinaryRemoveItemButton
+            // 
+            this.BinaryRemoveItemButton.Name = "BinaryRemoveItemButton";
+            this.BinaryRemoveItemButton.Size = new System.Drawing.Size(180, 22);
+            this.BinaryRemoveItemButton.Text = "Odstranit";
+            this.BinaryRemoveItemButton.Click += new System.EventHandler(this.BinaryRemoveButton_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(587, 419);
+            this.ClientSize = new System.Drawing.Size(587, 586);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
@@ -541,6 +613,13 @@ namespace GUI
         private System.Windows.Forms.ToolStripMenuItem ostatníToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem GenerateGraphStrip;
         private System.Windows.Forms.Button RangeTreeButton;
+        private System.Windows.Forms.Button BinarySearchButton;
+        private System.Windows.Forms.ToolStripMenuItem binaryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem BinaryInitButton;
+        private System.Windows.Forms.ToolStripMenuItem BinaryInitFromGraphButton;
+        private System.Windows.Forms.ToolStripMenuItem BinaryInitRandomButton;
+        private System.Windows.Forms.ToolStripMenuItem BinaryFindItemButton;
+        private System.Windows.Forms.ToolStripMenuItem BinaryRemoveItemButton;
     }
 }
 

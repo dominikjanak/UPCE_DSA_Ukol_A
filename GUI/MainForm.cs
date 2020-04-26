@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using BinaryDataStorageEngine;
 using GraphService;
 using GraphService.Dijkstra;
 using GUI.Dialog;
@@ -28,12 +29,14 @@ namespace GUI
         private bool _saved;
         private List<string> _graphPath;
         private DijkstraAlhorithm<string, VertexData, string, EdgeData> _dijkstra;
-        TrajectoryMatrixDialog _matrixDialog;
+        private TrajectoryMatrixDialog _matrixDialog;
         private string _saveFileName;
-        TrajectoryMatrix _trajectoryMatrix;
-        bool _trajectoryMatrixReady;
-        Thread _matrixGeneration;
-        RangeTree<VertexData> _rangeTree;
+        private TrajectoryMatrix _trajectoryMatrix;
+        private bool _trajectoryMatrixReady;
+        private Thread _matrixGeneration;
+        private RangeTree<VertexData> _rangeTree;
+        private string _binaryFile;
+        
 
         public MainForm()
         {
@@ -51,6 +54,7 @@ namespace GUI
             _matrixGeneration = null;
             _saveFileName = "";
             _rangeTree = new RangeTree<VertexData>();
+            _binaryFile = @".\data.bin";
             SetTitle();
 
 #if DEBUG
@@ -192,6 +196,7 @@ namespace GUI
             _saveFileName = "";
             BuildRangeTree();
             SetTitle();
+            File.Delete(_binaryFile);
         }
 
         private void Autoload_SaveButton_Click(object sender, EventArgs e)
@@ -694,6 +699,123 @@ namespace GUI
 
                 MessageBox.Show(output, Resources.RangeScanResultTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+
+        private void BinarySearchButton_Click(object sender, EventArgs e)
+        {
+            if (!File.Exists(_binaryFile))
+            {
+                ShowMessage("Vyhledávání není možné provést!\nBinární soubor není inicializován!\n\nPrvnì ho inicializujte!", MessageBoxIcon.Warning, "Chyba");
+                return;
+            }
+
+            BinaryStorage<VertexData> bs = new BinaryStorage<VertexData>(_binaryFile);
+            BinaryFindRemoveDialog dialog = new BinaryFindRemoveDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    VertexData item = bs.Find(dialog.Key, dialog.Method);
+                    if (item != null)
+                    {
+                        ShowMessage("Prvek s klíèem '" + dialog.Key + "' byl Nalezen!\nSouøadnice: ["+ item.X + ", "+ item.Y + "]", MessageBoxIcon.Information, "Vyhledání");
+                    }
+                    else
+                    {
+                        ShowMessage("Prvek s klíèem '" + dialog.Key + "' nebylo možné odstranit!\nJe možné že již byl odstranìn!", MessageBoxIcon.Warning, "Vyhledání");
+                    }
+                } 
+                catch(Exception ex)
+                {
+                    ShowMessage(ex.Message, MessageBoxIcon.Error, "Chyba");
+                }
+            }
+        }
+
+        private void BinaryRemoveButton_Click(object sender, EventArgs e)
+        {
+            if (!File.Exists(_binaryFile))
+            {
+                ShowMessage("Odstranìní není možné provést!\nBinární soubor není inicializován!\n\nPrvnì ho inicializujte!", MessageBoxIcon.Warning, "Chyba");
+                return;
+            }
+
+            BinaryStorage<VertexData> bs = new BinaryStorage<VertexData>(_binaryFile);
+            BinaryFindRemoveDialog dialog = new BinaryFindRemoveDialog(false);
+            if(dialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    if (bs.RemoveItem(dialog.Key, dialog.Method))
+                    {
+                        ShowMessage("Prvek s klíèem '"+ dialog.Key + "' byl odstranìn!", MessageBoxIcon.Information, "Odstranìní");
+                    }
+                    else
+                    {
+                        ShowMessage("Prvek s klíèem '" + dialog.Key + "' nebylo možné odstranit!\nJe možné že již byl odstranìn!", MessageBoxIcon.Warning, "Odstranìní");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ShowMessage(ex.Message, MessageBoxIcon.Error, "Chyba");
+                }
+            }
+        }
+
+        private void BinaryInitializationButton_Click(object sender, EventArgs e)
+        {
+            BinaryStorage<VertexData> bs = new BinaryStorage<VertexData>(_binaryFile);
+            List<VertexData> verticesData = null;
+            string message = "";
+
+            switch ((sender as ToolStripMenuItem).Name)
+            {
+                case "BinaryInitRandomButton":
+                    BinaryGenerateDialog dialog = new BinaryGenerateDialog();
+
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        verticesData = new List<VertexData>();
+                        for (int i = 1; i <= dialog.Count; i++)
+                        {
+                            verticesData.Add(new VertexData("K_" + i, new PointF(i, i), (VertexType)(i % 3)));
+                        }
+
+                        if (dialog.Count > 1)
+                            message = "Inicializováno daty s klíèi v rozmezí 'K_1' až 'K_" + dialog.Count + "'.";
+                        else if (dialog.Count == 1)
+                            message = "Inicializováno daty s  klíèem 'K_1'.";
+                    }
+                    else
+                        return;
+                    break;
+                case "BinaryInitFromGraphButton":
+                    verticesData = _forestGraph.Vertices.Select(i => i.Data).ToList();
+                    message = "Inicializováno vrcholy z grafu.";
+                    break;
+                default:
+                    ShowMessage("Neplatná operace!", MessageBoxIcon.Error, "Chyba");
+                    return;
+            }
+
+            if (verticesData != null && verticesData.Count > 0) 
+            {
+                try
+                {
+                    bs.WriteBinaryFile(verticesData);
+                }
+                catch(Exception ex)
+                {
+                    ShowMessage(ex.Message, MessageBoxIcon.Error, "Nastala chyba!");
+                }
+            }
+            
+
+            if(!String.IsNullOrEmpty(message))
+            {
+                ShowMessage(message, MessageBoxIcon.Information, "Inicializace binárního souboru");
+            }           
+
         }
 
         private void graphCanvas_MouseMove(object sender, MouseEventArgs e)
