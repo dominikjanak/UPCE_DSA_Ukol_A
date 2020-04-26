@@ -179,17 +179,17 @@ namespace BinaryDataStorageEngine.Tests
         }
 
         [TestMethod()]
-        public void Find_Interpolation_1500Items_1500NotFound_Test()
+        public void Find_Interpolation_1500Items_500NotFound_Test()
         {
             List<DataItem> data = Random(1500);
-            List<DataItem> search = Random(3000);
+            List<DataItem> search = Random(2000);
 
             BinaryStorage<DataItem> bw = new BinaryStorage<DataItem>(_testFile, 100);
 
             bw.WriteBinaryFile(data);
 
             DataItem find;
-            for(int i = 1; i <= 3000; i++)
+            for(int i = 1; i <= 2000; i++)
             {
                 find = bw.Find(search[i-1].Key, SearchMethod.Interpolation);
                 if(i > 1500)
@@ -204,17 +204,17 @@ namespace BinaryDataStorageEngine.Tests
         }
 
         [TestMethod()]
-        public void Find_Binary_1500Items_1500NotFound_Test()
+        public void Find_Binary_1500Items_500NotFound_Test()
         {
             List<DataItem> data = Random(1500);
-            List<DataItem> search = Random(3000);
+            List<DataItem> search = Random(2000);
 
             BinaryStorage<DataItem> bw = new BinaryStorage<DataItem>(_testFile, 100);
 
             bw.WriteBinaryFile(data);
 
             DataItem find;
-            for(int i = 1; i <= 3000; i++)
+            for(int i = 1; i <= 2000; i++)
             {
                 find = bw.Find(search[i-1].Key, SearchMethod.Binary);
                 if(i > 1500)
@@ -296,16 +296,16 @@ namespace BinaryDataStorageEngine.Tests
         [TestMethod()]
         public void Remove_Interpolation_More_Test()
         {
-            List<DataItem> data = Random(3000);
-            List<DataItem> delete = Random(4000);
+            List<DataItem> data = Random(2000);
+            List<DataItem> delete = Random(3000);
             BinaryStorage<DataItem> bw = new BinaryStorage<DataItem>(_testFile, 100);
             bw.WriteBinaryFile(data);
 
             bool state;
-            for (int i = 1; i <= 4000; i++)
+            for (int i = 1; i <= 3000; i++)
             {
                 state = bw.RemoveItem(delete[i-1].Key, SearchMethod.Interpolation);
-                if (i > 3000)
+                if (i > 2000)
                 {
                     Assert.IsFalse(state);
                 }
@@ -319,16 +319,16 @@ namespace BinaryDataStorageEngine.Tests
         [TestMethod()]
         public void Remove_Binary_More_Test()
         {
-            List<DataItem> data = Random(3000);
-            List<DataItem> delete = Random(4000);
+            List<DataItem> data = Random(2000);
+            List<DataItem> delete = Random(3000);
             BinaryStorage<DataItem> bw = new BinaryStorage<DataItem>(_testFile, 100);
             bw.WriteBinaryFile(data);
 
             bool state;
-            for (int i = 1; i <= 4000; i++)
+            for (int i = 1; i <= 3000; i++)
             {
                 state = bw.RemoveItem(delete[i-1].Key, SearchMethod.Binary);
-                if (i > 3000)
+                if (i > 2000)
                 {
                     Assert.IsFalse(state);
                 }
@@ -422,9 +422,6 @@ namespace BinaryDataStorageEngine.Tests
                 Assert.IsTrue(ListContainSameValues(data, loaded));
             }
         }
-
-
-
 
         /////////////////////////////////////////////////////////////////
         private bool ListContainSameValues(List<DataItem> expected, List<DataItem> actual)
