@@ -78,7 +78,7 @@ namespace BinaryDataStorageEngine
             FileMeta init = new FileMeta();
             init.NumberOfBlocks = (int)Math.Ceiling(((double)input.Count / _itemsForBlock)); // Calculate number of blocks
             init.BlockSize = 0;
-            init.ActualValuesCount = input.Count;
+            init.ActualValuesCount = init.BuildValuesCount = input.Count;
 
             List<byte[]> blocksData = new List<byte[]>();
             List<DataItem> data = new List<DataItem>();
@@ -91,8 +91,8 @@ namespace BinaryDataStorageEngine
 
             data = data.OrderBy(k => k.HashKey).ToList(); // Order values by HASH
 
-            init.ActualMin = data[0].HashKey;
-            init.ActualMax = data[data.Count - 1].HashKey;
+            init.ActualMin = init.BuildMin = data[0].HashKey;
+            init.ActualMax = init.BuildMax = data[data.Count - 1].HashKey;
 
             for (int i = 0; i < init.NumberOfBlocks; i++)
             {
