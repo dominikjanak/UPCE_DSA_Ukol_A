@@ -814,8 +814,9 @@ namespace GUI
             if(!String.IsNullOrEmpty(message))
             {
                 ShowMessage(message, MessageBoxIcon.Information, "Inicializace binárního souboru");
-            }           
-
+            }
+            verticesData = null;
+            GC.Collect();
         }
 
         private void graphCanvas_MouseMove(object sender, MouseEventArgs e)

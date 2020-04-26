@@ -144,7 +144,7 @@
             this.NumberTextbox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(15)))), ((int)(((byte)(15)))));
             this.NumberTextbox.Location = new System.Drawing.Point(55, 2);
             this.NumberTextbox.Margin = new System.Windows.Forms.Padding(0);
-            this.NumberTextbox.MaxLength = 6;
+            this.NumberTextbox.MaxLength = 7;
             this.NumberTextbox.Name = "NumberTextbox";
             this.NumberTextbox.Size = new System.Drawing.Size(174, 22);
             this.NumberTextbox.TabIndex = 1;

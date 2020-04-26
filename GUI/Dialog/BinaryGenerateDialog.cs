@@ -55,7 +55,7 @@ namespace GUI.Dialog
 
             if (int.TryParse(box.Text, out num))
             {
-                if (num < 0)
+                if (num <= 0)
                 {
                     color = Color.FromArgb(255, 200, 200);
                     state = false;
