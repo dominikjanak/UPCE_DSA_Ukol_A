@@ -1,0 +1,284 @@
+<Project>
+  <Name>Untitled</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Untitled</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>BinaryStorage&lt;T&gt;</Name>
+        <Access>Public</Access>
+        <Location left="83" top="10" />
+        <Size width="617" height="519" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private int _itemsForBlock</Member>
+        <Member type="Field">private static byte _serializationVersion</Member>
+        <Member type="Field">private string _filePath</Member>
+        <Member type="Field">private FileStream _file</Member>
+        <Member type="Constructor">public BinaryStorage(string path, int itemsForBlock = 100)</Member>
+        <Member type="Destructor">~BinaryStorage()</Member>
+        <Member type="Method">public void WriteBinaryFile(List&lt;T&gt; input)</Member>
+        <Member type="Method">public List&lt;T&gt; ReadBinaryFile()</Member>
+        <Member type="Method">public T Find(string key, SearchMethod method = SearchMethod.Interpolation)</Member>
+        <Member type="Method">public bool RemoveItem(string key, SearchMethod method = SearchMethod.Interpolation)</Member>
+        <Member type="Method">private static byte[] BuildBlock(DataItem[] data, int? minVal = null, int? maxVal = null)</Member>
+        <Member type="Method">private static BlockMeta ReadBlockHeader(FileStream stream, int blockIndex, int headerLength, int blockSize)</Member>
+        <Member type="Method">private static Tuple&lt;int, FileMeta&gt; ReadMetaHeader(FileStream stream)</Member>
+        <Member type="Method">private static int WriteMetaHeader(FileStream stream, FileMeta meta)</Member>
+        <Member type="Method">private static Tuple&lt;BlockMeta, DataItem[]&gt; ReadBlock(FileStream stream, int blockIndex, int headerLength, int blockSize)</Member>
+        <Member type="Method">private static int WriteBlock(FileStream stream, byte[] block, int offset, int blockSize)</Member>
+        <Member type="Method">private Tuple&lt;int, DataItem[]&gt; FindBlockData(FileStream stream, FileMeta metadata, int keyHash, int headerLength, SearchMethod method)</Member>
+        <Member type="Method">private static T SearchInBlock(DataItem[] data, int hash, string key, SearchMethod method)</Member>
+        <Member type="Method">private static byte[] ReadBytes(Stream stream, int count, int offset)</Member>
+        <Member type="Method">private static void WriteBytes(Stream stream, byte[] data, int offset)</Member>
+        <Member type="Method">private static int CalculateMiddle(int left, int right, int min, int max, int value, SearchMethod method)</Member>
+        <Member type="Method">private static int GetHash(string input)</Member>
+        <Member type="Method">private FileStream GetFileStream(FileMode mode)</Member>
+        <Member type="Method">private static byte[] GetSirializationVersionBytes()</Member>
+        <Member type="Method">private static byte[] ObjectToBytes&lt;E&gt;(E obj)</Member>
+        <Member type="Method">private static E BytesToObject&lt;E&gt;(byte[] input, int offset = 0, int cnt = -1)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AlreadyInitializedException</Name>
+        <Access>Public</Access>
+        <Location left="751" top="162" />
+        <Size width="223" height="95" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public AlreadyInitializedException(string message)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>IncompatibleSerializationVersionException</Name>
+        <Access>Public</Access>
+        <Location left="751" top="34" />
+        <Size width="261" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public IncompatibleSerializationVersionException(string message)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IValue</Name>
+        <Access>Public</Access>
+        <Location left="873" top="365" />
+        <Size width="162" height="109" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">string Key { get; }</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>MainForm</Name>
+        <Access>Public</Access>
+        <Location left="1109" top="473" />
+        <Size width="393" height="154" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private string _binaryFile = .\data.bin</Member>
+        <Member type="Method">private void BinarySearchButton_Click(object sender, EventArgs e)</Member>
+        <Member type="Method">private void BinaryRemoveButton_Click(object sender, EventArgs e)</Member>
+        <Member type="Method">private void BinaryInitializationButton_Click(object sender, EventArgs e)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Graph</Name>
+        <Access>Public</Access>
+        <Location left="1209" top="119" />
+        <Size width="365" height="122" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public IEnumerable&lt;Tuple&lt;TVertexKey, TVertexValue&gt;&gt; Vertices { get; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>VertexData</Name>
+        <Access>Public</Access>
+        <Location left="1459" top="345" />
+        <Size width="162" height="108" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public string Key { get; set; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Comment">
+        <Text>TValue must implement IValue and be Serializable</Text>
+        <Location left="263" top="754" />
+        <Size width="187" height="52" />
+      </Entity>
+      <Entity type="Comment">
+        <Text>Zbrazuji pouze metody, které BinaryStorage nějak používá.</Text>
+        <Location left="1526" top="628" />
+        <Size width="160" height="75" />
+      </Entity>
+      <Entity type="Class">
+        <Name>InitializationException</Name>
+        <Access>Public</Access>
+        <Location left="1018" top="99" />
+        <Size width="162" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public InitializationException(string message)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>NoDataException</Name>
+        <Access>Public</Access>
+        <Location left="985" top="234" />
+        <Size width="162" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public NoDataException(string message)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>DataItem</Name>
+        <Access>Internal</Access>
+        <Location left="403" top="584" />
+        <Size width="165" height="145" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private T _dataObject</Member>
+        <Member type="Constructor">public DataItem(T data)</Member>
+        <Member type="Property">public int HashKey { get; private set; }</Member>
+        <Member type="Property">public T Data { get; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Structure">
+        <Name>FileMeta</Name>
+        <Access>Public</Access>
+        <Location left="58" top="584" />
+        <Size width="162" height="213" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public int ActualValuesCount</Member>
+        <Member type="Field">public int ActualMin</Member>
+        <Member type="Field">public int ActualMax</Member>
+        <Member type="Field">public int BuildValuesCount</Member>
+        <Member type="Field">public int BuildMin</Member>
+        <Member type="Field">public int BuildMax</Member>
+        <Member type="Field">public int NumberOfBlocks</Member>
+        <Member type="Field">public int BlockSize</Member>
+      </Entity>
+      <Entity type="Structure">
+        <Name>BlockMeta</Name>
+        <Access>Internal</Access>
+        <Location left="229" top="584" />
+        <Size width="162" height="111" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public int Min</Member>
+        <Member type="Field">public int Max</Member>
+      </Entity>
+      <Entity type="Enum">
+        <Name>SearchType</Name>
+        <Access>Public</Access>
+        <Location left="579" top="584" />
+        <Size width="162" height="95" />
+        <Collapsed>False</Collapsed>
+        <Value>Binary</Value>
+        <Value>Interpolation</Value>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="1" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="2" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="5" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="0" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>671</X>
+          <Y>555</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Realization" first="6" second="3">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="6" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Dependency" first="3" second="0">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="10" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="9" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="4" second="14">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1253</X>
+          <Y>656</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="0" second="11">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="0" second="13">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="0" second="12">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="0" second="14">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>599</X>
+          <Y>567</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>
