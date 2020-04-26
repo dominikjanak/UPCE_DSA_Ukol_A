@@ -58,6 +58,9 @@ namespace BinaryDataStorageEngine
             return file;
         }
 
+
+        // Popis: Převede data na binární podobu, zapíše do souboru hlavičku
+        //        a potom jednotlivé bloky, kde prázdné místo vyplní nulami
         /// <summary>
         /// Write data to binary file
         /// </summary>
@@ -128,6 +131,8 @@ namespace BinaryDataStorageEngine
             file.Close();
         }
 
+        // Popis: Načte hlavičku a dle dat v ní obsažených parsuje
+        //        jednotlivé bloky zpět do paměti
         /// <summary>
         /// Deserialize all binary file
         /// </summary>
@@ -165,6 +170,10 @@ namespace BinaryDataStorageEngine
             return output;
         }
 
+        // Popis: Pomocí zvolené vyhledávací metody se pokusí najít blok obsahující interval hodnot,  
+        //        do které spadá hledaná hodnota. Při prohledávání bloků načítá pouze jejich hlavičky.
+        //        Ve chvíli, kdy najde správný blokc, celý ho načt a uloží do paměti. Nad jeho daty
+        //        následně provádí opěd zvolenou metodu vyhledávání dat, tentokrát již na poli hodnot.
         /// <summary>
         /// Find item in binary data
         /// </summary>
@@ -201,6 +210,18 @@ namespace BinaryDataStorageEngine
             return value;
         }
 
+        // Popis: Blok, ve kterém se nachází hledaná položka hledá stejnou metodou
+        //        jako vyhledává položku při prohledávání. Blokům opět načítá pouze
+        //        hlavičky. Když najde správný blok, otevře jeho data a provede jejich
+        //        profiltrování. Čímž odebere položku s klíčem. Následně upraví hlavičku 
+        //        bloku a opět převede celý blok do binární podoby a zapíše blok na své 
+        //        místo. Následně zapíše i upravenou hlavičku souboru.
+        /// <summary>
+        /// Remove item from binary file
+        /// </summary>
+        /// <param name="key">Item key</param>
+        /// <param name="method">Searching method</param>
+        /// <returns>If key was deleted</returns>
         public bool RemoveItem(string key, SearchMethod method = SearchMethod.Interpolation)
         {
             // Get searched hash
