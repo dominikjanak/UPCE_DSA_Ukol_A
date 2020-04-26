@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace BinaryDataStorageEngine
@@ -16,6 +17,11 @@ namespace BinaryDataStorageEngine
 
         public BinaryStorage(string path, int itemsForBlock = 100)
         {
+            if (!typeof(T).IsSerializable && !(typeof(ISerializable).IsAssignableFrom(typeof(T))))
+            {
+                throw new InvalidOperationException("A serializable Type is required");
+            }                
+
             _filePath = path;
             _itemsForBlock = itemsForBlock;
             _serializationVersion = 1;
